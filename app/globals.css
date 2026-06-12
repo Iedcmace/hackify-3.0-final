@@ -1,26 +1,36 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --matrix-grid: radial-gradient(circle, #3D4128 1px, transparent 1px);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #13140a !important;
+  color: #e4e3d1 !important;
+  font-family: 'Space Grotesk', sans-serif;
+  overflow-x: hidden;
+}
+
+.matrix-overlay {
+  background-image: var(--matrix-grid);
+  background-size: 32px 32px;
+}
+
+@keyframes rotate-radar {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.radar-sweep-effect {
+  background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, transparent 300deg, rgba(255, 51, 51, 0.4) 340deg, #FF3333 360deg);
+  animation: rotate-radar 6s linear infinite;
+}
+
+.font-mono-tech {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.font-stencil-military {
+  font-family: 'Black Ops One', system-ui;
+  letter-spacing: 0.15em;
 }
