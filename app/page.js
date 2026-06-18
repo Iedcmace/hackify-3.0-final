@@ -319,9 +319,9 @@ function CountdownInline({ targetDate }) {
 /* ─────────────────────────────────────────────────────────────────────────── */
 /*  HERO SECTION                                                               */
 /* ─────────────────────────────────────────────────────────────────────────── */
-/* HERO SECTION                                                               */
-/* ─────────────────────────────────────────────────────────────────────────── */
 function HeroSection() {
+  const [showBrief, setShowBrief] = useState(false)
+
   return (
     <section className="relative min-h-screen w-full overflow-hidden bg-background">
       <div className="absolute inset-0">
@@ -334,7 +334,6 @@ function HeroSection() {
       <div className="relative z-10 mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center px-5 pb-24 pt-28 text-center sm:px-8 lg:pt-20">
         <p className="font-mono text-[10px] font-semibold tracking-[0.4em] text-orange-500/80 sm:text-xs">IEDC MACE PRESENTS</p>
         
-        {/* Hackify 3.0 stays in the original primary color! */}
         <h1 className="mt-3 font-heading font-black leading-[0.92] tracking-tight text-primary text-6xl sm:text-7xl lg:text-[6rem] xl:text-[7rem]" style={{ textShadow: '0 0 60px rgba(216,255,122,0.4)' }}>
           HACKIFY 3.O
         </h1>
@@ -348,30 +347,115 @@ function HeroSection() {
           <span className="text-orange-500/50">|</span>&nbsp;REBUILD
         </p>
         
-        {/* Cleaned CTA Container for proper alignment */}
         <div className="mt-9 flex w-full max-w-xs flex-col items-center gap-4">
           <DevfolioButton />
-          <a
-            href="#brief"
-            className="inline-flex h-12 w-full items-center justify-center gap-2 bg-primary font-sans text-sm font-bold tracking-[0.22em] text-primary-foreground transition-transform hover:-translate-y-0.5"
+          {/* Changed from <a> to <button> to trigger the popup */}
+          <button
+            onClick={() => setShowBrief(true)}
+            className="inline-flex h-12 w-full cursor-pointer items-center justify-center gap-2 bg-primary font-sans text-sm font-bold tracking-[0.22em] text-primary-foreground transition-transform hover:-translate-y-0.5"
             style={{ clipPath: 'polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px)', boxShadow: '0 0 28px rgba(216,255,122,0.3)' }}
           >
             <FileText className="size-4 shrink-0" strokeWidth={1.8} />
             MISSION BRIEF
-          </a>
+          </button>
         </div>
         
         <div className="mt-10"><CountdownInline targetDate={LAUNCH_DATE} /></div>
         <div className="mt-8"><StatCards /></div>
       </div>
+
       <div className="absolute inset-x-0 bottom-4 z-10 hidden flex-col items-center gap-1 lg:flex">
         <span className="font-mono text-[9px] tracking-[0.32em] text-primary/45 uppercase">Scroll to Explore</span>
         <ChevronDown className="size-4 animate-bounce text-primary/55" strokeWidth={2} />
       </div>
+
+      {/* ─────────────────────────────────────────────────────────────────────────── */}
+      {/*  TACTICAL MISSION BRIEF MODAL                                              */}
+      {/* ─────────────────────────────────────────────────────────────────────────── */}
+      {showBrief && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 transition-all">
+          
+          {/* Background click to close */}
+          <div className="absolute inset-0 cursor-pointer" onClick={() => setShowBrief(false)} />
+
+          <div 
+            className="relative z-10 w-full max-w-2xl bg-[#0a0a0a] border border-primary/40 p-6 sm:p-10 shadow-[0_0_50px_rgba(216,255,122,0.15)]"
+            style={{ clipPath: 'polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px)' }}
+          >
+            {/* Top Right Close 'X' */}
+            <button 
+              onClick={() => setShowBrief(false)}
+              className="absolute top-5 right-5 text-primary/50 hover:text-primary transition-colors cursor-pointer"
+            >
+              <X className="size-6" strokeWidth={2} />
+            </button>
+
+            {/* Header */}
+            <div className="flex items-center gap-4 mb-8 border-b border-white/10 pb-5">
+              <div className="flex size-12 shrink-0 items-center justify-center border border-primary/30 bg-primary/10">
+                <Crosshair className="size-6 text-primary animate-[spin_4s_linear_infinite]" strokeWidth={1.5} />
+              </div>
+              <div className="flex flex-col text-left">
+                <h3 className="font-heading text-2xl font-bold tracking-widest text-primary uppercase">Directive Details</h3>
+                <p className="font-mono text-[10px] tracking-widest text-orange-400/80 uppercase">Classified Information // Clearance Level 3</p>
+              </div>
+            </div>
+
+            {/* Briefing Content */}
+            <div className="space-y-4 font-mono text-xs sm:text-sm leading-relaxed text-[#B8B8B8] text-left">
+              
+              <h4 className="text-primary text-lg sm:text-xl font-bold tracking-[0.2em] uppercase mb-6 border-l-2 border-primary pl-3">
+                Hackify... Hack to Defy.
+              </h4>
+              
+              <p>
+                <span className="text-orange-400 font-bold mr-2">[ INCOMING TRANSMISSION ]</span>
+                It is back with another edition this year where creators, innovators, and any one of you can come to the front lane and pitch the idea which is worth for the battlefield.
+              </p>
+              
+              <p>
+                <span className="text-orange-400 font-bold mr-2">[ THE SPRINT ]</span>
+                The grueling 36 hours of battle, in and out, ending with a reign of your own creative territory—which is worth the struggle.
+              </p>
+              
+              <p>
+                <span className="text-orange-400 font-bold mr-2">[ ELIGIBILITY ]</span>
+                You being a fresh recruit or seasoned armed force doesn't matter, cause its your field to win.
+              </p>
+              
+              <div className="my-6 bg-primary/5 border border-primary/20 p-4 rounded-sm">
+                <p className="text-white text-sm sm:text-base font-bold tracking-widest uppercase">
+                  &gt; Your objective is clear: <br className="sm:hidden" />
+                  <span className="text-primary mt-1 inline-block">BUILD. OPTIMIZE. SURVIVE.</span>
+                </p>
+              </div>
+              
+              <p className="text-white/80 italic tracking-wide">
+                Are you ready to defend your idea??? The field is waiting.
+              </p>
+
+              <div className="mt-8 pt-4 border-t border-white/10 text-[9px] sm:text-[10px] tracking-[0.25em] uppercase text-primary/60">
+                <p>A 36-hour battlefield where YOU hack to defy.</p>
+                <p className="mt-1">Proudly organized by IEDC MACE</p>
+              </div>
+
+            </div>
+
+            {/* Terminal Style Footer Close */}
+            <div className="mt-10 pt-5 border-t border-white/10 flex justify-end">
+              <button 
+                onClick={() => setShowBrief(false)}
+                className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-primary/70 hover:text-primary transition-colors cursor-pointer"
+              >
+                &gt; Acknowledge & Close_
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   )
 }
-
 /* ─────────────────────────────────────────────────────────────────────────── */
 /* TRACKS / STRATEGIC SECTORS — Tactical Grid with Framer Motion              */
 /* ─────────────────────────────────────────────────────────────────────────── */
