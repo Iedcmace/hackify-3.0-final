@@ -16,17 +16,17 @@ export default function TeamPage() {
   }, []);
 
   const team = [
-    { id: 'ID-3301', name: 'CHRISTY CHRISTOPHER', role: 'LOGISTICS LEAD', clearance: 'DELTA', division: 'OPERATIONS', contact: '+91 79943 76774', image: '/ChristyC.jpeg' },
+    { id: 'ID-3301', name: 'CHRISTY CHRISTOPHER', role: 'LEAD', clearance: 'DELTA', division: 'OPERATIONS', contact: '+91 79943 76774', image: '/ChristyC.jpeg' },
     { id: 'ID-8822', name: 'SAMUEL M DILEEP', role: 'LEAD', clearance: 'SIGMA', division: 'CYBERSECURITY', contact: '+91 80752 58045', image: '/SamuelC.jpeg' },
-    { id: 'ID-7731', name: 'GOPIKA M', role: 'COMM. OFFICER', clearance: 'ALPHA', division: 'INFRASTRUCTURE', contact: '+91 75588 21825', image: '/GopikaC.jpeg' },
-    { id: 'ID-8924', name: 'AMAL NARAYAN', role: 'LEAD STRATEGIST', clearance: 'OMEGA', division: 'LOGISTICS', contact: '+91 90483 72356', image: '/AmalC.jpeg' },
-    { id: 'ID-4411', name: 'ANIRUDH', role: 'TECH INTEL', clearance: 'SIGMA', division: 'CYBERSECURITY', contact: '+91 79072 83190', image: '/AnirudhC.jpeg' },
+    { id: 'ID-7731', name: 'GOPIKA M', role: 'LEAD', clearance: 'ALPHA', division: 'INFRASTRUCTURE', contact: '+91 75588 21825', image: '/GopikaC.jpeg' },
+    { id: 'ID-8924', name: 'AMAL NARAYAN', role: 'LEAD', clearance: 'OMEGA', division: 'LOGISTICS', contact: '+91 90483 72356', image: '/AmalC.jpeg' },
+    { id: 'ID-4411', name: 'ANIRUDH', role: 'LEAD', clearance: 'SIGMA', division: 'CYBERSECURITY', contact: '+91 79072 83190', image: '/AnirudhC.jpeg' },
   ];
 
   const webTeam = [
-    { name: 'ESHA ALEX', role: 'UI/UX & Frontend Lead', tag: 'Interface Architecture', image: '/EshaC.jpeg' },
-    { name: 'APARNA SURESH', role: 'Frontend Developer', tag: 'Visual Systems', image: '/AparnaC.jpg' },
-    { name: 'NAYANA SURENDRAN', role: 'Frontend Developer', tag: 'Design & Deployment', image: '/NayanaC.jpeg' },
+    { name: 'ESHA ALEX', role: 'WEB DEVELOPER', tag: 'Interface Architecture', image: '/EshaC.jpeg' },
+    { name: 'APARNA SURESH', role: 'WEB DEVELOPER', tag: 'Visual Systems', image: '/AparnaC.jpg' },
+    { name: 'NAYANA SURENDRAN', role: 'WEB DEVELOPER', tag: 'Design & Deployment', image: '/NayanaC.jpeg' },
   ];
 
   return (
@@ -64,26 +64,19 @@ export default function TeamPage() {
             {team.map((member) => (
               <div key={member.id} className="tactical-card-container relative border-4 border-[#3D301D] bg-[#1b1c11] p-6 sm:p-8 group transition-all duration-300 hover:bg-[#1f2015] cursor-crosshair" style={{ clipPath: 'polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px)' }}>
                 <div className="flex gap-4 items-center mb-6 sm:mb-8">
-                  <div className="relative w-16 sm:w-20 h-16 sm:h-20 border border-[#3D301D] bg-[#0e0f05] overflow-hidden flex-shrink-0">
+                  <div className="relative w-20 sm:w-24 h-20 sm:h-24 border border-[#3D301D] bg-[#0e0f05] overflow-hidden flex-shrink-0 shadow-[0_0_20px_rgba(164,200,117,0.10)]">
                     {member.image ? (
                       <img src={member.image} alt={member.name} className="w-full h-full object-cover" onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=200'; e.target.className = "w-full h-full object-cover opacity-30"; }} />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-[#a4c875] font-bold text-xl sm:text-2xl bg-[#1b1c11]">{member.name.charAt(0)}</div>
                     )}
                   </div>
-                  <div className="space-y-1">
-                    <h3 className="text-base sm:text-lg font-bold text-[#e4e3d1] flex items-center gap-2 leading-tight">
-                      <span className="text-[#a4c875] text-xs">●</span> {member.name}
+                  <div className="space-y-1 min-w-0">
+                    <h3 className="text-base sm:text-lg font-bold text-[#e4e3d1] leading-tight break-words">
+                      <span className="text-[#a4c875] text-xs inline-block align-middle mr-2">●</span>
+                      <span className="break-words whitespace-normal">{member.name}</span>
                     </h3>
                     <p className="text-[9px] sm:text-[10px] text-[#a4c875] uppercase tracking-widest">{member.role}</p>
-                    <p className="text-[8px] sm:text-[9px] text-[#cec6b4]/40 uppercase tracking-tighter">Clearance: {member.clearance}</p>
-                  </div>
-                </div>
-
-                <div className="border-t border-[#3D301D] pt-4 sm:pt-5 mb-5 sm:mb-6">
-                  <div className="flex justify-between text-[9px] sm:text-[10px] uppercase tracking-widest">
-                    <span className="text-[#cec6b4]/40">Division:</span>
-                    <span className="text-[#e4e3d1]">{member.division}</span>
                   </div>
                 </div>
 
@@ -109,7 +102,7 @@ export default function TeamPage() {
                 <span className="w-8 h-px bg-[#a4c875]" /> Digital Infrastructure
               </div>
               <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#a4c875] tracking-tighter uppercase">
-                Web Support
+                Web Team
               </h3>
               <p className="text-[#cec6b4] text-xs sm:text-sm uppercase tracking-widest max-w-xl leading-relaxed">
                 The team responsible for designing, building, and deploying the HACKIFY '26 digital experience.

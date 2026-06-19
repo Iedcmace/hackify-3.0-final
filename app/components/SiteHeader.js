@@ -20,13 +20,13 @@ export default function SiteHeader() {
       <nav className="mx-auto flex max-w-[1500px] items-center justify-between px-4 py-4 sm:px-8 lg:px-12">
         
         {/* LEFT: IEDC Logo + Hackify Title */}
-        <a href="/" className="flex items-center gap-3 sm:gap-4 hover:opacity-80 transition-opacity">
-          <img 
-            src="/iedc-logo-transparent.png" 
-            alt="IEDC Logo" 
-            className="h-8 sm:h-10 w-auto object-contain" 
-          />
-          <span className="font-heading text-xl sm:text-2xl lg:text-3xl font-black tracking-tight text-[#a4c875] hidden sm:block">
+<a href="/" className="flex items-center gap-2 sm:gap-4 hover:opacity-80 transition-opacity">
+            <img 
+              src="/iedc-logo-transparent.png" 
+              alt="IEDC Logo" 
+              className="h-8 sm:h-10 w-auto object-contain" 
+            />
+            <span className="font-heading text-base sm:text-xl lg:text-2xl font-black tracking-tight text-[#a4c875] leading-none">
             HACKIFY 3.O
           </span>
         </a>

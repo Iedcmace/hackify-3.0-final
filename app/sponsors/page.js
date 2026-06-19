@@ -23,31 +23,32 @@ export default function SponsorsPage() {
   }, []);
 
   const sponsors = [
-    { id: 'KAL-01', name: 'KALKITECH', type: 'Grid Infrastructure Provider', logo: '/KalkitechC.jpeg' },
-    { id: 'ELE-02', name: 'ELECTRALYSYS', type: 'Primary energy grid and hardware logistics sponsor.', active: true, logo: '/Electralysys.png' },
-    { id: 'KSUM-03', name: 'KSUM', type: 'State Operational Support', logo: '/KSUMC.jpeg' },
-    { id: 'VIS-04', name: 'VISION DYNAMICS', type: 'Surveillance & Analytics', logo: '/VisionDynamics.jpeg' },
-    { id: 'XYZ-05', name: '.XYZ', type: 'Digital Territory Provider', logo: '/xyz.png' },
+    { id: 'KAL-01', name: 'KALKITECH', type: 'Grid systems collaborator delivering resilient energy architecture for event operations.', logo: '/KalkitechC.jpeg' },
+    { id: 'ELE-02', name: 'ELECTRALYSYS', type: 'Power logistics specialist supplying steady energy flow for sustained activations.', logo: '/Electralysys.png' },
+    { id: 'KSUM-03', name: 'KSUM', type: 'State platform partner amplifying innovation visibility and institutional reach.', logo: '/KSUMC.jpeg' },
+    { id: 'KEY-06', name: 'KEYVALUE', type: 'Audience intelligence partner transforming data into sponsor opportunity.', logo: '/KeyValueC.jpeg' },
+    { id: 'VIS-04', name: 'VISION DYNAMICS', type: 'Analytics partner adding precision visibility and event performance insight.', logo: '/VisionDynamics.jpeg' },
+    { id: 'XYZ-05', name: '.XYZ', type: 'Digital sponsor extending brand access across developer communities.', logo: '/xyz.png' },
   ];
   
   const tiers = [
     {
       tier: '01',
       title: 'GOLD COMMAND',
-      cost: '₹4,00,000 INR',
-      benefits: ['Prime Logo Placement (All HUDs)', 'Direct Comms Access to Top 10 Squads', 'Dedicated Tactical Track', 'Physical Booth Setup (Command Center)']
+      cost: '₹1,00,000 INR',
+      benefits: ['Premium brand placement across main event visuals', 'Dedicated networking and sponsor spotlight', 'Exclusive mention in keynote announcements', 'Priority collaboration with core event partners']
     },
     {
       tier: '02',
       title: 'SILVER OPS',
-      cost: '₹2,00,000 INR',
-      benefits: ['Secondary Logo Placement', 'API / Tool Integration']
+      cost: '₹50,000 INR',
+      benefits: ['Prominent logo placement in digital collateral', 'Participation in focused sponsor activations', 'Feature in event communication highlights']
     },
     {
       tier: '03',
       title: 'BRONZE SUPPORT',
-      cost: '₹80,000 INR',
-      benefits: []
+      cost: '₹25,000 INR',
+      benefits: ['Logo inclusion in sponsor roster', 'Visibility on event media', 'Invitation to closing recognition session']
     }
   ];
 
@@ -70,12 +71,11 @@ export default function SponsorsPage() {
                 System Status: Operational
               </span>
             </div>
-            {/* Reduced text size on mobile to 4xl */}
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-[#a4c875] tracking-tighter uppercase">
-              Allied Forces
+              Strategic Sponsors
             </h1>
             <p className="text-[#cec6b4] text-xs sm:text-sm md:text-base uppercase tracking-widest max-w-2xl leading-relaxed">
-              Official partners and strategic allies powering HACKIFY '26. Authorized clearance required to view directives.
+              Trusted brands empowering HACKIFY '25 with strategic reach, platform visibility, and shared innovation impact.
             </p>
           </div>
 
@@ -111,7 +111,7 @@ export default function SponsorsPage() {
                   </div>
                   <h2 className="text-3xl sm:text-5xl font-bold text-[#a4c875] tracking-tighter uppercase">Devfolio</h2>
                   <p className="text-xs sm:text-sm text-[#cec6b4] leading-relaxed sm:leading-7 max-w-2xl">
-                    Devfolio is the official registration partner for HACKIFY '26, handling team onboarding, submission management, and participant communications.
+                    Devfolio is the official registration partner for HACKIFY '25, handling team onboarding, submission management, and participant communications.
                   </p>
                   <div className="flex flex-wrap justify-center sm:justify-start gap-4 sm:gap-6 pt-2 text-[9px] sm:text-[10px] uppercase tracking-widest text-[#a4c875]/60 font-mono">
                     <span>✦ Team Onboarding</span>
@@ -129,27 +129,34 @@ export default function SponsorsPage() {
               <span className="w-8 h-px bg-[#a4c875]" /> Official Sponsors
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 sm:gap-8">
               {sponsors.map((spon) => (
-                <div key={spon.id} className="tactical-card-container relative border-2 border-[#3D301D] bg-[#1b1c11] p-6 sm:p-8 group transition-all duration-300 hover:bg-[#1f2015] hover:border-[#a4c875]/40 cursor-pointer" style={{ clipPath: 'polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px)' }}>
+                <div key={spon.id} className="tactical-card-container relative border-2 border-[#3D301D] bg-[#1b1c11] p-6 sm:p-8 min-h-0 group transition-all duration-300 hover:bg-[#1f2015] hover:border-[#a4c875]/40 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(164,200,117,0.16)] cursor-pointer" style={{ clipPath: 'polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px)' }}>
                   <div className="flex justify-between items-start mb-6 text-[9px] sm:text-[10px] text-[#a4c875]/50">
                     <span>ID: {spon.id}</span>
-                    {spon.active && <span className="text-[#a4c875] font-bold animate-pulse">■ ACTIVE LINK</span>}
                   </div>
 
                   {/* Stacked on mobile, side-by-side on sm */}
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
-                    <div className="w-20 sm:w-28 h-20 sm:h-28 border border-[#3D301D] bg-white flex items-center justify-center overflow-hidden flex-shrink-0 p-2">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 min-w-0">
+                    <div className="w-24 sm:w-32 h-24 sm:h-32 border border-[#3D301D] bg-[#0f1005] flex items-center justify-center overflow-hidden flex-shrink-0 p-3 shadow-[inset_0_0_30px_rgba(164,200,117,0.08)]">
                       {spon.logo ? (
-                        <img src={spon.logo} alt="logo" className="w-full h-full object-contain p-2" onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }} />
+                        <img src={spon.logo} alt="logo" className="w-full h-full object-contain" onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }} />
                       ) : null}
                       <div className={`${spon.logo ? 'hidden' : 'flex'} w-full h-full items-center justify-center text-[#a69146] font-bold text-xs sm:text-sm`}>
                         {spon.name.substring(0, 4)}
                       </div>
                     </div>
-                    <div className="space-y-1">
-                      <h3 className="text-lg sm:text-xl font-bold text-[#e4e3d1] tracking-tight">{spon.name}</h3>
-                      <p className="text-[9px] sm:text-[10px] text-[#a4c875] uppercase tracking-widest leading-relaxed">{spon.type}</p>
+                    <div className="space-y-2 min-w-0">
+                      <h3 className="text-xl sm:text-2xl font-bold text-[#e4e3d1] tracking-tight break-words">{spon.name}</h3>
+                      <p className="text-[10px] sm:text-[11px] text-[#a4c875] uppercase tracking-[0.2em] leading-relaxed break-words">{spon.type}</p>
+                      <p className="text-[9px] sm:text-[10px] text-[#cec6b4] leading-relaxed max-w-xl whitespace-normal break-words">
+                        {spon.name === 'KALKITECH' && 'Powered the event with resilient infrastructure and adaptive energy systems.'}
+                        {spon.name === 'ELECTRALYSYS' && 'Delivered dependable power logistics for every stage of the festival experience.'}
+                        {spon.name === 'KSUM' && 'Connected regional innovation channels with our event platform and audience.'}
+                        {spon.name === 'KEYVALUE' && 'Provided audience insight that sharpened sponsorship relevance and visibility.'}
+                        {spon.name === 'VISION DYNAMICS' && 'Supplied analytics clarity and performance intelligence across event operations.'}
+                        {spon.name === '.XYZ' && 'Extended brand exposure through a strong digital sponsorship presence.'}
+                      </p>
                     </div>
                   </div>
                   <div className="absolute top-3 left-3 w-4 h-4 border-t-2 border-l-2 border-[#a4c875]/30 group-hover:border-[#a4c875] transition-colors" />

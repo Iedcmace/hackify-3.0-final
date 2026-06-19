@@ -99,9 +99,8 @@ export default function GalleryPage() {
           <div className="border-l-4 border-[#a4c875] pl-4 sm:pl-6 space-y-2">
             <div className="flex items-center gap-3">
               <div className="w-3 sm:w-4 h-3 sm:h-4 bg-[#a4c875] animate-pulse shadow-[0_0_6px_#a4c875]" />
-              {/* Reduced font size for mobile */}
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-stencil-military text-[#a4c875] tracking-tighter drop-shadow-[0_0_5px_rgba(164,200,117,0.4)]">
-                SURVEILLANCE ARCHIVE
+              <h2 className="text-4xl sm:text-5xl md:text-7xl font-bold text-[#a4c875] tracking-tighter uppercase">
+                ARCHIVE HIGHLIGHTS
               </h2>
             </div>
             <p className="font-mono-tech text-[#c2ccb9] max-w-2xl text-xs sm:text-sm md:text-base leading-relaxed">
