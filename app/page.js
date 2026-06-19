@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
+import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import SiteFooter from './components/SiteFooter'
 import {
@@ -9,26 +9,7 @@ import {
   Shield, Wifi, Heart, Eye, Building2, Lightbulb, Cpu,
   Phone, Mail, Link, Share2
 } from 'lucide-react'
-const WhatsAppIcon = ({ className }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-  </svg>
-)
-const InstagramIcon = ({ className }) => (
-  <svg className={className} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-    <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
-    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
-  </svg>
-)
-
-const LinkedinIcon = ({ className }) => (
-  <svg className={className} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-    <rect width="4" height="12" x="2" y="9"/>
-    <circle cx="4" cy="4" r="2"/>
-  </svg>
-)
+import SiteHeader from './components/SiteHeader'
 /* ─────────────────────────────────────────────────────────────────────────── */
 /*  DATA                                                                       */
 /* ─────────────────────────────────────────────────────────────────────────── */
@@ -198,77 +179,9 @@ function DevfolioButton() {
     </div>
   )
 }
-/* ─────────────────────────────────────────────────────────────────────────── */
-/* NAVBAR                                                                     */
-/* ─────────────────────────────────────────────────────────────────────────── */
-function Navbar() {
-  const [open, setOpen] = useState(false)
-  return (
-    <header className="fixed inset-x-0 top-0 z-50 bg-black/10 backdrop-blur-md border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)] transition-all">
-      <nav className="mx-auto flex max-w-[1500px] items-center justify-between px-5 py-4 sm:px-8 lg:px-12">
-        <a href="#" className="flex flex-col leading-none">
-          <span className="font-heading text-2xl font-black tracking-tight text-primary sm:text-3xl">HACKIFY 3.O</span>
-          <span className="mt-1 font-mono text-[10px] tracking-[0.35em] text-primary/50">3RD EDITION</span>
-        </a>
-        <ul className="hidden items-center gap-7 lg:flex">
-          {NAV_LINKS.map((link) => (
-            <li key={link.label}>
-              <a href={link.href} className="font-sans text-sm font-semibold tracking-[0.15em] text-white/55 transition-colors hover:text-primary">
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={() => setOpen((v) => !v)}
-            className="inline-flex items-center justify-center rounded-md border border-border p-2 text-foreground lg:hidden"
-            aria-label="Toggle navigation menu"
-            aria-expanded={open}
-          >
-            {open ? <X className="size-5" /> : <Menu className="size-5" />}
-          </button>
-        </div>
-      </nav>
-      {open && (
-        <div className="mx-4 mb-2 rounded-xl border border-border bg-card/95 p-4 backdrop-blur-xl lg:hidden">
-          <ul className="flex flex-col gap-1">
-            {NAV_LINKS.map((link) => (
-              <li key={link.label}>
-                <a href={link.href} onClick={() => setOpen(false)} className="block rounded-md px-3 py-2.5 font-sans text-sm font-semibold tracking-[0.15em] text-white/55 transition-colors hover:bg-primary/10 hover:text-primary">
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </header>
-  )
-}
 
 /* ─────────────────────────────────────────────────────────────────────────── */
-/*  STAT CARDS                                                                 */
-/* ─────────────────────────────────────────────────────────────────────────── */
-function StatCards() {
-  return (
-    <div className="grid w-full max-w-xl grid-cols-1 divide-y divide-primary/20 rounded-xl border border-primary/25 bg-black/30 backdrop-blur-xl sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-      {STATS.map((stat) => (
-        <div key={stat.title} className="flex items-center justify-center gap-3 px-4 py-3">
-          <stat.icon className="size-5 shrink-0 text-primary" strokeWidth={1.5} />
-          <div className="flex flex-col leading-tight">
-            <span className="font-heading text-[11px] font-bold tracking-wide text-primary">{stat.title}</span>
-            <span className="font-sans text-[9px] tracking-[0.12em] text-white/40">{stat.subtitle}</span>
-          </div>
-        </div>
-      ))}
-    </div>
-  )
-}
-
-/* ─────────────────────────────────────────────────────────────────────────── */
-/*  COUNTDOWN                                                                  */
+/* COUNTDOWN                                                                 */
 /* ─────────────────────────────────────────────────────────────────────────── */
 function CountdownInline({ targetDate }) {
   const target = new Date(targetDate).getTime()
@@ -278,11 +191,7 @@ function CountdownInline({ targetDate }) {
     const updateCountdown = () => setTime(getTimeLeft(target))
     const timeoutId = setTimeout(updateCountdown, 0)
     const intervalId = setInterval(updateCountdown, 1000)
-
-    return () => {
-      clearTimeout(timeoutId)
-      clearInterval(intervalId)
-    }
+    return () => { clearTimeout(timeoutId); clearInterval(intervalId) }
   }, [target])
 
   const units = [
@@ -291,23 +200,26 @@ function CountdownInline({ targetDate }) {
     { label: 'MINUTES', value: time?.minutes },
     { label: 'SECONDS', value: time?.seconds },
   ]
+  
   return (
     <div className="flex flex-col items-center gap-2">
       <div className="flex items-center gap-1.5">
-        <span className="size-1.5 animate-pulse rounded-full bg-primary" />
-        <span className="font-mono text-[9px] tracking-[0.28em] text-primary/60 uppercase">Countdown to Launch</span>
+        <span className="size-1.5 animate-pulse rounded-full bg-[#FF8C00]" />
+        <span className="font-mono text-[9px] tracking-[0.28em] text-gray-400 uppercase">Countdown to Launch</span>
       </div>
-      <div className="flex items-end gap-3 sm:gap-6">
+      {/* Reduced gap on mobile so it doesn't overflow */}
+      <div className="flex items-end gap-2 sm:gap-6">
         {units.map((unit, i) => (
-          <div key={unit.label} className="flex items-end gap-3 sm:gap-6">
+          <div key={unit.label} className="flex items-end gap-2 sm:gap-6">
             <div className="flex flex-col items-center">
-              <span className="font-heading text-4xl font-black tabular-nums text-primary sm:text-5xl" style={{ textShadow: '0 0 22px rgba(216,255,122,0.55)' }}>
+              {/* Reduced mobile text size to 3xl */}
+              <span className="font-heading text-3xl font-black tabular-nums text-[#E4E3D1] sm:text-5xl" style={{ textShadow: '0 0 20px rgba(164,200,117,0.4)' }}>
                 {unit.value == null ? '--' : pad(unit.value)}
               </span>
-              <span className="mt-0.5 font-mono text-[8px] tracking-[0.22em] text-primary/45 uppercase">{unit.label}</span>
+              <span className="mt-0.5 font-mono text-[7px] sm:text-[8px] tracking-[0.22em] text-gray-500 uppercase">{unit.label}</span>
             </div>
             {i < units.length - 1 && (
-              <span className="mb-4 font-heading text-2xl font-bold text-primary/25 sm:text-3xl" aria-hidden="true">:</span>
+              <span className="mb-3 sm:mb-4 font-heading text-xl font-bold text-[#a4c875]/40 sm:text-3xl" aria-hidden="true">:</span>
             )}
           </div>
         ))}
@@ -317,7 +229,26 @@ function CountdownInline({ targetDate }) {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────── */
-/*  HERO SECTION                                                               */
+/*  STAT CARDS                                                                 */
+/* ─────────────────────────────────────────────────────────────────────────── */
+function StatCards() {
+  return (
+    // Added mx-auto right here to center it!
+    <div className="mx-auto grid w-full max-w-xl grid-cols-1 divide-y divide-[#a4c875]/20 rounded-xl border border-[#a4c875]/30 bg-black/40 backdrop-blur-xl sm:grid-cols-3 sm:divide-x sm:divide-y-0 shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
+      {STATS.map((stat) => (
+        <div key={stat.title} className="flex items-center justify-center gap-3 px-4 py-3">
+          <stat.icon className="size-5 shrink-0 text-[#FF8C00]" strokeWidth={1.5} />
+          <div className="flex flex-col leading-tight text-left">
+            <span className="font-heading text-[11px] font-bold tracking-wide text-[#E4E3D1]">{stat.title}</span>
+            <span className="font-sans text-[9px] tracking-[0.12em] text-gray-400">{stat.subtitle}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* HERO SECTION                                                               */
 /* ─────────────────────────────────────────────────────────────────────────── */
 function HeroSection() {
   const [showBrief, setShowBrief] = useState(false)
@@ -330,103 +261,106 @@ function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-background/50" />
         <div className="absolute inset-0 bg-gradient-to-r from-background/30 via-transparent to-background/30" />
       </div>
-      <Navbar />
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center px-5 pb-24 pt-28 text-center sm:px-8 lg:pt-20">
-        <p className="font-mono text-[10px] font-semibold tracking-[0.4em] text-orange-500/80 sm:text-xs">IEDC MACE PRESENTS</p>
+      <SiteHeader />
+      {/* Added pt-32 on mobile to ensure the header doesn't cover the top text */}
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center px-4 pb-24 pt-32 text-center sm:px-8 lg:pt-20">
         
-        <h1 className="mt-3 font-heading font-black leading-[0.92] tracking-tight text-primary text-6xl sm:text-7xl lg:text-[6rem] xl:text-[7rem]" style={{ textShadow: '0 0 60px rgba(216,255,122,0.4)' }}>
+        <p className="font-mono text-[9px] font-bold tracking-[0.4em] text-[#FF8C00] sm:text-xs drop-shadow-sm">
+          IEDC MACE PRESENTS
+        </p>
+        
+        {/* Adjusted mobile font size to text-[3.5rem] for better fitting */}
+        <h1 className="mt-3 font-heading font-black leading-[0.92] tracking-tight text-[#a4c875] text-[3.5rem] sm:text-7xl lg:text-[6rem] xl:text-[7rem]" style={{ textShadow: '0 0 60px rgba(164,200,117,0.4)' }}>
           HACKIFY 3.O
         </h1>
         
-        <p className="mt-3 font-heading text-lg font-semibold tracking-[0.45em] text-orange-400 sm:text-2xl">HACK TO DEFY</p>
-        
-        <p className="mt-5 font-mono text-[10px] tracking-[0.07em] text-orange-400/80 sm:text-xs">
-          <span className="text-orange-500">&gt;</span>{' '}STATUS: 36-HR NATIONAL SPRINT&nbsp;
-          <span className="text-orange-500/50">{'//'}</span>&nbsp;DIRECTIVE: PREDICT&nbsp;
-          <span className="text-orange-500/50">|</span>&nbsp;PROTECT&nbsp;
-          <span className="text-orange-500/50">|</span>&nbsp;REBUILD
+        <p className="mt-3 font-heading text-base font-semibold tracking-[0.45em] text-[#E4E3D1] sm:text-2xl drop-shadow-md">
+          HACK TO DEFY
         </p>
+        
+        {/* Swapped to flex-col on very small screens to prevent wrapping issues */}
+        <div className="mt-5 flex flex-wrap justify-center gap-x-2 font-mono text-[9px] tracking-[0.07em] text-gray-400 sm:text-xs">
+          <span><span className="text-[#FF8C00] font-bold text-base leading-none align-middle">&gt;</span> STATUS: 36-HR SPRINT</span>
+          <span className="hidden sm:inline text-gray-600">{'//'}</span>
+          <span>DIRECTIVE: PREDICT <span className="text-gray-600">|</span> PROTECT <span className="text-gray-600">|</span> REBUILD</span>
+        </div>
         
         <div className="mt-9 flex w-full max-w-xs flex-col items-center gap-4">
           <DevfolioButton />
-          {/* Changed from <a> to <button> to trigger the popup */}
+          
           <button
             onClick={() => setShowBrief(true)}
-            className="inline-flex h-12 w-full cursor-pointer items-center justify-center gap-2 bg-primary font-sans text-sm font-bold tracking-[0.22em] text-primary-foreground transition-transform hover:-translate-y-0.5"
-            style={{ clipPath: 'polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px)', boxShadow: '0 0 28px rgba(216,255,122,0.3)' }}
+            className="inline-flex h-12 w-full cursor-pointer items-center justify-center gap-2 bg-black/50 border border-[#a4c875] font-sans text-xs sm:text-sm font-bold tracking-[0.22em] text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_20px_rgba(164,200,117,0.6)] hover:bg-[#a4c875]/10"
+            style={{ clipPath: 'polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px)' }}
           >
-            <FileText className="size-4 shrink-0" strokeWidth={1.8} />
+            <FileText className="size-4 shrink-0 text-[#a4c875]" strokeWidth={1.8} />
             MISSION BRIEF
           </button>
         </div>
         
-        <div className="mt-10"><CountdownInline targetDate={LAUNCH_DATE} /></div>
-        <div className="mt-8"><StatCards /></div>
+        <div className="mt-10 w-full"><CountdownInline targetDate={LAUNCH_DATE} /></div>
+        <div className="mt-8 w-full"><StatCards /></div>
       </div>
 
       <div className="absolute inset-x-0 bottom-4 z-10 hidden flex-col items-center gap-1 lg:flex">
-        <span className="font-mono text-[9px] tracking-[0.32em] text-primary/45 uppercase">Scroll to Explore</span>
-        <ChevronDown className="size-4 animate-bounce text-primary/55" strokeWidth={2} />
+        <span className="font-mono text-[9px] tracking-[0.32em] text-gray-500 uppercase">Scroll to Explore</span>
+        <ChevronDown className="size-4 animate-bounce text-[#a4c875]/70" strokeWidth={2} />
       </div>
 
       {/* ─────────────────────────────────────────────────────────────────────────── */}
-      {/*  TACTICAL MISSION BRIEF MODAL                                              */}
+      {/* TACTICAL MISSION BRIEF MODAL                                              */}
       {/* ─────────────────────────────────────────────────────────────────────────── */}
       {showBrief && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 transition-all">
           
-          {/* Background click to close */}
           <div className="absolute inset-0 cursor-pointer" onClick={() => setShowBrief(false)} />
 
+          {/* Added max-h-[90vh] and overflow-y-auto to allow scrolling on small devices */}
           <div 
-            className="relative z-10 w-full max-w-2xl bg-[#0a0a0a] border border-primary/40 p-6 sm:p-10 shadow-[0_0_50px_rgba(216,255,122,0.15)]"
+            className="relative z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-[#0a0a0a] border border-[#a4c875]/40 p-6 sm:p-10 shadow-[0_0_50px_rgba(164,200,117,0.15)] scrollbar-hide"
             style={{ clipPath: 'polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px)' }}
           >
-            {/* Top Right Close 'X' */}
             <button 
               onClick={() => setShowBrief(false)}
-              className="absolute top-5 right-5 text-primary/50 hover:text-primary transition-colors cursor-pointer"
+              className="absolute top-5 right-5 text-[#a4c875]/50 hover:text-[#a4c875] transition-colors cursor-pointer"
             >
               <X className="size-6" strokeWidth={2} />
             </button>
 
-            {/* Header */}
-            <div className="flex items-center gap-4 mb-8 border-b border-white/10 pb-5">
-              <div className="flex size-12 shrink-0 items-center justify-center border border-primary/30 bg-primary/10">
-                <Crosshair className="size-6 text-primary animate-[spin_4s_linear_infinite]" strokeWidth={1.5} />
+            <div className="flex items-center gap-4 mb-6 sm:mb-8 border-b border-white/10 pb-5">
+              <div className="flex size-10 sm:size-12 shrink-0 items-center justify-center border border-[#a4c875]/30 bg-[#a4c875]/10">
+                <Crosshair className="size-5 sm:size-6 text-[#a4c875] animate-[spin_4s_linear_infinite]" strokeWidth={1.5} />
               </div>
               <div className="flex flex-col text-left">
-                <h3 className="font-heading text-2xl font-bold tracking-widest text-primary uppercase">Directive Details</h3>
-                <p className="font-mono text-[10px] tracking-widest text-orange-400/80 uppercase">Classified Information // Clearance Level 3</p>
+                <h3 className="font-heading text-xl sm:text-2xl font-bold tracking-widest text-[#a4c875] uppercase">Directive Details</h3>
+                <p className="font-mono text-[9px] sm:text-[10px] tracking-widest text-[#FF8C00] uppercase">Classified Info // Clearance 3</p>
               </div>
             </div>
 
-            {/* Briefing Content */}
             <div className="space-y-4 font-mono text-xs sm:text-sm leading-relaxed text-[#B8B8B8] text-left">
-              
-              <h4 className="text-primary text-lg sm:text-xl font-bold tracking-[0.2em] uppercase mb-6 border-l-2 border-primary pl-3">
+              <h4 className="text-[#E4E3D1] text-base sm:text-xl font-bold tracking-[0.2em] uppercase mb-4 sm:mb-6 border-l-2 border-[#a4c875] pl-3">
                 Hackify... Hack to Defy.
               </h4>
               
               <p>
-                <span className="text-orange-400 font-bold mr-2">[ INCOMING TRANSMISSION ]</span>
+                <span className="text-[#FF8C00] font-bold mr-2 block sm:inline">[ INCOMING TRANSMISSION ]</span>
                 It is back with another edition this year where creators, innovators, and any one of you can come to the front lane and pitch the idea which is worth for the battlefield.
               </p>
               
               <p>
-                <span className="text-orange-400 font-bold mr-2">[ THE SPRINT ]</span>
+                <span className="text-[#FF8C00] font-bold mr-2 block sm:inline">[ THE SPRINT ]</span>
                 The grueling 36 hours of battle, in and out, ending with a reign of your own creative territory—which is worth the struggle.
               </p>
               
               <p>
-                <span className="text-orange-400 font-bold mr-2">[ ELIGIBILITY ]</span>
+                <span className="text-[#FF8C00] font-bold mr-2 block sm:inline">[ ELIGIBILITY ]</span>
                 You being a fresh recruit or seasoned armed force doesn't matter, cause its your field to win.
               </p>
               
-              <div className="my-6 bg-primary/5 border border-primary/20 p-4 rounded-sm">
-                <p className="text-white text-sm sm:text-base font-bold tracking-widest uppercase">
-                  &gt; Your objective is clear: <br className="sm:hidden" />
-                  <span className="text-primary mt-1 inline-block">BUILD. OPTIMIZE. SURVIVE.</span>
+              <div className="my-6 bg-[#a4c875]/5 border border-[#a4c875]/20 p-4 rounded-sm">
+                <p className="text-white text-xs sm:text-base font-bold tracking-widest uppercase">
+                  <span className="text-[#FF8C00] mr-2">&gt;</span>Your objective is clear: <br className="sm:hidden mt-2" />
+                  <span className="text-[#a4c875] sm:mt-1 inline-block">BUILD. OPTIMIZE. SURVIVE.</span>
                 </p>
               </div>
               
@@ -434,18 +368,16 @@ function HeroSection() {
                 Are you ready to defend your idea??? The field is waiting.
               </p>
 
-              <div className="mt-8 pt-4 border-t border-white/10 text-[9px] sm:text-[10px] tracking-[0.25em] uppercase text-primary/60">
+              <div className="mt-8 pt-4 border-t border-white/10 text-[9px] sm:text-[10px] tracking-[0.25em] uppercase text-gray-500">
                 <p>A 36-hour battlefield where YOU hack to defy.</p>
                 <p className="mt-1">Proudly organized by IEDC MACE</p>
               </div>
-
             </div>
 
-            {/* Terminal Style Footer Close */}
-            <div className="mt-10 pt-5 border-t border-white/10 flex justify-end">
+            <div className="mt-8 sm:mt-10 pt-5 border-t border-white/10 flex justify-end">
               <button 
                 onClick={() => setShowBrief(false)}
-                className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-primary/70 hover:text-primary transition-colors cursor-pointer"
+                className="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.2em] text-[#a4c875]/70 hover:text-[#a4c875] transition-colors cursor-pointer"
               >
                 &gt; Acknowledge & Close_
               </button>
@@ -517,7 +449,7 @@ function TracksSection() {
               <div className="relative flex h-full flex-col overflow-hidden border border-white/20 bg-[#0a0a0a] p-6 transition-colors duration-300 group-hover:border-transparent">
                 
                 <div className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none">
-                  <div className="absolute inset-0 z-0 bg-[conic-gradient(from_0deg,transparent_0_340deg,#D8FF7A_360deg)] animate-[spin_3s_linear_infinite]" />
+                  <div className="absolute inset-0 z-0 bg-[conic-gradient(from_0deg,transparent_0_340deg,#a4c875_360deg)] animate-[spin_3s_linear_infinite]" />
                   <div className="absolute inset-[1px] z-10 bg-[#0a0a0a]" />
                 </div>
 
@@ -583,13 +515,13 @@ function TimelineSection() {
   return (
     <section id="timeline" ref={sectionRef} className="py-24 bg-[#111] border-y border-white/5 relative overflow-hidden">
       {/* Subtle radial bg */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(216,255,122,0.03)_0%,transparent_70%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(164,200,117,0.03)_0%,transparent_70%)]" />
 
       <div className="max-w-3xl mx-auto px-5 sm:px-8 relative z-10">
        {/* Header */}
         <div className="mb-16 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#D8FF7A] tracking-tight uppercase">Program Timeline</h2>
-          <p className="mt-2 font-mono text-[10px] tracking-[0.35em] text-[#D8FF7A]/60 uppercase">Hackify 3.O</p>
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#a4c875] tracking-tight uppercase">Program Timeline</h2>
+          <p className="mt-2 font-mono text-[10px] tracking-[0.35em] text-[#a4c875]/60 uppercase">Hackify 3.O</p>
           <p className="mt-3 text-[#B8B8B8] text-sm">MACE Kothamangalam · 36-Hour Offline Sprint · Oct 1–3, 2026</p>
         </div> 
 
@@ -600,7 +532,7 @@ function TimelineSection() {
 
           {/* Animated fill overlay */}
           <div
-            className="absolute left-[calc(50%-1px)] top-0 w-0.5 rounded-full bg-gradient-to-b from-[#D8FF7A] to-[#D8FF7A]/40 transition-none"
+            className="absolute left-[calc(50%-1px)] top-0 w-0.5 rounded-full bg-gradient-to-b from-[#a4c875] to-[#a4c875]/40 transition-none"
             style={{ height: `${fillPct * 100}%` }}
           />
 
@@ -629,7 +561,7 @@ function TimelineSection() {
                   >
                     {isLeft && (
                       <>
-                        <p className="font-mono text-[10px] tracking-[0.2em] text-[#D8FF7A]/60 uppercase mb-0.5">{event.isoStr}</p>
+                        <p className="font-mono text-[10px] tracking-[0.2em] text-[#a4c875]/60 uppercase mb-0.5">{event.isoStr}</p>
                         <h4 className={`text-base font-bold mb-1 ${nodeActive ? 'text-white' : 'text-white/40'}`}>{event.label}</h4>
                         <p className="text-[#B8B8B8] text-xs leading-relaxed">{event.detail}</p>
                       </>
@@ -639,12 +571,12 @@ function TimelineSection() {
                   {/* Centre node */}
                   <div className="relative z-10 flex shrink-0 size-14 items-center justify-center">
                     {/* Outer ring */}
-                    <div className={`absolute inset-0 rounded-full border-2 transition-all duration-700 ${nodeActive ? 'border-[#D8FF7A]' : 'border-white/15'}`} />
+                    <div className={`absolute inset-0 rounded-full border-2 transition-all duration-700 ${nodeActive ? 'border-[#a4c875]' : 'border-white/15'}`} />
                     {/* Fill */}
-                    <div className={`size-5 rounded-full transition-all duration-700 ${nodeActive ? 'bg-[#D8FF7A] shadow-[0_0_14px_rgba(216,255,122,0.6)]' : 'bg-white/10'}`} />
+                    <div className={`size-5 rounded-full transition-all duration-700 ${nodeActive ? 'bg-[#a4c875] shadow-[0_0_14px_rgba(164,200,117,0.6)]' : 'bg-white/10'}`} />
                     {/* Pulse for current event */}
                     {status === 'current' && nodeActive && (
-                      <div className="absolute inset-0 rounded-full border-2 border-[#D8FF7A]/50 animate-ping" />
+                      <div className="absolute inset-0 rounded-full border-2 border-[#a4c875]/50 animate-ping" />
                     )}
                   </div>
 
@@ -659,7 +591,7 @@ function TimelineSection() {
                   >
                     {!isLeft && (
                       <>
-                        <p className="font-mono text-[10px] tracking-[0.2em] text-[#D8FF7A]/60 uppercase mb-0.5">{event.isoStr}</p>
+                        <p className="font-mono text-[10px] tracking-[0.2em] text-[#a4c875]/60 uppercase mb-0.5">{event.isoStr}</p>
                         <h4 className={`text-base font-bold mb-1 ${nodeActive ? 'text-white' : 'text-white/40'}`}>{event.label}</h4>
                         <p className="text-[#B8B8B8] text-xs leading-relaxed">{event.detail}</p>
                       </>
@@ -675,7 +607,7 @@ function TimelineSection() {
         <div className="sm:hidden relative pl-8">
           {/* Track line */}
           <div className="absolute left-3 top-2 bottom-2 w-0.5 bg-white/8 rounded-full" />
-          <div className="absolute left-3 top-2 w-0.5 rounded-full bg-[#D8FF7A]/70" style={{ height: `${fillPct * 100}%` }} />
+          <div className="absolute left-3 top-2 w-0.5 rounded-full bg-[#a4c875]/70" style={{ height: `${fillPct * 100}%` }} />
 
           <div className="space-y-10">
             {TIMELINE_EVENTS.map((event, i) => {
@@ -693,12 +625,12 @@ function TimelineSection() {
                   }}
                 >
                   {/* Node dot */}
-                  <div className={`absolute -left-[25px] top-1 size-4 rounded-full border-2 transition-colors duration-500 ${nodeActive ? 'border-[#D8FF7A] bg-[#D8FF7A]' : 'border-white/20 bg-transparent'}`}>
+                  <div className={`absolute -left-[25px] top-1 size-4 rounded-full border-2 transition-colors duration-500 ${nodeActive ? 'border-[#a4c875] bg-[#a4c875]' : 'border-white/20 bg-transparent'}`}>
                     {status === 'current' && nodeActive && (
-                      <div className="absolute inset-0 rounded-full border border-[#D8FF7A]/50 animate-ping" />
+                      <div className="absolute inset-0 rounded-full border border-[#a4c875]/50 animate-ping" />
                     )}
                   </div>
-                  <p className="font-mono text-[9px] tracking-[0.18em] text-[#D8FF7A]/60 uppercase mb-0.5">{event.isoStr}</p>
+                  <p className="font-mono text-[9px] tracking-[0.18em] text-[#a4c875]/60 uppercase mb-0.5">{event.isoStr}</p>
                   <h4 className={`text-sm font-bold mb-0.5 ${nodeActive ? 'text-white' : 'text-white/40'}`}>{event.label}</h4>
                   <p className="text-[#B8B8B8] text-xs leading-relaxed">{event.detail}</p>
                 </div>
@@ -740,96 +672,35 @@ function ScrollToTop() {
 /* ─────────────────────────────────────────────────────────────────────────── */
 /* UNIFIED TACTICAL FOOTER                                                     */
 /* ─────────────────────────────────────────────────────────────────────────── */
-function Footer() {
-  return (
-    <footer id="contact" className="bg-[#050505] border-t border-white/10 py-20 px-5 sm:px-8 relative z-10 flex flex-col items-center text-center">
-      
-      {/* Tactical Header */}
-      <div className="mb-12">
-        <span className="font-heading text-3xl font-black tracking-widest text-primary">HACKIFY 3.O</span>
-        <p className="mt-2 font-mono text-[10px] tracking-[0.3em] text-primary/50 uppercase">
-          End of Transmission
-        </p>
-      </div>
 
-      {/* Comms Grid (Leads & Mail) */}
-      <div className="mb-10 flex flex-col sm:flex-row gap-8 sm:gap-16 font-mono text-xs text-[#B8B8B8]">
-        <div className="flex flex-col items-center gap-2">
-          <span className="text-[10px] text-primary/70 uppercase tracking-widest border-b border-primary/20 pb-1 mb-1">Lead_01</span>
-          <span className="text-white">Amal Narayan</span>
-          <a href="tel:+919048372356" className="hover:text-primary transition-colors">+91 9048372356</a>
-        </div>
-        <div className="flex flex-col items-center gap-2">
-          <span className="text-[10px] text-primary/70 uppercase tracking-widest border-b border-primary/20 pb-1 mb-1">Lead_02</span>
-          <span className="text-white">Gopika</span>
-          <a href="tel:+917558821825" className="hover:text-primary transition-colors">+91 7558821825</a>
-        </div>
-        <div className="flex flex-col items-center gap-2">
-          <span className="text-[10px] text-primary/70 uppercase tracking-widest border-b border-primary/20 pb-1 mb-1">Comms_Net</span>
-          <span className="text-white">Official Mail</span>
-          <a href="mailto:iedcmaceofficial@gmail.com" className="hover:text-primary transition-colors">iedcmaceofficial@gmail.com</a>
-        </div>
-      </div>
-
-      {/* Circled Social Icons */}
-      <div className="flex gap-4 mb-12">
-        {[
-          { icon: InstagramIcon, href: 'https://www.instagram.com/iedcmace?igsh=MTUwdWRvMG53dnd2eg==' },
-          { icon: WhatsAppIcon, href: 'https://chat.whatsapp.com/D56kFH0cq0k1ZawfH2Owy1?s=cl&p=a&ilr=1' },
-          { icon: LinkedinIcon, href:   'https://www.linkedin.com/company/iedc-mace' },
-        ].map(({ icon: Icon, href }, i) => (
-          <a
-            key={i}
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex size-11 items-center justify-center rounded-full border border-white/20 text-white/60 transition-all hover:-translate-y-1 hover:border-primary hover:text-primary hover:bg-primary/5 hover:shadow-[0_0_15px_rgba(216,255,122,0.2)]"
-          >
-            <Icon className="size-5" strokeWidth={1.5} />
-          </a>
-        ))}
-      </div>
-
-      {/* System Status Footnote */}
-      <div className="flex flex-col items-center gap-2">
-        <p className="font-mono text-[9px] text-white/30 tracking-widest uppercase">
-          Operated by IEDC MACE & KSUM
-        </p>
-        <p className="font-mono text-[8px] text-primary/20 tracking-widest uppercase">
-          SYS.STATUS: NOMINAL // RESEARCH MODE: ACTIVE
-        </p>
-      </div>
-    </footer>
-  )
-}
 
 /* ─────────────────────────────────────────────────────────────────────────── */
-/*  PAGE ROOT                                                                  */
+/* PAGE ROOT                                                                  */
 /* ─────────────────────────────────────────────────────────────────────────── */
+import Preloader from './components/Preloader' // <--- Add this at the very top of your file!
+
 export default function LandingPage() {
-  useEffect(() => {
-    const els      = document.querySelectorAll('button, .tactical-card-container')
-    const handlers = []
-    els.forEach((el) => {
-      const h = () => {
-        const a = new Audio('https://www.soundjay.com/buttons/sounds/button-20.mp3')
-        a.volume = 0.05
-        a.play().catch(() => {})
-      }
-      el.addEventListener('mouseenter', h)
-      handlers.push([el, h])
-    })
-    return () => handlers.forEach(([el, h]) => el.removeEventListener('mouseenter', h))
-  }, [])
+  const [isLoaded, setIsLoaded] = useState(false)
+
+  // ... your existing audio hover effect useEffect goes here ...
 
   return (
-    <div className="min-h-screen bg-[#111111] text-white font-command relative overflow-x-hidden">
-      <div className="fixed inset-0 matrix-overlay pointer-events-none z-0 opacity-20" />
-      <HeroSection />
-      <TracksSection />
-      <TimelineSection />
-      <Footer />
-      <ScrollToTop />
-    </div>
+    <>
+      {/* This handles the smooth fade-out when the loader finishes */}
+      <AnimatePresence mode="wait">
+        {!isLoaded && <Preloader onLoaded={() => setIsLoaded(true)} />}
+      </AnimatePresence>
+
+      {/* Wrapping the site in overflow-hidden until it loads prevents weird jumping */}
+      <div className={`min-h-screen bg-[#0d1009] text-white font-command relative overflow-x-hidden ${!isLoaded ? 'h-screen overflow-hidden' : ''}`}>
+        <div className="fixed inset-0 pointer-events-none z-0 opacity-15 bg-[radial-gradient(circle,rgba(216,255,122,0.08)_1px,transparent_1px)] bg-[length:32px_32px]" />
+        
+        <HeroSection />
+        <TracksSection />
+        <TimelineSection />
+        <SiteFooter />
+        <ScrollToTop />
+      </div>
+    </>
   )
 }

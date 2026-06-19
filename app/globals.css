@@ -51,16 +51,11 @@
   --popover-foreground:   oklch(0.96 0.01  110);
 
   /*
-   * --primary = LIME GREEN #D8FF7A
-   * oklch(0.93 0.19 118) is the precise oklch match for #D8FF7A.
-   * This is the same colour used on all section headings (Tracks, Timeline,
-   * Footer) which are hardcoded to #D8FF7A. Now the hero inherits the same
-   * colour through text-primary / bg-primary / border-primary tokens.
-   *
-   * Previously this was oklch(0.72 0.16 120) ≈ neon #39FF14.
+   * --primary = TACTICAL OLIVE GREEN #a4c875
+   * Globally updates buttons, glowing text, borders, and SVGs.
    */
-  --primary:              oklch(0.93 0.19 118);   /* #D8FF7A lime-green */
-  --primary-foreground:   oklch(0.18 0.05 120);   /* dark text on lime  */
+  --primary:              #a4c875; 
+  --primary-foreground:   #0a0a0a; /* dark text on olive */
 
   --secondary:            oklch(0.28 0.02 120);
   --secondary-foreground: oklch(0.96 0.01 110);
@@ -68,14 +63,14 @@
   --muted:                oklch(0.28 0.02 120);
   --muted-foreground:     oklch(0.72 0.03 115);
 
-  --accent:               oklch(0.93 0.19 118);
-  --accent-foreground:    oklch(0.18 0.05 125);
+  --accent:               #a4c875;
+  --accent-foreground:    #0a0a0a;
 
   --destructive:          oklch(0.704 0.191 22.216);
 
-  --border:               oklch(0.93 0.19 118 / 18%);
+  --border:               #a4c87530; /* ~18% opacity olive for subtle borders */
   --input:                oklch(1    0     0   / 15%);
-  --ring:                 oklch(0.93 0.19 118);
+  --ring:                 #a4c875;
 
   --radius: 0.625rem;
 }
