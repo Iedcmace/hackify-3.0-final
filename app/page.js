@@ -10,6 +10,7 @@ import {
   Phone, Mail, Link, Share2
 } from 'lucide-react'
 import SiteHeader from './components/SiteHeader'
+import Preloader from './components/Preloader'
 /* ─────────────────────────────────────────────────────────────────────────── */
 /*  DATA                                                                       */
 /* ─────────────────────────────────────────────────────────────────────────── */
@@ -388,6 +389,49 @@ function HeroSection() {
     </section>
   )
 }
+
+function RegistrationPartnerSection() {
+  return (
+    <section className="relative z-10 mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-20 bg-[#0f110b] border-t border-b border-white/10">
+      <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+        <div className="space-y-4 text-center lg:text-left">
+          <p className="text-[9px] uppercase tracking-[0.38em] text-[#a4c875] font-semibold sm:text-[10px]">
+            OFFICIAL REGISTRATION PARTNER
+          </p>
+          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl">
+            Devfolio
+          </h2>
+          <p className="max-w-2xl text-sm leading-7 text-[#cec6b4] sm:text-base">
+            DEVFOLIO is the official registration partner for HACKIFY 3.O, managing team onboarding, registrations, and participant submissions with secure event workflow and seamless organizer support.
+          </p>
+        </div>
+
+        <a
+          href="https://devfolio.co/"
+          target="_blank"
+          rel="noreferrer noopener"
+          className="group mx-auto block max-w-sm overflow-hidden rounded-3xl border border-[#a4c875]/20 bg-[#10130d] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.24)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#a4c875]/40"
+        >
+          <div className="flex items-center justify-center rounded-3xl bg-[#12160f] p-6 transition-colors duration-300 group-hover:bg-[#171d13]">
+            <img
+              src="/DEVFOLIOC.jpeg"
+              alt="DEVFOLIO LOGO"
+              className="h-28 w-auto object-contain"
+            />
+          </div>
+          <div className="mt-6 text-center">
+            <p className="text-sm uppercase tracking-[0.35em] text-[#a4c875]">
+              Visit the registration portal
+            </p>
+            <p className="mt-3 text-sm leading-6 text-[#d7d7c8]">
+              Click the Devfolio logo to open the official registration website and submit your hackathon entry.
+            </p>
+          </div>
+        </a>
+      </div>
+    </section>
+  )
+}
 /* ─────────────────────────────────────────────────────────────────────────── */
 /* TRACKS / STRATEGIC SECTORS — Tactical Grid with Framer Motion              */
 /* ─────────────────────────────────────────────────────────────────────────── */
@@ -677,8 +721,6 @@ function ScrollToTop() {
 /* ─────────────────────────────────────────────────────────────────────────── */
 /* PAGE ROOT                                                                  */
 /* ─────────────────────────────────────────────────────────────────────────── */
-import Preloader from './components/Preloader' // <--- Add this at the very top of your file!
-
 export default function LandingPage() {
   const [isLoaded, setIsLoaded] = useState(false)
 
@@ -696,6 +738,7 @@ export default function LandingPage() {
         <div className="fixed inset-0 pointer-events-none z-0 opacity-15 bg-[radial-gradient(circle,rgba(216,255,122,0.08)_1px,transparent_1px)] bg-[length:32px_32px]" />
         
         <HeroSection />
+        <RegistrationPartnerSection />
         <TracksSection />
         <TimelineSection />
         <SiteFooter />

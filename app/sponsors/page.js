@@ -34,21 +34,41 @@ export default function SponsorsPage() {
   const tiers = [
     {
       tier: '01',
-      title: 'GOLD COMMAND',
-      cost: '₹1,00,000 INR',
-      benefits: ['Premium brand placement across main event visuals', 'Dedicated networking and sponsor spotlight', 'Exclusive mention in keynote announcements', 'Priority collaboration with core event partners']
+      title: 'GOLD',
+      cost: '₹1,00,000',
+      benefits: [
+        'Partnership title and premium event branding',
+        'Merchandise with company logo',
+        'Exclusive student interaction session',
+        'Attendee information access (with consent)',
+        'Sponsor speaker slot + product launch opportunity',
+        'Website, social media, poster, badge, and virtual background visibility',
+        'Internship/hiring access'
+      ]
     },
     {
       tier: '02',
-      title: 'SILVER OPS',
-      cost: '₹50,000 INR',
-      benefits: ['Prominent logo placement in digital collateral', 'Participation in focused sponsor activations', 'Feature in event communication highlights']
+      title: 'SILVER',
+      cost: '₹50,000',
+      benefits: [
+        'Logo visibility on posters, website, and virtual backgrounds',
+        'Recognition at opening/closing ceremony',
+        'Product/service marketing and pre-event publicity',
+        'Sponsor speaker presence',
+        'Event attendance access',
+        'Internship/hiring opportunity'
+      ]
     },
     {
       tier: '03',
-      title: 'BRONZE SUPPORT',
-      cost: '₹25,000 INR',
-      benefits: ['Logo inclusion in sponsor roster', 'Visibility on event media', 'Invitation to closing recognition session']
+      title: 'BRONZE',
+      cost: '₹25,000',
+      benefits: [
+        'Logo presence on website, banners, and social media',
+        'Announcement during pre-events',
+        'Event attendance access',
+        'Internship/hiring opportunity'
+      ]
     }
   ];
 
@@ -75,7 +95,7 @@ export default function SponsorsPage() {
               Strategic Sponsors
             </h1>
             <p className="text-[#cec6b4] text-xs sm:text-sm md:text-base uppercase tracking-widest max-w-2xl leading-relaxed">
-              Trusted brands empowering HACKIFY '25 with strategic reach, platform visibility, and shared innovation impact.
+              Trusted brands empowering HACKIFY '26 with strategic reach, platform visibility, and shared innovation impact.
             </p>
           </div>
 
@@ -111,7 +131,7 @@ export default function SponsorsPage() {
                   </div>
                   <h2 className="text-3xl sm:text-5xl font-bold text-[#a4c875] tracking-tighter uppercase">Devfolio</h2>
                   <p className="text-xs sm:text-sm text-[#cec6b4] leading-relaxed sm:leading-7 max-w-2xl">
-                    Devfolio is the official registration partner for HACKIFY '25, handling team onboarding, submission management, and participant communications.
+                    Devfolio is the official registration partner for HACKIFY '26, handling team onboarding, submission management, and participant communications.
                   </p>
                   <div className="flex flex-wrap justify-center sm:justify-start gap-4 sm:gap-6 pt-2 text-[9px] sm:text-[10px] uppercase tracking-widest text-[#a4c875]/60 font-mono">
                     <span>✦ Team Onboarding</span>
@@ -126,7 +146,7 @@ export default function SponsorsPage() {
           {/* Sponsors Grid */}
           <div className="space-y-8">
             <div className="text-[9px] sm:text-[10px] text-[#a4c875] uppercase tracking-[0.4em] border-b border-[#a4c875]/10 pb-4 flex items-center gap-3">
-              <span className="w-8 h-px bg-[#a4c875]" /> Official Sponsors
+              <span className="w-8 h-px bg-[#a4c875]" /> Past Sponsors
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 sm:gap-8">
@@ -169,7 +189,7 @@ export default function SponsorsPage() {
           {/* Tiers Grid */}
           <div className="space-y-8">
             <div className="text-[9px] sm:text-[10px] text-[#a4c875] uppercase tracking-[0.4em] border-b border-[#a4c875]/10 pb-4 flex items-center gap-3">
-              <span className="w-8 h-px bg-[#a4c875]" /> Requisition Tiers
+              <span className="w-8 h-px bg-[#a4c875]" /> Sponsorship Tiers
             </div>
 
             <div className="space-y-6">
