@@ -480,67 +480,6 @@ function TracksSection() {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────── */
-/* sponsership devfolio , for verification purpose         */
-/* ─────────────────────────────────────────────────────────────────────────── */
-
-function SponsorsSection() {
-  return (
-    <section id="sponsors" className="relative z-10 mx-auto w-full max-w-5xl px-5 py-24 bg-background text-center">
-      
-      {/* ── ALPHA SPONSORS (MANDATORY FOR DEVFOLIO VERIFICATION) ── */}
-      <h2 className="text-3xl font-bold tracking-wide text-white sm:text-4xl mb-8">
-        Alpha Sponsors
-      </h2>
-      <div className="flex justify-center mb-16">
-     {/* DO NOT CHANGE THE HREF OR ALT TAG HERE */}
-        <a
-          href="https://devfolio.co/"
-          target="_blank"
-          rel="noreferrer noopener"
-          className="flex items-center justify-center bg-white rounded-2xl w-72 h-28 shadow-[0_8px_0_#276EF1] transition-transform hover:translate-y-1 hover:shadow-[0_4px_0_#276EF1]"
-        >
-          <img 
-            src="/devfolio.png" 
-            alt="Devfolio" 
-            className="h-12 w-auto object-contain" 
-          />
-        </a>
-      </div>
-
-      {/* ── BETA SPONSORS ── */}
-      <h2 className="text-2xl font-bold tracking-wide text-[#a4c875] sm:text-3xl mb-8">
-        Beta Sponsors
-      </h2>
-      <div className="flex flex-wrap justify-center gap-6 mb-16">
-        <div className="flex items-center justify-center bg-white rounded-2xl w-64 h-24 shadow-[0_6px_0_#a4c875] transition-transform hover:translate-y-1 hover:shadow-[0_3px_0_#a4c875]">
-          <img src="/KSUMC.jpeg" alt="KSUM" className="h-12 w-auto object-contain mix-blend-multiply" />
-        </div>
-        <div className="flex items-center justify-center bg-white rounded-2xl w-64 h-24 shadow-[0_6px_0_#a4c875] transition-transform hover:translate-y-1 hover:shadow-[0_3px_0_#a4c875]">
-          <img src="/KalkitechC.jpeg" alt="Kalkitech" className="h-12 w-auto object-contain mix-blend-multiply" />
-        </div>
-        <div className="flex items-center justify-center bg-white rounded-2xl w-64 h-24 shadow-[0_6px_0_#a4c875] transition-transform hover:translate-y-1 hover:shadow-[0_3px_0_#a4c875]">
-          <img src="/Electralysys.png" alt="Electralysys" className="h-12 w-auto object-contain mix-blend-multiply" />
-        </div>
-      </div>
-
-      {/* ── GAMMA SPONSORS ── */}
-      <h2 className="text-xl font-bold tracking-wide text-[#FF8C00] sm:text-2xl mb-8">
-        Gamma Sponsors
-      </h2>
-      <div className="flex flex-wrap justify-center gap-6">
-        <div className="flex items-center justify-center bg-white rounded-xl w-56 h-20 shadow-[0_4px_0_#FF8C00] transition-transform hover:translate-y-1 hover:shadow-[0_2px_0_#FF8C00]">
-          <img src="/KeyvalueC.jpeg" alt="KeyValue" className="h-10 w-auto object-contain mix-blend-multiply" />
-        </div>
-        <div className="flex items-center justify-center bg-white rounded-xl w-56 h-20 shadow-[0_4px_0_#FF8C00] transition-transform hover:translate-y-1 hover:shadow-[0_2px_0_#FF8C00]">
-          <img src="/VisionDynamics.jpeg" alt="Vision Dynamics" className="h-10 w-auto object-contain mix-blend-multiply" />
-        </div>
-      </div>
-
-    </section>
-  )
-}
-
-/* ─────────────────────────────────────────────────────────────────────────── */
 /*  TIMELINE SECTION — vertical pipeline with animated liquid fill            */
 /* ─────────────────────────────────────────────────────────────────────────── */
 function TimelineSection() {
