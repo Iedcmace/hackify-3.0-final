@@ -500,7 +500,7 @@ function SponsorsSection() {
           className="flex items-center justify-center bg-white rounded-2xl w-72 h-28 shadow-[0_8px_0_#276EF1] transition-transform hover:translate-y-1 hover:shadow-[0_4px_0_#276EF1]"
         >
           <img 
-            src="/devfolioc.png" 
+            src="/devfolio.png" 
             alt="Devfolio" 
             className="h-12 w-auto object-contain" 
           />
