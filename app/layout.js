@@ -31,13 +31,15 @@ export default function RootLayout({ children }) {
       className={`dark ${orbitron.variable} ${rajdhani.variable} bg-background`}
     >
       <head>
-        {/* Preconnect to Google Fonts for faster loading */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link 
           href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Black+Ops+One&display=swap" 
           rel="stylesheet" 
         />
+        
+        {/* ADD THIS EXACT LINE TO THE HEAD */}
+        <script defer async src="https://apply.devfolio.co/v2/sdk.js"></script>
       </head>
       <body className="font-sans antialiased">
         {children}
