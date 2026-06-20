@@ -416,7 +416,7 @@ function RegistrationPartnerSection() {
           <div className="flex items-center justify-center rounded-3xl bg-[#12160f] p-8 transition-colors duration-300 group-hover:bg-[#171d13]">
             {/* Exactly what the bot wants to see */}
             <img
-              src="/devfolio-logo.png"
+              src="/devfolioc.png"
               alt="Devfolio"
               className="h-12 w-auto object-contain"
             />
