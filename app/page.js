@@ -24,20 +24,19 @@ export default function DummyVerificationPage() {
         ></div>
       </div>
 
-      {/* 2. HackNITR-Style Sponsor Block */}
+      {/* 2. Sponsor Block using LOCAL image */}
       <section id="sponsors" style={{ marginTop: '50px' }}>
         <div id="Sponsors">
           <h2>Sponsors</h2>
         </div>
         
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-          {/* Exact HackNITR structure: target="_blank", no trailing slash */}
           <a target="_blank" rel="noreferrer noopener" href="https://devfolio.co">
             <div>
-              {/* Back to your local image! Added a white background so it's visible */}
+              {/* Notice the FORWARD slash here! */}
               <img 
                 alt="Devfolio" 
-                src="/devfolioc.png" 
+                src="/devfolio.png" 
                 style={{ height: '85px', width: 'auto', backgroundColor: '#fff', padding: '10px', borderRadius: '8px' }} 
               />
             </div>
