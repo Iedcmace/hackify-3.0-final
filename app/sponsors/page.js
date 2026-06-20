@@ -120,7 +120,7 @@ export default function SponsorsPage() {
                   className="flex-shrink-0 w-full lg:w-64 h-32 sm:h-44 border-2 border-[#a4c875]/40 bg-[#0e0f05] flex items-center justify-center overflow-hidden"
                   style={{ clipPath: 'polygon(12px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)' }}
                 >
-                  <img src="/DEVFOLIOC.jpeg" alt="DEVFOLIO LOGO" className="max-h-full max-w-full object-contain p-4" onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }} />
+                  <img src="/devfolio.png" alt="DEVFOLIO LOGO" className="max-h-full max-w-full object-contain p-4" onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }} />
                   <div className="hidden w-full h-full items-center justify-center text-[#a4c875] font-bold text-2xl">DEVFOLIO</div>
                 </div>
 
