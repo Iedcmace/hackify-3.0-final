@@ -126,7 +126,7 @@ export default function SponsorsPage() {
                 >
                   {/* Updated src to match the official asset and alt to just "Devfolio" */}
                   <img 
-                    src="/devfolioc.png" 
+                    src="/Devfolio_Logo-White.png" 
                     alt="Devfolio" 
                     className="max-h-full max-w-full object-contain p-4" 
                     onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }} 

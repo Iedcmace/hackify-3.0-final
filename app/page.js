@@ -393,17 +393,18 @@ function HeroSection() {
 
 function RegistrationPartnerSection() {
   return (
-    {/* Added id="sponsors" right here so the bot can find it */}
     <section id="sponsors" className="relative z-10 mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-20 bg-[#0f110b] border-t border-b border-white/10">
       <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
         <div className="space-y-4 text-center lg:text-left">
-          {/* Added the word SPONSOR to the label */}
+          <h2 className="text-4xl font-bold tracking-tighter text-[#a4c875] uppercase sm:text-5xl md:text-7xl">
+            Primary Sponsor
+          </h2>
           <p className="text-[9px] uppercase tracking-[0.38em] text-[#a4c875] font-semibold sm:text-[10px]">
             PLATFORM SPONSOR & REGISTRATION PARTNER
           </p>
-          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl">
+          <h3 className="text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl">
             Devfolio
-          </h2>
+          </h3>
           <p className="max-w-2xl text-sm leading-7 text-[#cec6b4] sm:text-base">
             DEVFOLIO is the official registration partner and platform sponsor for HACKIFY 3.O, managing team onboarding, registrations, and participant submissions with secure event workflow and seamless organizer support.
           </p>
@@ -418,7 +419,7 @@ function RegistrationPartnerSection() {
           <div className="flex items-center justify-center rounded-3xl bg-[#12160f] p-8 transition-colors duration-300 group-hover:bg-[#171d13]">
             {/* The exact image and alt text the bot needs */}
             <img
-              src="/devfolio-logo.png"
+              src="/Devfolio_Logo-White.png"
               alt="Devfolio"
               className="h-12 w-auto object-contain"
             />
