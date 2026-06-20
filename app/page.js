@@ -697,7 +697,6 @@ export default function LandingPage() {
         <div className="fixed inset-0 pointer-events-none z-0 opacity-15 bg-[radial-gradient(circle,rgba(216,255,122,0.08)_1px,transparent_1px)] bg-[length:32px_32px]" />
         
         <HeroSection />
-        <RegistrationPartnerSection />
         <TracksSection />
         <TimelineSection />
         <SiteFooter />
