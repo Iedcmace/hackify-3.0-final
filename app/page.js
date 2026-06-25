@@ -105,8 +105,8 @@ const TIMELINE_EVENTS = [
     id: 'hackathon',
     label: 'Hackathon',
     detail: '36-hour offline sprint at MACE Kothamangalam',
-    date: new Date('2026-10-01'), /* Oct 1-3 */
-    isoStr: 'Oct 1 – 3, 2026',
+    date: new Date('2026-10-09'), /* Oct 9-11 */
+    isoStr: 'Oct 9 – 11, 2026',
   },
 ]
 

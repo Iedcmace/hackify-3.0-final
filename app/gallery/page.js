@@ -28,12 +28,9 @@ export default function GalleryPage() {
     const mockMinutes = String((num * 7) % 60).padStart(2, '0');
     const mockSeconds = String((num * 13) % 60).padStart(2, '0');
 
-    const locations = ['MAIN_ARENA', 'SYSTEM_OVERRIDE', 'DATA_VAULT', 'PERIMETER_SEC', 'WAR_ROOM', 'LOGISTICS_HUB'];
-    const location = locations[i % locations.length];
-
+  
     return {
       id: `CAM_${paddedId}`,
-      location: location,
       timestamp: `${mockHours}:${mockMinutes}:${mockSeconds}`,
       src: `/image_${num}.jpg`
     };
@@ -100,12 +97,9 @@ export default function GalleryPage() {
             <div className="flex items-center gap-3">
               <div className="w-3 sm:w-4 h-3 sm:h-4 bg-[#a4c875] animate-pulse shadow-[0_0_6px_#a4c875]" />
               <h2 className="text-4xl sm:text-5xl md:text-7xl font-bold text-[#a4c875] tracking-tighter uppercase">
-                ARCHIVE HIGHLIGHTS
+                GALLERY
               </h2>
             </div>
-            <p className="font-mono-tech text-[#c2ccb9] max-w-2xl text-xs sm:text-sm md:text-base leading-relaxed">
-              Accessing classified records from Operation Hackify '25. Visual data logs of strategic engagements, rapid prototyping protocols, and late-night intelligence gathering.
-            </p>
             {/* Stack status badges on mobile to prevent overflow */}
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 pt-4">
               <div className="px-3 py-1 bg-[#141a0e] border border-[#a4c875]/30 font-mono-tech text-[9px] sm:text-[10px] text-[#a4c875] uppercase tracking-widest inline-block text-center sm:text-left">
@@ -161,7 +155,7 @@ export default function GalleryPage() {
 
                       <img 
                         src={img.src} 
-                        alt={img.location}
+                        alt={`Gallery image ${img.id}`}
                         className="w-full h-full object-contain relative z-10 transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-105"
                         onError={(e) => { 
                           e.currentTarget.src = 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800'; 
@@ -179,9 +173,8 @@ export default function GalleryPage() {
                     </div>
 
                     <div className="p-3 sm:p-4 flex justify-between items-end border-t-2 border-[#232b1a] bg-[#060804]/95 transition-colors duration-300 group-hover:border-[#a4c875]/30">
-                      <div className="font-mono-tech space-y-1">
+                      <div className="font-mono-tech">
                         <div className="text-[9px] sm:text-[10px] text-[#a4c875] uppercase tracking-[0.2em] font-bold">{img.id}</div>
-                        <div className="text-xs sm:text-sm font-bold text-[#c2ccb9] tracking-tight group-hover:text-[#a4c875] transition-colors duration-300">{img.location}</div>
                       </div>
                       <div className="font-mono-tech text-[9px] sm:text-[10px] text-[#a4c875]/50 text-right font-bold transition-colors duration-300 group-hover:text-[#a4c875]/80">
                         REC {img.timestamp}
