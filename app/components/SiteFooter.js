@@ -1,5 +1,6 @@
 'use client';
-import React from 'react';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 const WhatsAppIcon = ({ className }) => (
   <svg className={className} fill="currentColor" viewBox="0 0 24 24">
@@ -24,64 +25,81 @@ const LinkedinIcon = ({ className }) => (
 );
 
 export default function SiteFooter() {
+  const footerRef = useRef(null)
+  
+  const { scrollYProgress } = useScroll({
+    target: footerRef,
+    offset: ["start end", "end end"]
+  })
+
+  // Curtain effect: Scale from 0.9 to 1 and Y offset from -50px to 0
+  const scale = useTransform(scrollYProgress, [0, 1], [0.85, 1])
+  const y = useTransform(scrollYProgress, [0, 1], [-100, 0])
+  const opacity = useTransform(scrollYProgress, [0, 1], [0, 1])
+
   return (
-    <footer id="contact" className="bg-[#050505] border-t border-white/10 py-20 px-5 sm:px-8 relative z-10 flex flex-col items-center text-center mt-auto w-full">
+    <footer id="contact" ref={footerRef} className="bg-[#050505] border-t border-white/10 py-20 px-5 sm:px-8 relative z-10 flex flex-col items-center text-center mt-auto w-full overflow-hidden perspective-1000">
       
-      {/* Tactical Header */}
-      <div className="mb-12">
-        <span className="font-heading text-3xl font-black tracking-widest text-[#a4c875]">HACKIFY 3.O</span>
-        <p className="mt-2 font-mono text-[10px] tracking-[0.3em] text-[#a4c875]/50 uppercase">
-          End of Transmission
-        </p>
-      </div>
-
-      {/* Comms Grid (Leads & Mail) */}
-      <div className="mb-10 flex flex-col sm:flex-row gap-8 sm:gap-16 font-mono text-xs text-[#B8B8B8]">
-        <div className="flex flex-col items-center gap-2">
-          <span className="text-[10px] text-[#a4c875]/70 uppercase tracking-widest border-b border-[#a4c875]/20 pb-1 mb-1">Lead_01</span>
-          <span className="text-white">Amal Narayan</span>
-          <a href="tel:+919048372356" className="hover:text-[#a4c875] transition-colors">+91 9048372356</a>
+      <motion.div 
+        style={{ scale, y, opacity, rotateX: useTransform(scrollYProgress, [0, 1], [20, 0]) }}
+        className="w-full flex flex-col items-center transform-gpu"
+      >
+        {/* Tactical Header */}
+        <div className="mb-12">
+          <span className="font-heading text-3xl font-black tracking-widest text-[#a4c875] drop-shadow-[0_0_15px_rgba(164,200,117,0.3)]">HACKIFY 3.O</span>
+          <p className="mt-2 font-mono text-[10px] tracking-[0.3em] text-[#a4c875]/50 uppercase">
+            End of Transmission
+          </p>
         </div>
-        <div className="flex flex-col items-center gap-2">
-          <span className="text-[10px] text-[#a4c875]/70 uppercase tracking-widest border-b border-[#a4c875]/20 pb-1 mb-1">Lead_02</span>
-          <span className="text-white">Gopika</span>
-          <a href="tel:+917558821825" className="hover:text-[#a4c875] transition-colors">+91 7558821825</a>
-        </div>
-        <div className="flex flex-col items-center gap-2">
-          <span className="text-[10px] text-[#a4c875]/70 uppercase tracking-widest border-b border-[#a4c875]/20 pb-1 mb-1">Comms_Net</span>
-          <span className="text-white">Official Mail</span>
-          <a href="mailto:iedcmaceofficial@gmail.com" className="hover:text-[#a4c875] transition-colors">iedcmaceofficial@gmail.com</a>
-        </div>
-      </div>
 
-      {/* Circled Social Icons */}
-      <div className="flex gap-4 mb-12">
-        {[
-          { icon: InstagramIcon, href: 'https://www.instagram.com/iedcmace?igsh=MTUwdWRvMG53dnd2eg==' },
-          { icon: WhatsAppIcon, href: 'https://chat.whatsapp.com/D56kFH0cq0k1ZawfH2Owy1?s=cl&p=a&ilr=1' },
-          { icon: LinkedinIcon, href:   'https://www.linkedin.com/company/iedc-mace' },
-        ].map(({ icon: Icon, href }, i) => (
-          <a
-            key={i}
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex size-11 items-center justify-center rounded-full border border-white/20 text-white/60 transition-all hover:-translate-y-1 hover:border-[#a4c875] hover:text-[#a4c875] hover:bg-[#a4c875]/5 hover:shadow-[0_0_15px_rgba(216,255,122,0.2)]"
-          >
-            <Icon className="size-5" strokeWidth={1.5} />
-          </a>
-        ))}
-      </div>
+        {/* Comms Grid (Leads & Mail) */}
+        <div className="mb-10 flex flex-col sm:flex-row gap-8 sm:gap-16 font-mono text-xs text-[#B8B8B8]">
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-[10px] text-[#a4c875]/70 uppercase tracking-widest border-b border-[#a4c875]/20 pb-1 mb-1">Lead_01</span>
+            <span className="text-white">Amal Narayan</span>
+            <a href="tel:+919048372356" className="hover:text-[#a4c875] transition-colors">+91 9048372356</a>
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-[10px] text-[#a4c875]/70 uppercase tracking-widest border-b border-[#a4c875]/20 pb-1 mb-1">Lead_02</span>
+            <span className="text-white">Gopika</span>
+            <a href="tel:+917558821825" className="hover:text-[#a4c875] transition-colors">+91 7558821825</a>
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-[10px] text-[#a4c875]/70 uppercase tracking-widest border-b border-[#a4c875]/20 pb-1 mb-1">Comms_Net</span>
+            <span className="text-white">Official Mail</span>
+            <a href="mailto:iedcmaceofficial@gmail.com" className="hover:text-[#a4c875] transition-colors">iedcmaceofficial@gmail.com</a>
+          </div>
+        </div>
 
-      {/* System Status Footnote */}
-      <div className="flex flex-col items-center gap-2">
-        <p className="font-mono text-[9px] text-white/30 tracking-widest uppercase">
-          Operated by IEDC MACE & KSUM
-        </p>
-        <p className="font-mono text-[8px] text-[#a4c875]/20 tracking-widest uppercase">
-          SYS.STATUS: NOMINAL // RESEARCH MODE: ACTIVE
-        </p>
-      </div>
+        {/* Circled Social Icons */}
+        <div className="flex gap-4 mb-12">
+          {[
+            { icon: InstagramIcon, href: 'https://www.instagram.com/iedcmace?igsh=MTUwdWRvMG53dnd2eg==' },
+            { icon: WhatsAppIcon, href: 'https://chat.whatsapp.com/D56kFH0cq0k1ZawfH2Owy1?s=cl&p=a&ilr=1' },
+            { icon: LinkedinIcon, href:   'https://www.linkedin.com/company/iedc-mace' },
+          ].map(({ icon: Icon, href }, i) => (
+            <a
+              key={i}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex size-11 items-center justify-center rounded-full border border-white/20 text-white/60 transition-all hover:-translate-y-1 hover:border-[#a4c875] hover:text-[#a4c875] hover:bg-[#a4c875]/5 hover:shadow-[0_0_15px_rgba(216,255,122,0.2)]"
+            >
+              <Icon className="size-5" strokeWidth={1.5} />
+            </a>
+          ))}
+        </div>
+
+        {/* System Status Footnote */}
+        <div className="flex flex-col items-center gap-2">
+          <p className="font-mono text-[9px] text-white/30 tracking-widest uppercase">
+            Operated by IEDC MACE & KSUM
+          </p>
+          <p className="font-mono text-[8px] text-[#a4c875]/20 tracking-widest uppercase">
+            SYS.STATUS: NOMINAL // RESEARCH MODE: ACTIVE
+          </p>
+        </div>
+      </motion.div>
     </footer>
   );
 }

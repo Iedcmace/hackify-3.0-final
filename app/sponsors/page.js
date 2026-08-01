@@ -1,7 +1,56 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import SiteFooter from '../components/SiteFooter';
-import SiteHeader from '../components/SiteHeader'
+import SiteHeader from '../components/SiteHeader';
+import { motion, useScroll, useVelocity, useSpring, useTransform, useAnimationFrame, useMotionValue } from 'framer-motion';
+
+function ParallaxMarquee({ children, baseVelocity = 100 }) {
+  const baseX = useMotionValue(0)
+  const { scrollY } = useScroll()
+  const scrollVelocity = useVelocity(scrollY)
+  const smoothVelocity = useSpring(scrollVelocity, {
+    damping: 50,
+    stiffness: 400
+  })
+  const velocityFactor = useTransform(smoothVelocity, [0, 1000], [0, 5], {
+    clamp: false
+  })
+
+  const x = useTransform(baseX, (v) => `${wrap(-20, -45, v)}%`)
+
+  const directionFactor = useRef(1)
+  useAnimationFrame((t, delta) => {
+    let moveBy = directionFactor.current * baseVelocity * (delta / 1000)
+    
+    // Add scroll velocity to the movement
+    if (velocityFactor.get() < 0) {
+      directionFactor.current = -1
+    } else if (velocityFactor.get() > 0) {
+      directionFactor.current = 1
+    }
+
+    moveBy += directionFactor.current * moveBy * velocityFactor.get()
+    
+    baseX.set(baseX.get() + moveBy)
+  })
+
+  // Wrap utility function
+  function wrap(min, max, v) {
+    const rangeSize = max - min;
+    return ((((v - min) % rangeSize) + rangeSize) % rangeSize) + min;
+  }
+
+  return (
+    <div className="overflow-hidden m-0 whitespace-nowrap flex flex-nowrap w-full">
+      <motion.div className="flex whitespace-nowrap flex-nowrap gap-8" style={{ x }}>
+        {children}
+        {children}
+        {children}
+        {children}
+      </motion.div>
+    </div>
+  )
+}
 
 export default function SponsorsPage() {
 
@@ -30,21 +79,6 @@ export default function SponsorsPage() {
     { id: 'VIS-04', name: 'VISION DYNAMICS', type: 'Analytics partner adding precision visibility and event performance insight.', logo: '/VisionDynamics.jpeg' },
     { id: 'XYZ-05', name: '.XYZ', type: 'Digital sponsor extending brand access across developer communities.', logo: '/xyz.png' },
   ];
-  
-  useEffect(() => {
-    // GSAP animation for past sponsors (lazy import)
-    let gsapInstance
-    import('gsap')
-      .then(({ gsap }) => {
-        gsapInstance = gsap
-        gsap.from('.past-sponsor', { opacity: 0, y: 20, stagger: 0.12, duration: 0.8, ease: 'power3.out' })
-      })
-      .catch(() => {})
-
-    return () => {
-      if (gsapInstance && gsapInstance.kill) gsapInstance.kill()
-    }
-  }, [])
   
   const tiers = [
     {
@@ -100,7 +134,7 @@ export default function SponsorsPage() {
         <div className="max-w-7xl mx-auto space-y-16">
 
           <div className="border-l-4 border-[#a4c875] pl-4 sm:pl-6 space-y-4">
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-[#a4c875] tracking-tighter uppercase">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-[#a4c875] tracking-tighter uppercase drop-shadow-[0_0_20px_rgba(164,200,117,0.4)]">
               Strategic Sponsors
             </h1>
             <p className="text-[#cec6b4] text-[11px] sm:text-[12px] md:text-[13px] uppercase tracking-[0.25em] max-w-3xl leading-relaxed lg:whitespace-nowrap">
@@ -125,7 +159,6 @@ export default function SponsorsPage() {
               <div className="absolute bottom-0 right-0 w-12 sm:w-16 h-12 sm:h-16 border-b-4 border-r-4 border-[#a4c875] opacity-60" />
 
               <div className="flex flex-col lg:flex-row gap-6 sm:gap-10 items-center sm:items-start lg:items-center relative z-10">
-                {/* Changed this wrapper to an <a> tag pointing to devfolio.co */}
                 <a
                   href="https://devfolio.co/"
                   target="_blank"
@@ -161,19 +194,19 @@ export default function SponsorsPage() {
             </div>
           </div>
 
-          {/* Sponsors Grid */}
-          <div className="space-y-8">
-            <div className="text-[9px] sm:text-[10px] text-[#a4c875] uppercase tracking-[0.4em] border-b border-[#a4c875]/10 pb-4 flex items-center gap-3">
+          {/* Sponsors Infinite Marquee */}
+          <div className="-mx-4 sm:-mx-8">
+            <div className="text-[9px] sm:text-[10px] text-[#a4c875] uppercase tracking-[0.4em] border-b border-[#a4c875]/10 pb-4 flex items-center gap-3 px-4 sm:px-8 mb-8">
               <span className="w-8 h-px bg-[#a4c875]" /> Past Sponsors
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8">
+            <ParallaxMarquee baseVelocity={-2}>
               {sponsors.map((spon) => (
-                <div key={spon.id} className="tactical-card-container relative border-0 bg-transparent p-2 group transition-transform duration-400 hover:scale-105 flex items-center justify-center">
-                  <div className="past-sponsor flex flex-col items-center gap-3">
-                    <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden bg-transparent flex items-center justify-center p-1 shadow-[0_8px_20px_rgba(0,0,0,0.5)]">
+                <div key={spon.id} className="relative bg-transparent p-4 flex items-center justify-center shrink-0 w-[200px] sm:w-[250px]">
+                  <div className="flex flex-col items-center gap-3">
+                    <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden bg-[#1b1c11] border border-[#a4c875]/20 flex items-center justify-center p-2 shadow-[0_8px_20px_rgba(0,0,0,0.5)] transition-transform duration-500 hover:scale-110 hover:border-[#a4c875]/60 hover:shadow-[0_0_25px_rgba(164,200,117,0.3)] cursor-pointer">
                       {spon.logo ? (
-                        <img src={spon.logo} alt={spon.name} className="w-full h-full object-contain" onError={(e) => { e.target.style.display = 'none'; }} />
+                        <img src={spon.logo} alt={spon.name} className="w-full h-full object-contain filter grayscale hover:grayscale-0 transition-all duration-300" onError={(e) => { e.target.style.display = 'none'; }} />
                       ) : (
                         <div className="text-[#a69146] font-bold">{spon.name.substring(0,3)}</div>
                       )}
@@ -182,8 +215,9 @@ export default function SponsorsPage() {
                   </div>
                 </div>
               ))}
-            </div>
+            </ParallaxMarquee>
           </div>
+
 
           {/* Tiers Grid */}
           <div className="space-y-8">

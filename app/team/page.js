@@ -1,32 +1,100 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import SiteFooter from '../components/SiteFooter';
-import SiteHeader from '../components/SiteHeader'
+import SiteHeader from '../components/SiteHeader';
+import { motion, useInView } from 'framer-motion';
+import { Phone } from 'lucide-react';
+
+const MemberCard = ({ member, index }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.3 });
+  
+  const [isHovered, setIsHovered] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
+  
+  const showPhone = isHovered || isClicked;
+  
+  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseLeave = () => setIsHovered(false);
+  const handleClick = () => setIsClicked(!isClicked);
+  
+  return (
+    <motion.div 
+      ref={ref}
+      className="flex flex-col text-left group"
+      initial={{ opacity: 0, y: 50 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+      transition={{ duration: 0.6, delay: (index % 3) * 0.15 }}
+    >
+      <div className="relative w-full aspect-square overflow-hidden mb-4 sm:mb-5 rounded-md">
+        <div className="w-full h-full">
+          <img
+            src={member.image}
+            alt={member.name}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out filter grayscale group-hover:grayscale-0"
+            onError={(e) => {
+              e.target.src = 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=200';
+              e.target.className = 'w-full h-full object-cover opacity-30';
+            }}
+          />
+        </div>
+        
+        {/* Border overlay */}
+        <div className="absolute inset-0 border-2 border-[#a4c875] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 rounded-md" />
+        
+        {member.contact && (
+          <div 
+            className="absolute bottom-3 left-3 z-20 flex items-center justify-center p-2.5 bg-black/70 backdrop-blur-md rounded-full cursor-pointer hover:bg-[#a4c875]/20 transition-all border border-white/10 hover:border-[#a4c875]/50 group/phone"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onClick={handleClick}
+          >
+            <Phone className="w-4 h-4 text-white group-hover/phone:text-[#a4c875] transition-colors" />
+          </div>
+        )}
+      </div>
+
+      <p className="text-[11px] sm:text-xs font-semibold text-[#a4c875]/70 mb-1 tracking-widest uppercase">
+        {member.role || 'Organizer'}
+      </p>
+      <h3 className="font-bold text-base sm:text-lg md:text-xl text-white mb-2 tracking-wide">
+        {member.name}
+      </h3>
+      
+      <div className="h-6 flex items-center">
+        {member.contact && showPhone && (
+          <p className="text-sm text-[#cec6b4] font-mono animate-in fade-in zoom-in duration-200">
+            {member.contact}
+          </p>
+        )}
+      </div>
+    </motion.div>
+  );
+};
 
 export default function TeamPage() {
-  const [openComm, setOpenComm] = useState(null);
 
   useEffect(() => {
     const audio = new Audio('https://www.soundjay.com/buttons/sounds/button-20.mp3');
     audio.volume = 0.05;
-    const handleHover = () => { audio.currentTime = 0; audio.play().catch(() => {}); };
+    const handleHover = () => { audio.currentTime = 0; audio.play().catch(() => { }); };
     const elements = document.querySelectorAll('button, .tactical-card-container, a');
     elements.forEach(el => el.addEventListener('mouseenter', handleHover));
     return () => { elements.forEach(el => el.removeEventListener('mouseenter', handleHover)); };
   }, []);
 
   const team = [
-    { id: 'ID-3301', name: 'CHRISTY CHRISTOPHER', role: 'LEAD', clearance: 'DELTA', division: 'OPERATIONS', contact: '+91 79943 76774', image: '/ChristyC.jpeg' },
-    { id: 'ID-8822', name: 'SAMUEL M DILEEP', role: 'LEAD', clearance: 'SIGMA', division: 'CYBERSECURITY', contact: '+91 80752 58045', image: '/SamuelC.jpeg' },
-    { id: 'ID-7731', name: 'GOPIKA M', role: 'LEAD', clearance: 'ALPHA', division: 'INFRASTRUCTURE', contact: '+91 75588 21825', image: '/GopikaC.jpeg' },
-    { id: 'ID-8924', name: 'AMAL NARAYAN', role: 'LEAD', clearance: 'OMEGA', division: 'LOGISTICS', contact: '+91 90483 72356', image: '/AmalC.jpeg' },
-    { id: 'ID-4411', name: 'ANIRUDH', role: 'LEAD', clearance: 'SIGMA', division: 'CYBERSECURITY', contact: '+91 79072 83190', image: '/AnirudhC.jpeg' },
+    { id: 'ID-3301', name: 'CHRISTY CHRISTOPHER', role: 'LEAD', contact: '+91 79943 76774', image: '/ChristyC.jpeg' },
+    { id: 'ID-8822', name: 'SAMUEL M DILEEP', role: 'LEAD', contact: '+91 80752 58045', image: '/SamuelC.jpeg' },
+    { id: 'ID-7731', name: 'GOPIKA M', role: 'LEAD', contact: '+91 75588 21825', image: '/GopikaC.jpeg' },
+    { id: 'ID-8924', name: 'AMAL NARAYAN', role: 'LEAD', contact: '+91 90483 72356', image: '/AmalC.jpeg' },
+    { id: 'ID-4411', name: 'ANIRUDH', role: 'LEAD', contact: '+91 79072 83190', image: '/AnirudhC.jpeg' },
   ];
 
   const webTeam = [
-    { name: 'ESHA ALEX', role: 'WEB DEVELOPER', tag: 'Interface Architecture', image: '/EshaC.jpeg' },
-    { name: 'APARNA SURESH', role: 'WEB DEVELOPER', tag: 'Visual Systems', image: '/AparnaC.jpg' },
-    { name: 'NAYANA SURENDRAN', role: 'WEB DEVELOPER', tag: 'Design & Deployment', image: '/NayanaC.jpeg' },
+    { id: 'WT-01', name: 'ESHA ALEX', role: 'WEB DEVELOPER', image: '/EshaC.jpeg' },
+    { id: 'WT-02', name: 'APARNA SURESH', role: 'WEB DEVELOPER', image: '/AparnaC.jpg' },
+    { id: 'WT-03', name: 'NAYANA SURENDRAN', role: 'WEB DEVELOPER', image: '/NayanaC.jpeg' },
   ];
 
   return (
@@ -36,93 +104,55 @@ export default function TeamPage() {
 
       <SiteHeader />
 
-      <section className="pt-32 pb-24 px-4 sm:px-8 relative z-10">
-        <div className="max-w-7xl mx-auto space-y-12 sm:space-y-16">
+      <section className="pt-24 sm:pt-28 md:pt-32 pb-16 sm:pb-20 md:pb-24 px-4 sm:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto space-y-10 sm:space-y-12 md:space-y-16">
 
           {/* Page Header */}
           <div className="border-l-4 border-[#a4c875] pl-4 sm:pl-6 space-y-3 sm:space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-3 h-3 bg-[#a4c875] animate-pulse" />
-              <span className="text-[9px] sm:text-[10px] text-[#a4c875] uppercase tracking-[0.4em] font-bold">
-                System Status: Operational
-              </span>
-            </div>
-            <h2 className="text-4xl sm:text-5xl md:text-7xl font-bold text-[#a4c875] tracking-tighter uppercase">
+            <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold text-[#a4c875] tracking-tighter uppercase drop-shadow-[0_0_15px_rgba(164,200,117,0.3)]">
               Meet The Team
             </h2>
             <p className="text-[#cec6b4] text-xs sm:text-sm md:text-base uppercase tracking-widest max-w-2xl leading-relaxed">
-              The minds behind HACKIFY '26 — organizers, leads, and builders driving the event from the ground up.
+              Got questions before deploying to the hackathon? Establish a direct connection with our command operatives right here.
             </p>
           </div>
 
-          <div className="text-[9px] sm:text-[10px] text-[#a4c875] uppercase tracking-[0.4em] border-b border-[#a4c875]/10 pb-4 flex items-center gap-3">
-            <span className="w-8 h-px bg-[#a4c875]" /> Core Organizers
+          {/* Core Organizers — centered, large heading */}
+          <div className="text-center text-xl sm:text-3xl md:text-4xl font-bold text-[#a4c875] uppercase tracking-tight border-b border-[#a4c875]/10 pb-5">
+            Core Organizers
           </div>
 
-          {/* Team Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {team.map((member) => (
-              <div key={member.id} className="tactical-card-container relative border-4 border-[#3D301D] bg-[#1b1c11] p-6 sm:p-8 group transition-all duration-300 hover:bg-[#1f2015] cursor-crosshair" style={{ clipPath: 'polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px)' }}>
-                <div className="flex gap-4 items-center mb-6 sm:mb-8">
-                  <div className="relative w-20 sm:w-24 h-20 sm:h-24 border border-[#3D301D] bg-[#0e0f05] overflow-hidden flex-shrink-0 shadow-[0_0_20px_rgba(164,200,117,0.10)]">
-                    {member.image ? (
-                      <img src={member.image} alt={member.name} className="w-full h-full object-cover" onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=200'; e.target.className = "w-full h-full object-cover opacity-30"; }} />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-[#a4c875] font-bold text-xl sm:text-2xl bg-[#1b1c11]">{member.name.charAt(0)}</div>
-                    )}
-                  </div>
-                  <div className="space-y-1 min-w-0">
-                    <h3 className="text-base sm:text-lg font-bold text-[#e4e3d1] leading-tight break-words">
-                      <span className="text-[#a4c875] text-xs inline-block align-middle mr-2">●</span>
-                      <span className="break-words whitespace-normal">{member.name}</span>
-                    </h3>
-                    <p className="text-[9px] sm:text-[10px] text-[#a4c875] uppercase tracking-widest">{member.role}</p>
-                  </div>
-                </div>
+          {/* Team Grid — no cards, row 1: 3 members, row 2: left-aligned remainder */}
+          <div className="max-w-6xl mx-auto px-0">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-12 sm:gap-y-14 md:gap-y-16 gap-x-8 md:gap-x-12">
+              {team.slice(0, 3).map((member, i) => (
+                <MemberCard key={member.id} member={member} index={i} />
+              ))}
+            </div>
 
-                <button onClick={() => setOpenComm(openComm === member.id ? null : member.id)} className="w-full border border-[#a4c875]/30 py-3 text-[9px] sm:text-[10px] text-[#a4c875] uppercase tracking-[0.3em] hover:bg-[#a4c875] hover:text-[#0e0f05] transition-all flex items-center justify-center gap-2">
-                  <span className="text-sm">✉</span> {openComm === member.id ? 'Close Channel' : 'Initiate Comm'}
-                </button>
+            <hr className="my-12 sm:my-14 md:my-16 border-t border-[#a4c875]/15" />
 
-                {openComm === member.id && (
-                  <div className="mt-4 border border-[#a4c875]/20 bg-[#0e0f05] px-3 sm:px-4 py-3 text-[10px] sm:text-[11px] text-[#a4c875] tracking-widest uppercase flex items-center gap-2 overflow-hidden whitespace-nowrap text-ellipsis">
-                    <span className="text-[#a4c875]">📡</span> {member.contact}
-                  </div>
-                )}
-                <div className="absolute top-3 left-3 w-3 sm:w-4 h-3 sm:h-4 border-t-2 border-l-2 border-[#a4c875]/30 group-hover:border-[#a4c875] transition-colors" />
-                <div className="absolute bottom-3 right-3 w-3 sm:w-4 h-3 sm:h-4 border-b-2 border-r-2 border-[#a4c875]/30 group-hover:border-[#a4c875] transition-colors" />
-              </div>
-            ))}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-12 sm:gap-y-14 md:gap-y-16 gap-x-8 md:gap-x-12">
+              {team.slice(3, 5).map((member, i) => (
+                <MemberCard key={member.id} member={member} index={i + 3} />
+              ))}
+            </div>
           </div>
 
-          {/* Web Support Section */}
-          <div className="space-y-8 sm:space-y-10 pt-8">
+          {/* Web Team Section — no cards, flip-on-hover photo (GSAP) */}
+          <div className="space-y-6 sm:space-y-8 md:space-y-10 pt-4 sm:pt-6 md:pt-8">
             <div className="border-l-4 border-[#a4c875] pl-4 sm:pl-6 space-y-3">
-              <div className="text-[9px] sm:text-[10px] text-[#a4c875] uppercase tracking-[0.4em] flex items-center gap-3">
-                <span className="w-8 h-px bg-[#a4c875]" /> Digital Infrastructure
-              </div>
-              <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#a4c875] tracking-tighter uppercase">
+              <h3 className="text-2xl sm:text-4xl md:text-5xl font-bold text-[#a4c875] tracking-tighter uppercase">
                 Web Team
               </h3>
               <p className="text-[#cec6b4] text-xs sm:text-sm uppercase tracking-widest max-w-xl leading-relaxed">
-                The team responsible for designing, building, and deploying the HACKIFY '26 digital experience.
+                they created this website
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
-              {webTeam.map((person, index) => (
-                <div key={index} className="relative bg-[#1b1c11] border border-[#3D301D] hover:border-[#a4c875]/40 transition-all duration-300 p-6 sm:p-8 flex flex-col items-center text-center group overflow-hidden rounded-md">
-                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#a4c875]/40 to-transparent" />
-                  <div className="w-24 sm:w-32 h-32 sm:h-40 rounded-[50%] overflow-hidden border-2 border-[#a4c875]/40 group-hover:border-[#a4c875] transition-colors mb-4 sm:mb-6 flex-shrink-0 bg-[#0e0f05]" style={{ boxShadow: '0 0 24px rgba(216,255,122,0.15)' }}>
-                    {person.image ? (
-                      <img src={person.image} alt={person.name} className="w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }} />
-                    ) : null}
-                    <div className={`${person.image ? 'hidden' : 'flex'} w-full h-full items-center justify-center text-[#a4c875] font-bold text-2xl sm:text-3xl`}>{person.name.charAt(0)}</div>
-                  </div>
-                  <h4 className="font-bold text-[#e4e3d1] text-base sm:text-lg tracking-tight mb-1">{person.name}</h4>
-                  <p className="text-[9px] sm:text-[10px] text-[#a4c875] uppercase tracking-widest mb-2">{person.role}</p>
-                  <div className="w-8 h-px bg-[#a4c875]/30 my-2 sm:my-3" />
-                </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-12 sm:gap-y-14 md:gap-y-16 gap-x-8 md:gap-x-12">
+              {webTeam.map((member, i) => (
+                <MemberCard key={member.id} member={member} index={i + 5} />
               ))}
             </div>
           </div>

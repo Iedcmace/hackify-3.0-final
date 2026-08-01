@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, useInView, AnimatePresence } from 'framer-motion'
+import { motion, useInView, AnimatePresence, useScroll, useTransform, useSpring, useMotionValueEvent } from 'framer-motion'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import SiteFooter from './components/SiteFooter'
@@ -14,23 +14,25 @@ import SiteHeader from './components/SiteHeader'
 import Preloader from './components/Preloader'
 import Gallery from './components/gallery'
 import Newsletter from './components/Newsletter'
+import BasicScrollTest from './components/BasicScrollTest'
 /* ─────────────────────────────────────────────────────────────────────────── */
 /*  DATA                                                                       */
 /* ─────────────────────────────────────────────────────────────────────────── */
 
 const NAV_LINKS = [
-  { label: 'TRACKS',     href: '#tracks'    },
-  { label: 'TIMELINE',   href: '#timeline'  },
-  { label: 'SPONSORS',   href: '/sponsors'  },
-  { label: 'GALLERY',    href: '/gallery'   },
-  { label: 'TEAM',       href: '/team'      },
-  { label: 'CONTACT',    href: '#contact'   },
+  { label: 'TRACKS', href: '#tracks' },
+  { label: 'TIMELINE', href: '#timeline' },
+  { label: 'GALLERY', href: '/gallery' },
+  { label: 'FAQ', href: '#faq' },
+  { label: 'SPONSORS', href: '#sponsors' },
+  { label: 'TEAM', href: '#team' },
+  { label: 'CONTACT', href: '#contact' },
 ]
 
 const STATS = [
-  { icon: Clock,     title: '36 HOURS',       subtitle: 'NON-STOP INNOVATION'        },
-  { icon: Users,     title: 'NATIONAL LEVEL', subtitle: 'TOP TALENT. ONE STAGE.'     },
-  { icon: Crosshair, title: 'WAR-TECH',       subtitle: 'PREDICT. PROTECT. REBUILD.' },
+  { icon: Clock, title: '36 HOURS', subtitle: 'NON-STOP INNOVATION' },
+  { icon: Users, title: 'NATIONAL LEVEL', subtitle: 'TOP TALENT. ONE STAGE.' },
+  { icon: Crosshair, title: 'WAR-TECH', subtitle: 'PREDICT. PROTECT. REBUILD.' },
 ]
 
 const LAUNCH_DATE = '2026-10-03T09:00:00.000Z'
@@ -171,12 +173,12 @@ const FAQ_ITEMS = [
 /* ─────────────────────────────────────────────────────────────────────────── */
 
 function getTimeLeft(target) {
-  const diff    = Math.max(0, target - Date.now())
+  const diff = Math.max(0, target - Date.now())
   const seconds = Math.floor(diff / 1000)
   return {
-    days:    Math.floor(seconds / 86400),
-    hours:   Math.floor((seconds % 86400) / 3600),
-    minutes: Math.floor((seconds % 3600)  / 60),
+    days: Math.floor(seconds / 86400),
+    hours: Math.floor((seconds % 86400) / 3600),
+    minutes: Math.floor((seconds % 3600) / 60),
     seconds: seconds % 60,
   }
 }
@@ -186,11 +188,11 @@ const pad = (n) => n.toString().padStart(2, '0')
 /* Given the sorted event dates, return a 0-1 fill fraction
    representing how far through the overall timeline we are today */
 function getTimelineProgress() {
-  const now   = Date.now()
+  const now = Date.now()
   const start = TIMELINE_EVENTS[0].date.getTime()
-  const end   = TIMELINE_EVENTS[TIMELINE_EVENTS.length - 1].date.getTime()
+  const end = TIMELINE_EVENTS[TIMELINE_EVENTS.length - 1].date.getTime()
   if (now <= start) return 0
-  if (now >= end)   return 1
+  if (now >= end) return 1
   return (now - start) / (end - start)
 }
 
@@ -205,51 +207,97 @@ function getEventStatus(event) {
 /*  DEVFOLIO BUTTON                                                            */
 /* ─────────────────────────────────────────────────────────────────────────── */
 function DevfolioButton() {
+
   const [mounted, setMounted] = useState(false)
 
+
+
   useEffect(() => {
+
     setMounted(true)
+
   }, [])
 
+
+
   useEffect(() => {
+
     if (!mounted) return
 
+
+
     // Use setTimeout to ensure the DOM is fully painted before loading the SDK
+
     const timeoutId = setTimeout(() => {
+
       const oldScript = document.getElementById('devfolio-script');
+
       if (oldScript) oldScript.remove();
 
+
+
       const script = document.createElement('script');
+
       script.id = 'devfolio-script';
+
       script.src = 'https://apply.devfolio.co/v2/sdk.js';
+
       script.async = true;
+
       script.defer = true;
+
       document.body.appendChild(script);
+
     }, 0)
-    
+
+
+
     return () => {
+
       clearTimeout(timeoutId)
+
       const currentScript = document.getElementById('devfolio-script');
+
       if (currentScript) currentScript.remove();
+
     }
+
   }, [mounted])
+
+
 
   if (!mounted) return null
 
+
+
   return (
-    <div 
+
+    <div
+
       className="flex w-full max-w-[312px] cursor-pointer justify-center transition-transform duration-200 hover:-translate-y-0.5"
+
       style={{ colorScheme: 'light' }}
+
     >
-      <div 
-        className="apply-button" 
-        data-hackathon-slug="hackify-3" 
+
+      <div
+
+        className="apply-button"
+
+        data-hackathon-slug="hackify-3"
+
         data-button-theme="dark-inverted"
+
         style={{ height: '44px', width: '312px' }}
+
       ></div>
+
     </div>
+
   )
+
 }
+
 
 /* ─────────────────────────────────────────────────────────────────────────── */
 /* COUNTDOWN                                                                 */
@@ -270,28 +318,39 @@ function CountdownInline({ targetDate }) {
   if (!mounted) return null
 
   const units = [
-    { label: 'DAYS',    value: time?.days    },
-    { label: 'HOURS',   value: time?.hours   },
+    { label: 'DAYS', value: time?.days },
+    { label: 'HOURS', value: time?.hours },
     { label: 'MINUTES', value: time?.minutes },
     { label: 'SECONDS', value: time?.seconds },
   ]
-  
+
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div className="flex flex-col items-start gap-2">
       <div className="flex items-center gap-1.5">
         <span className="size-1.5 animate-pulse rounded-full bg-[#FF8C00]" />
-        <span className="font-mono text-[9px] tracking-[0.28em] text-gray-400 uppercase">Countdown to Launch</span>
+        <span className="font-mono text-[9px] tracking-[0.28em] text-gray-400 uppercase">[ TGT DEPLOYMENT: OCT 09, 2026 // 0900 HRS ]</span>
       </div>
       {/* Reduced gap on mobile so it doesn't overflow */}
       <div className="flex items-end gap-2 sm:gap-6">
         {units.map((unit, i) => (
           <div key={unit.label} className="flex items-end gap-2 sm:gap-6">
-            <div className="flex flex-col items-center">
-              {/* Reduced mobile text size to 3xl */}
-              <span className="font-heading text-3xl font-black tabular-nums text-[#E4E3D1] sm:text-5xl" style={{ textShadow: '0 0 20px rgba(164,200,117,0.4)' }}>
-                {unit.value == null ? '--' : pad(unit.value)}
-              </span>
-              <span className="mt-0.5 font-mono text-[7px] sm:text-[8px] tracking-[0.22em] text-gray-500 uppercase">{unit.label}</span>
+            <div className="flex flex-col items-start">
+              <div className="relative overflow-hidden h-[36px] sm:h-[48px] flex items-center justify-center">
+                <AnimatePresence mode="popLayout">
+                  <motion.span
+                    key={unit.value}
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -20, opacity: 0 }}
+                    transition={{ duration: 0.3, type: "spring", stiffness: 200, damping: 20 }}
+                    className="font-heading text-3xl font-black tabular-nums text-[#E4E3D1] sm:text-5xl block"
+                    style={{ textShadow: '0 0 20px rgba(164,200,117,0.4)', lineHeight: 1 }}
+                  >
+                    {unit.value == null ? '--' : pad(unit.value)}
+                  </motion.span>
+                </AnimatePresence>
+              </div>
+              <span className="mt-0.5 font-mono text-[7px] sm:text-[8px] tracking-[0.22em] text-gray-500 uppercase pl-1">{unit.label}</span>
             </div>
             {i < units.length - 1 && (
               <span className="mb-3 sm:mb-4 font-heading text-xl font-bold text-[#a4c875]/40 sm:text-3xl" aria-hidden="true">:</span>
@@ -327,55 +386,94 @@ function StatCards() {
 /* ─────────────────────────────────────────────────────────────────────────── */
 function HeroSection() {
   const [showBrief, setShowBrief] = useState(false)
+  const heroRef = useRef(null)
+
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"]
+  })
+
+  // Mind-blowing parallax and 3D transformations
+  const yBg = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
+  const yText = useTransform(scrollYProgress, [0, 1], ["0%", "150%"])
+  const scaleText = useTransform(scrollYProgress, [0, 1], [1, 0.7])
+  const opacityText = useTransform(scrollYProgress, [0, 0.8], [1, 0])
+  const rotateX = useTransform(scrollYProgress, [0, 1], [0, 25])
+
+  // Spring physics for smoother feel
+  const springRotateX = useSpring(rotateX, { stiffness: 100, damping: 30 })
+  const springScale = useSpring(scaleText, { stiffness: 100, damping: 30 })
 
   return (
-    <section className="relative min-h-screen w-full overflow-hidden bg-background">
-      <div className="absolute inset-0">
-        <img src="/hero-bg.png" alt="War-tech layout" className="size-full object-cover object-center" />
-        <div className="absolute inset-0 bg-background/50" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-background/50" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/30 via-transparent to-background/30" />
-      </div>
+    <section ref={heroRef} className="relative min-h-screen w-full overflow-hidden bg-[url('/hero-bg.webp')] bg-[length:auto_100%] sm:bg-cover bg-[center_top] sm:bg-center bg-no-repeat perspective-1000">
+
       <SiteHeader />
-      {/* Added pt-32 on mobile to ensure the header doesn't cover the top text */}
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center px-4 pb-24 pt-32 text-center sm:px-8 lg:pt-20">
-        
-        <p className="font-mono text-[9px] font-bold tracking-[0.4em] text-[#FF8C00] sm:text-xs drop-shadow-sm">
-          IEDC MACE PRESENTS
-        </p>
-        
-        {/* Adjusted mobile font size to text-[3.5rem] for better fitting */}
-        <h1 className="mt-3 font-heading font-black leading-[0.92] tracking-tight text-[#a4c875] text-[3.5rem] sm:text-7xl lg:text-[6rem] xl:text-[7rem]" style={{ textShadow: '0 0 60px rgba(164,200,117,0.4)' }}>
-          HACKIFY 3.O
-        </h1>
-        
-        <p className="mt-3 font-heading text-base font-semibold tracking-[0.45em] text-[#E4E3D1] sm:text-2xl drop-shadow-md">
-          HACK TO DEFY
-        </p>
-        
-        {/* Swapped to flex-col on very small screens to prevent wrapping issues */}
-        <div className="mt-5 flex flex-wrap justify-center gap-x-2 font-mono text-[9px] tracking-[0.07em] text-gray-400 sm:text-xs">
-          <span><span className="text-[#FF8C00] font-bold text-base leading-none align-middle">&gt;</span> STATUS: 36-HR SPRINT</span>
-          <span className="hidden sm:inline text-gray-600">{'//'}</span>
-          <span>DIRECTIVE: PREDICT <span className="text-gray-600">|</span> PROTECT <span className="text-gray-600">|</span> REBUILD</span>
-        </div>
-        
-        <div className="mt-9 flex w-full max-w-xs flex-col items-center gap-4">
+
+      {/* 📐 Changed to items-start and text-left for the tactical HUD alignment */}
+      <motion.div
+        style={{
+          y: yText,
+          scale: springScale,
+          opacity: opacityText,
+          rotateX: springRotateX,
+          transformPerspective: 1200
+        }}
+        className="relative z-10 flex min-h-screen w-full max-w-7xl flex-col items-start justify-center px-4 pb-24 pt-32 text-left sm:px-8 lg:px-12 lg:pt-20 transform-gpu mr-auto"
+      >
+
+        <motion.img
+          initial={{ opacity: 0, scale: 0.8, filter: "blur(10px)" }}
+          animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+          transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+          src="/hackify-logo.svg"
+          alt="Hackify 3.0"
+          className="w-full max-w-[280px] sm:max-w-[450px] lg:max-w-[600px] h-auto object-contain drop-shadow-2xl"
+        />
+
+        {/* 🎨 Highlighted theme with typewriter effect */}
+        <motion.div
+          initial={{ clipPath: "inset(0 100% 0 0)" }}
+          animate={{ clipPath: "inset(0 0 0 0)" }}
+          transition={{ duration: 0.8, delay: 0.3, ease: "easeInOut" }}
+          className="mt-6 font-heading text-xl sm:text-3xl font-black tracking-widest uppercase drop-shadow-lg inline-block whitespace-nowrap"
+        >
+          <span className="text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">Predict</span>
+          <span className="mx-3 text-white/30">|</span>
+          <span className="text-[#FF8C00]">Protect</span>
+          <span className="mx-3 text-white/30">|</span>
+          <span className="text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">Rebuild</span>
+        </motion.div>
+
+        {/* 🖱️ Buttons aligned left and stacked dynamically */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+          className="mt-9 flex w-full max-w-lg flex-col items-start gap-4 sm:flex-row"
+        >
           <DevfolioButton />
-          
+
           <button
             onClick={() => setShowBrief(true)}
-            className="inline-flex h-12 w-full cursor-pointer items-center justify-center gap-2 bg-black/50 border border-[#a4c875] font-sans text-xs sm:text-sm font-bold tracking-[0.22em] text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_20px_rgba(164,200,117,0.6)] hover:bg-[#a4c875]/10"
-            style={{ clipPath: 'polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px)' }}
+            className="inline-flex h-[44px] w-full max-w-[312px] sm:w-[200px] cursor-pointer items-center justify-center gap-2 bg-black/50 border border-[#a4c875] font-sans text-xs sm:text-sm font-bold tracking-[0.22em] text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_20px_rgba(164,200,117,0.6)] hover:bg-[#a4c875]/10 rounded-sm"
           >
             <FileText className="size-4 shrink-0 text-[#a4c875]" strokeWidth={1.8} />
             MISSION BRIEF
           </button>
-        </div>
-        
-        <div className="mt-10 w-full"><CountdownInline targetDate={LAUNCH_DATE} /></div>
-        <div className="mt-8 w-full"><StatCards /></div>
-      </div>
+        </motion.div>
+
+        {/* ⏱️ Timer aligned to the left */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.7 }}
+          className="mt-10 flex w-full justify-start"
+        >
+          <CountdownInline targetDate={LAUNCH_DATE} />
+        </motion.div>
+
+
+      </motion.div>
 
       <div className="absolute inset-x-0 bottom-4 z-10 hidden flex-col items-center gap-1 lg:flex">
         <span className="font-mono text-[9px] tracking-[0.32em] text-gray-500 uppercase">Scroll to Explore</span>
@@ -387,15 +485,12 @@ function HeroSection() {
       {/* ─────────────────────────────────────────────────────────────────────────── */}
       {showBrief && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 transition-all">
-          
           <div className="absolute inset-0 cursor-pointer" onClick={() => setShowBrief(false)} />
-
-          {/* Added max-h-[90vh] and overflow-y-auto to allow scrolling on small devices */}
-          <div 
+          <div
             className="relative z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-[#0a0a0a] border border-[#a4c875]/40 p-6 sm:p-10 shadow-[0_0_50px_rgba(164,200,117,0.15)] scrollbar-hide"
             style={{ clipPath: 'polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px)' }}
           >
-            <button 
+            <button
               onClick={() => setShowBrief(false)}
               className="absolute top-5 right-5 text-[#a4c875]/50 hover:text-[#a4c875] transition-colors cursor-pointer"
             >
@@ -416,33 +511,16 @@ function HeroSection() {
               <h4 className="text-[#E4E3D1] text-base sm:text-xl font-bold tracking-[0.2em] uppercase mb-4 sm:mb-6 border-l-2 border-[#a4c875] pl-3">
                 Hackify... Hack to Defy.
               </h4>
-              
-              <p>
-                <span className="text-[#FF8C00] font-bold mr-2 block sm:inline">[ INCOMING TRANSMISSION ]</span>
-                It is back with another edition this year where creators, innovators, and any one of you can come to the front lane and pitch the idea which is worth for the battlefield.
-              </p>
-              
-              <p>
-                <span className="text-[#FF8C00] font-bold mr-2 block sm:inline">[ THE SPRINT ]</span>
-                The grueling 36 hours of battle, in and out, ending with a reign of your own creative territory—which is worth the struggle.
-              </p>
-              
-              <p>
-                <span className="text-[#FF8C00] font-bold mr-2 block sm:inline">[ ELIGIBILITY ]</span>
-                You being a fresh recruit or seasoned armed force doesn't matter, cause its your field to win.
-              </p>
-              
+              <p><span className="text-[#FF8C00] font-bold mr-2 block sm:inline">[ INCOMING TRANSMISSION ]</span> It is back with another edition this year where creators, innovators, and any one of you can come to the front lane and pitch the idea which is worth for the battlefield.</p>
+              <p><span className="text-[#FF8C00] font-bold mr-2 block sm:inline">[ THE SPRINT ]</span> The grueling 36 hours of battle, in and out, ending with a reign of your own creative territory—which is worth the struggle.</p>
+              <p><span className="text-[#FF8C00] font-bold mr-2 block sm:inline">[ ELIGIBILITY ]</span> You being a fresh recruit or seasoned armed force doesn't matter, cause its your field to win.</p>
               <div className="my-6 bg-[#a4c875]/5 border border-[#a4c875]/20 p-4 rounded-sm">
                 <p className="text-white text-xs sm:text-base font-bold tracking-widest uppercase">
                   <span className="text-[#FF8C00] mr-2">&gt;</span>Your objective is clear: <br className="sm:hidden mt-2" />
                   <span className="text-[#a4c875] sm:mt-1 inline-block">BUILD. OPTIMIZE. SURVIVE.</span>
                 </p>
               </div>
-              
-              <p className="text-white/80 italic tracking-wide">
-                Are you ready to defend your idea??? The field is waiting.
-              </p>
-
+              <p className="text-white/80 italic tracking-wide">Are you ready to defend your idea??? The field is waiting.</p>
               <div className="mt-8 pt-4 border-t border-white/10 text-[9px] sm:text-[10px] tracking-[0.25em] uppercase text-gray-500">
                 <p>A 36-hour battlefield where YOU hack to defy.</p>
                 <p className="mt-1">Proudly organized by IEDC MACE</p>
@@ -450,7 +528,7 @@ function HeroSection() {
             </div>
 
             <div className="mt-8 sm:mt-10 pt-5 border-t border-white/10 flex justify-end">
-              <button 
+              <button
                 onClick={() => setShowBrief(false)}
                 className="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.2em] text-[#a4c875]/70 hover:text-[#a4c875] transition-colors cursor-pointer"
               >
@@ -465,101 +543,74 @@ function HeroSection() {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────── */
-/* TRACKS / STRATEGIC SECTORS — Tactical Grid with Framer Motion              */
+/* TRACKS / STRATEGIC SECTORS — Grid Layout                                   */
 /* ─────────────────────────────────────────────────────────────────────────── */
 function TracksSection() {
-  const sectionRef = useRef(null)
-  const isInView = useInView(sectionRef, { once: true, amount: 0.15 })
-
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.15,
-      },
-    },
-  }
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
-    },
-  }
-
   return (
-    <section id="tracks" className="relative z-10 mx-auto max-w-6xl px-5 py-24 sm:px-8 bg-background">
-      {/* Left-Aligned Section Header */}
-      <div className="mb-16 text-left">
-        <h2 className="text-3xl font-bold tracking-tight text-primary sm:text-4xl uppercase">
-          STRATEGIC SECTORS
-        </h2>
-        <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.35em] text-primary/60">
-          Innovation Tracks
-        </p>
-      </div>
+    <section id="tracks" className="relative w-full bg-[#050505] py-24 sm:py-32 border-y border-[#a4c875]/20">
+      <div className="mx-auto max-w-7xl px-5 sm:px-10">
 
-      {/* Grid Container */}
-      <motion.div
-        ref={sectionRef}
-        variants={containerVariants}
-        initial="hidden"
-        animate={isInView ? 'visible' : 'hidden'}
-        className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-6"
-      >
-        {tracks.map((track, i) => {
-          const Icon = track.icon
-          let spanClass = 'lg:col-span-3'
-          if (i >= 4) spanClass = 'lg:col-span-2'
+        {/* Section Header */}
+        <div className="mb-16 text-left">
+          <h2 className="text-3xl font-bold tracking-tight text-primary sm:text-5xl uppercase drop-shadow-[0_0_20px_rgba(164,200,117,0.3)]">
+            STRATEGIC SECTORS
+          </h2>
+          <p className="mt-2 font-mono text-[10px] sm:text-xs uppercase tracking-[0.35em] text-primary/60">
+            Innovation Tracks
+          </p>
+        </div>
 
-          return (
-            <motion.div
-              key={track.title}
-              variants={cardVariants}
-              className={`group relative ${spanClass}`}
-            >
-              <div className="absolute top-2 left-2 -z-10 h-full w-full bg-white transition-transform duration-300 group-hover:translate-x-1 group-hover:translate-y-1" />
+        {/* Tracks Grid */}
+        <div className="grid grid-cols-1 gap-6 sm:gap-10 md:grid-cols-2">
+          {tracks.map((track, i) => {
+            const Icon = track.icon
+            // If it's the last track (7th) and total is odd, make it span full width on desktop
+            const isLastOdd = i === tracks.length - 1 && tracks.length % 2 !== 0;
 
-              <div className="relative flex h-full flex-col overflow-hidden border border-white/20 bg-[#0a0a0a] p-6 transition-colors duration-300 group-hover:border-transparent">
-                
-                <div className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none">
-                  <div className="absolute inset-0 z-0 bg-[conic-gradient(from_0deg,transparent_0_340deg,#a4c875_360deg)] animate-[spin_3s_linear_infinite]" />
-                  <div className="absolute inset-[1px] z-10 bg-[#0a0a0a]" />
-                </div>
+            return (
+              <div
+                key={track.title}
+                className={`group relative flex flex-col overflow-hidden border-2 border-white/10 bg-black/60 backdrop-blur-sm p-8 sm:p-10 transition-all duration-300 hover:border-[#a4c875] hover:-translate-y-1 shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_30px_rgba(164,200,117,0.15)] ${isLastOdd ? 'md:col-span-2' : ''}`}
+              >
+                <div className="relative z-20 flex flex-col h-full justify-between">
+                  <div>
+                    <div className="mb-6 flex items-center justify-between border-b border-white/10 pb-5">
+                      <span className="bg-primary/10 px-3 py-1 font-mono text-[10px] sm:text-xs uppercase tracking-widest text-primary border border-primary/20 rounded-sm">
+                        [ SECTOR {String(i + 1).padStart(2, '0')} ]
+                      </span>
+                      <Icon className="size-8 sm:size-10 text-white/40 group-hover:text-primary transition-colors duration-300" strokeWidth={1.5} />
+                    </div>
 
-                <div className="relative z-20">
-                  <div className="mb-6 flex items-center justify-between border-b border-white/20 pb-4">
-                    <span className="bg-primary/10 px-2 py-1 font-mono text-[9px] uppercase tracking-widest text-primary border border-primary/20">
-                      [ SECTOR {String(i + 1).padStart(2, '0')} ]
-                    </span>
-                    <Icon className="size-5 text-white/50 group-hover:text-primary transition-colors" strokeWidth={1.5} />
+                    <h3 className="mb-4 font-heading text-2xl sm:text-3xl font-bold text-white uppercase tracking-wide group-hover:text-[#a4c875] transition-colors duration-300">
+                      {track.title}
+                    </h3>
+                    <p className="text-sm sm:text-base leading-relaxed text-[#B8B8B8]">
+                      {track.description}
+                    </p>
                   </div>
 
-                  <h3 className="mb-3 font-heading text-lg font-bold text-white uppercase tracking-wide">
-                    {track.title}
-                  </h3>
-                  <p className="text-sm leading-relaxed text-[#B8B8B8]">
-                    {track.description}
-                  </p>
+                  <div className="font-mono text-[10px] sm:text-xs text-primary/30 uppercase tracking-widest text-right mt-8">
+                    // {String(i + 1).padStart(2, '0')} / {String(tracks.length).padStart(2, '0')}
+                  </div>
                 </div>
               </div>
-            </motion.div>
-          )
-        })}
-      </motion.div>
+            )
+          })}
+        </div>
+      </div>
     </section>
   )
 }
+
+
 
 /* ─────────────────────────────────────────────────────────────────────────── */
 /*  TIMELINE SECTION — vertical pipeline with animated liquid fill            */
 /* ─────────────────────────────────────────────────────────────────────────── */
 function TimelineSection() {
-  const sectionRef  = useRef(null)
-  const [inView, setInView]       = useState(false)
-  const [fillPct, setFillPct]     = useState(0)
+  const sectionRef = useRef(null)
+  const [inView, setInView] = useState(false)
+  const [fillPct, setFillPct] = useState(0)
   const [progress] = useState(() => getTimelineProgress()) /* 0-1 actual calendar progress */
 
   /* Intersection observer — trigger animation when section enters viewport */
@@ -590,17 +641,17 @@ function TimelineSection() {
   const totalEvents = TIMELINE_EVENTS.length
 
   return (
-    <section id="timeline" ref={sectionRef} className="py-24 bg-[#111] border-y border-white/5 relative overflow-hidden">
+    <section id="timeline" ref={sectionRef} className="py-24 bg-transparent border-y border-white/5 relative overflow-hidden">
       {/* Subtle radial bg */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(164,200,117,0.03)_0%,transparent_70%)]" />
 
       <div className="max-w-3xl mx-auto px-5 sm:px-8 relative z-10">
-       {/* Header */}
+        {/* Header */}
         <div className="mb-16 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-[#a4c875] tracking-tight uppercase">Program Timeline</h2>
           <p className="mt-2 font-mono text-[10px] tracking-[0.35em] text-[#a4c875]/60 uppercase">Hackify 3.O</p>
           <p className="mt-3 text-[#B8B8B8] text-sm">MACE Kothamangalam · 36-Hour Offline Sprint · Oct 9–11, 2026</p>
-        </div> 
+        </div>
 
         {/* ── DESKTOP: vertical pipeline ─────────────────────────────────── */}
         <div className="hidden sm:block relative">
@@ -631,8 +682,8 @@ function TimelineSection() {
                   <div
                     className="w-[calc(50%-28px)] pr-6 text-right"
                     style={{
-                      opacity:    inView ? (isLeft ? 1 : 0.35) : 0,
-                      transform:  inView ? 'translateX(0)' : 'translateX(-16px)',
+                      opacity: inView ? (isLeft ? 1 : 0.35) : 0,
+                      transform: inView ? 'translateX(0)' : 'translateX(-16px)',
                       transition: `opacity 0.5s ease ${i * 100 + 200}ms, transform 0.5s ease ${i * 100 + 200}ms`,
                     }}
                   >
@@ -661,8 +712,8 @@ function TimelineSection() {
                   <div
                     className="w-[calc(50%-28px)] pl-6 text-left"
                     style={{
-                      opacity:    inView ? (!isLeft ? 1 : 0.35) : 0,
-                      transform:  inView ? 'translateX(0)' : 'translateX(16px)',
+                      opacity: inView ? (!isLeft ? 1 : 0.35) : 0,
+                      transform: inView ? 'translateX(0)' : 'translateX(16px)',
                       transition: `opacity 0.5s ease ${i * 100 + 200}ms, transform 0.5s ease ${i * 100 + 200}ms`,
                     }}
                   >
@@ -688,16 +739,16 @@ function TimelineSection() {
 
           <div className="space-y-10">
             {TIMELINE_EVENTS.map((event, i) => {
-              const nodePos    = i / (totalEvents - 1)
+              const nodePos = i / (totalEvents - 1)
               const nodeActive = fillPct >= nodePos - 0.01
-              const status     = getEventStatus(event)
+              const status = getEventStatus(event)
               return (
                 <div
                   key={event.id}
                   className="relative"
                   style={{
-                    opacity:    inView ? 1 : 0,
-                    transform:  inView ? 'translateX(0)' : 'translateX(-12px)',
+                    opacity: inView ? 1 : 0,
+                    transform: inView ? 'translateX(0)' : 'translateX(-12px)',
                     transition: `opacity 0.5s ease ${i * 100 + 200}ms, transform 0.5s ease ${i * 100 + 200}ms`,
                   }}
                 >
@@ -752,9 +803,9 @@ function NewsletterSection() {
   }
 
   return (
-    <section id="newsletter" className="relative overflow-hidden border-b border-white/5 bg-[#0d1009] py-24">
+    <section id="newsletter" className="relative overflow-hidden border-b border-white/5 bg-[#050505] py-24">
       <div className="relative z-10 mx-auto max-w-2xl px-5 text-center sm:px-8">
-        
+
         <div className="mb-8">
           <h2 className="text-2xl font-bold uppercase tracking-tight text-[#a4c875] sm:text-3xl">
             Intercept Updates
@@ -765,7 +816,7 @@ function NewsletterSection() {
         </div>
 
         <form onSubmit={handleSubmit} className="mx-auto mt-6 max-w-md">
-          <div 
+          <div
             className="flex flex-col gap-3 p-2 bg-black/40 border border-white/10 sm:flex-row sm:items-center"
             style={{ clipPath: 'polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px)' }}
           >
@@ -778,7 +829,7 @@ function NewsletterSection() {
               disabled={status === 'loading' || status === 'success'}
               className="w-full bg-transparent px-4 py-3 font-mono text-xs tracking-wider text-white placeholder-gray-600 focus:outline-none disabled:opacity-50"
             />
-            
+
             <button
               type="submit"
               disabled={status === 'loading' || status === 'success'}
@@ -809,52 +860,69 @@ function NewsletterSection() {
 /* ─────────────────────────────────────────────────────────────────────────── */
 function FAQSection() {
   const [openIndex, setOpenIndex] = useState(null)
+  const faqRef = useRef(null)
+  const isInView = useInView(faqRef, { once: true, amount: 0.1 })
+
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: -50, rotateX: 45 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      rotateX: 0,
+      transition: { duration: 0.5, type: 'spring', stiffness: 100 }
+    },
+  }
 
   return (
-    <section id="faq" className="relative overflow-hidden border-y border-[#a4c875]/10 bg-[#0b0d0b] py-24">
-      <div className="absolute inset-0">
-        <Image
-          src="/bgfaq.jpeg.png"
-          alt="FAQ background"
-          fill
-          priority={false}
-          className="object-cover brightness-110 opacity-95"
-        />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(164,200,117,0.16),transparent_35%),linear-gradient(120deg,rgba(5,8,5,0.84),rgba(10,12,10,0.72))]" />
-      </div>
+    <section id="faq" ref={faqRef} className="relative overflow-hidden border-y border-[#a4c875]/10 bg-transparent py-24 perspective-1000">
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-8">
-        <div className="grid gap-8 lg:grid-cols-[50%_minmax(0,1fr)] lg:items-start">
-          <div className="space-y-8 lg:max-w-[640px]">
-            <div className="mb-8">
-              <h2 className="font-heading text-3xl font-black uppercase tracking-[0.24em] text-[#a4c875] sm:text-4xl">
+      <div className="relative z-10 mx-auto w-full max-w-4xl px-5 sm:px-8">
+        <div className="w-full">
+          <div className="space-y-8 w-full">
+            <div className="mb-8 text-center">
+              <h2 className="font-heading text-3xl font-black uppercase tracking-[0.24em] text-[#a4c875] sm:text-4xl drop-shadow-[0_0_15px_rgba(164,200,117,0.3)]">
                 FAQs
               </h2>
-              <p className="mt-4 font-sans text-sm leading-6 text-white/75 sm:text-base">
+              <p className="mt-4 font-sans text-sm leading-6 text-white/75 sm:text-base max-w-2xl mx-auto">
                 Everything you need to know before the mission begins — from registration and team rules to venue logistics and event flow.
               </p>
             </div>
 
-            <div className="space-y-3">
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate={isInView ? 'visible' : 'hidden'}
+              className="space-y-3"
+            >
               {FAQ_ITEMS.map((item, index) => {
                 const isOpen = openIndex === index
 
                 return (
-                  <div
+                  <motion.div
+                    variants={itemVariants}
                     key={item.question}
-                    className="faq-card overflow-hidden rounded-[1rem] border border-[#a4c875]/25 bg-[#081009]/80 shadow-[0_0_20px_rgba(0,0,0,0.3)] transition-all duration-250 hover:border-[#a4c875]/40"
+                    className="faq-card overflow-hidden rounded-[1rem] border border-[#a4c875]/25 bg-[#081009]/80 shadow-[0_0_20px_rgba(0,0,0,0.3)] transition-all duration-250 hover:border-[#a4c875]/40 transform-gpu"
                   >
                     <button
                       type="button"
                       onClick={() => setOpenIndex(isOpen ? null : index)}
-                      className="group flex w-full items-center justify-between gap-3 px-3 py-2 text-left sm:gap-4 sm:px-4 sm:py-3"
+                      className="group flex w-full items-center justify-between gap-3 px-3 py-2 text-left sm:gap-4 sm:px-4 sm:py-3 cursor-pointer"
                       aria-expanded={isOpen}
                     >
                       <span className="min-w-0 flex-1 font-stencil-military text-[12px] font-semibold uppercase tracking-[0.16em] text-[#dfe5be] sm:text-sm">
                         {item.question}
                         <span className="faq-cursor text-[#a4c875]" />
                       </span>
-                      <span className={`flex h-9 w-9 items-center justify-center rounded-full border text-base font-bold transition-all duration-200 ${isOpen ? 'border-[#a4c875] bg-[#a4c875]/15 text-[#a4c875]' : 'border-[#a4c875]/30 bg-transparent text-[#a4c875]/85 group-hover:border-[#a4c875] group-hover:bg-[#a4c875]/10 group-hover:text-[#eaf0cc]'}`}>
+                      <span className={`flex h-9 w-9 items-center justify-center rounded-full border text-base font-bold transition-all duration-200 ${isOpen ? 'border-[#a4c875] bg-[#a4c875]/15 text-[#a4c875] rotate-45' : 'border-[#a4c875]/30 bg-transparent text-[#a4c875]/85 group-hover:border-[#a4c875] group-hover:bg-[#a4c875]/10 group-hover:text-[#eaf0cc]'}`}>
                         +
                       </span>
                     </button>
@@ -876,13 +944,12 @@ function FAQSection() {
                         </motion.div>
                       )}
                     </AnimatePresence>
-                  </div>
+                  </motion.div>
                 )
               })}
-            </div>
+            </motion.div>
           </div>
 
-          <div className="hidden lg:block" />
         </div>
       </div>
     </section>
@@ -935,21 +1002,19 @@ export default function LandingPage() {
         {!isLoaded && <Preloader onLoaded={() => setIsLoaded(true)} />}
       </AnimatePresence>
 
-      {/* Wrapping the site in overflow-hidden until it loads prevents weird jumping */}
-      <div className={`min-h-screen bg-[#0d1009] text-white font-command relative overflow-x-hidden ${!isLoaded ? 'h-screen overflow-hidden' : ''}`}>
+      <div className={`min-h-screen text-white font-command relative overflow-x-hidden ${!isLoaded ? 'h-screen overflow-hidden' : ''}`}>
         <div className="fixed inset-0 pointer-events-none z-0 opacity-15 bg-[radial-gradient(circle,rgba(216,255,122,0.08)_1px,transparent_1px)] bg-[length:32px_32px]" />
-        
+
         <HeroSection />
         <TracksSection />
         <TimelineSection />
-      <Gallery />
-     
-
+        <Gallery />
+        <BasicScrollTest />
         <FAQSection />
         <Newsletter />
         <SiteFooter />
         <ScrollToTop />
-        </div>
+      </div>
     </>
   )
 }

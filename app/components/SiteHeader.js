@@ -2,35 +2,58 @@
 
 import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
+import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
 
 const NAV_LINKS = [
+  { label: 'HOME',       href: '/' },
   { label: 'TRACKS',     href: '/#tracks' },
   { label: 'TIMELINE',   href: '/#timeline' },
-  { label: 'SPONSOR US', href: '/sponsors' },
   { label: 'GALLERY',    href: '/#gallery' },
-  { label: 'TEAM',       href: '/team' },
-  { label: 'NEWSLETTER', href: '/#newsletter' },
   { label: 'FAQ',        href: '/#faq' },
-  { label: 'CONTACT',    href: '#contact' },
+  { label: 'TEAM',       href: '/team' },
+  { label: 'SPONSORS',   href: '/sponsors' },
+  { label: 'CONTACT',    href: '/#contact' },
 ]
 
 export default function SiteHeader() {
   const [open, setOpen] = useState(false)
+  const [hidden, setHidden] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  const { scrollY } = useScroll()
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious()
+    // Hide header if scrolling down, show if scrolling up
+    if (latest > previous && latest > 150) {
+      setHidden(true)
+      setOpen(false) // Close menu when hiding header
+    } else {
+      setHidden(false)
+    }
+
+    // Add blur/background only after scrolling past top
+    if (latest > 50) {
+      setIsScrolled(true)
+    } else {
+      setIsScrolled(false)
+    }
+  })
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 bg-black/10 backdrop-blur-md border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)] transition-all">
+    <motion.header 
+      variants={{
+        visible: { y: 0 },
+        hidden: { y: "-100%" }
+      }}
+      animate={hidden ? "hidden" : "visible"}
+      transition={{ duration: 0.35, ease: "easeInOut" }}
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${isScrolled ? 'bg-[#0d140b]/80 backdrop-blur-xl border-b border-[#a4c875]/20 shadow-[0_4px_30px_rgba(164,200,117,0.1)]' : 'bg-transparent border-transparent'}`}
+    >
       <nav className="mx-auto flex max-w-[1500px] items-center justify-between px-4 py-4 sm:px-8 lg:px-12">
         
-        {/* LEFT: IEDC Logo + Hackify Title */}
+        {/* LEFT: Removed logos/text as requested. Keeping placeholder a tag to preserve layout structure. */}
         <a href="/" className="flex items-center gap-2 sm:gap-4 hover:opacity-80 transition-opacity">
-            <img 
-              src="/iedc-logo-transparent.png" 
-              alt="IEDC Logo" 
-              className="h-8 sm:h-10 w-auto object-contain" 
-            />
-            <span className="font-heading text-base sm:text-xl lg:text-2xl font-black tracking-tight text-[#a4c875] leading-none">
-            HACKIFY 3.O
-          </span>
         </a>
 
         {/* CENTER: Desktop Navigation Links */}
@@ -47,14 +70,8 @@ export default function SiteHeader() {
           ))}
         </ul>
 
-        {/* RIGHT: KSUM Logo + Mobile Menu Toggle */}
+        {/* RIGHT: Mobile Menu Toggle (Logo removed) */}
         <div className="flex items-center gap-3 sm:gap-5">
-          <img 
-            src="/ksum-logo-transparent.png" 
-            alt="KSUM Logo" 
-            className="h-8 sm:h-10 w-auto object-contain" 
-          />
-          
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
@@ -67,9 +84,9 @@ export default function SiteHeader() {
         </div>
       </nav>
 
-      {/* MOBILE MENU DROPDOWN */}
+      {/* MOBILE MENU DROPDOWN - Tactical glassmorphism style */}
       {open && (
-        <div className="mx-4 mb-2 rounded-xl border border-white/10 bg-[#0a0a0a]/95 p-4 backdrop-blur-xl lg:hidden">
+        <div className="mx-4 mb-2 rounded-xl border border-[#a4c875]/30 bg-[#0d140b]/90 p-4 backdrop-blur-xl lg:hidden shadow-[0_0_20px_rgba(164,200,117,0.1)]">
           <ul className="flex flex-col gap-1">
             {NAV_LINKS.map((link) => (
               <li key={link.label}>
@@ -85,6 +102,6 @@ export default function SiteHeader() {
           </ul>
         </div>
       )}
-    </header>
+    </motion.header>
   )
 }

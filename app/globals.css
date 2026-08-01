@@ -41,7 +41,7 @@
 .dark {
   color-scheme: dark;
 
-  --background:           oklch(0.16 0.018 120);
+  --background:           transparent;
   --foreground:           oklch(0.96 0.01  110);
 
   --card:                 oklch(0.2  0.02  120);
@@ -91,6 +91,11 @@
   }
   body {
     @apply bg-background text-foreground;
+    background-image: url('/landing.webp');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-color: #0a0a0a; /* Fallback */
     overflow-x: hidden;
   }
 
@@ -114,6 +119,13 @@
   @keyframes blink-caret {
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
+  }
+
+  /* Hide the Google ReCAPTCHA Badge injected by third-party widgets */
+  .grecaptcha-badge {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    display: none !important;
   }
 }
 

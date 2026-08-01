@@ -1,5 +1,6 @@
 import { Orbitron, Rajdhani } from 'next/font/google'
 import './globals.css'
+import SmoothScroller from './components/SmoothScroller'
 
 const orbitron = Orbitron({
   variable: '--font-orbitron',
@@ -38,11 +39,11 @@ export default function RootLayout({ children }) {
           rel="stylesheet" 
         />
         
-        {/* ADD THIS EXACT LINE TO THE HEAD */}
-        <script defer async src="https://apply.devfolio.co/v2/sdk.js"></script>
       </head>
       <body className="font-sans antialiased">
-        {children}
+        <SmoothScroller>
+          {children}
+        </SmoothScroller>
       </body>
     </html>
   )
