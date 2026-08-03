@@ -14,7 +14,6 @@ import SiteHeader from './components/SiteHeader'
 import Preloader from './components/Preloader'
 import Gallery from './components/gallery'
 import Newsletter from './components/Newsletter'
-import BasicScrollTest from './components/BasicScrollTest'
 /* ─────────────────────────────────────────────────────────────────────────── */
 /*  DATA                                                                       */
 /* ─────────────────────────────────────────────────────────────────────────── */
@@ -1009,7 +1008,6 @@ export default function LandingPage() {
         <TracksSection />
         <TimelineSection />
         <Gallery />
-        <BasicScrollTest />
         <FAQSection />
         <Newsletter />
         <SiteFooter />
