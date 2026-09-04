@@ -98,7 +98,10 @@ export default function TeamPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#13140a] text-white font-mono relative overflow-x-hidden">
+    <div className="relative min-h-screen overflow-x-hidden bg-[#13140a] font-mono text-white">
+      <div className="fixed inset-0 z-0 bg-cover bg-center bg-fixed opacity-35" style={{ backgroundImage: "url('/landing.jpeg')" }} aria-hidden="true" />
+      <div className="fixed inset-0 z-0 bg-[#070a05]/75" aria-hidden="true" />
+
       <div className="fixed inset-0 pointer-events-none z-0 opacity-15 bg-[radial-gradient(circle,rgba(216,255,122,0.08)_1px,transparent_1px)] bg-[length:32px_32px]" />
       <div className="fixed inset-0 pointer-events-none opacity-[0.03] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%] z-[100]" />
 

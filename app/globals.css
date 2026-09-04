@@ -91,7 +91,7 @@
   }
   body {
     @apply bg-background text-foreground;
-    background-image: url('/landing.webp');
+    background-image: url('/landing.jpeg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -149,3 +149,38 @@
 .font-command {
   font-family: var(--font-rajdhani), 'Space Grotesk', sans-serif;
 }
+
+/* ─── Strategic Sectors — cinematic sticky scroll ────────────────────────── */
+/*  Mobile / tablet: normal document flow, generous vertical rhythm           */
+.tracks-outer {
+  position: relative;
+}
+
+.tracks-sticky {
+  padding-top: 5rem;   /* pt-20 */
+  padding-bottom: 5rem;
+  position: relative;
+}
+
+@media (min-width: 640px) {
+  .tracks-sticky {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+}
+
+/*  Desktop (lg ≥ 1024px): section becomes 800 vh tall,                      */
+/*  inner panel sticks to viewport while scroll drives sector activation      */
+@media (min-width: 1024px) {
+  .tracks-outer {
+    height: 800vh;
+  }
+
+  .tracks-sticky {
+    position: sticky;
+    top: 0;
+    height: 100svh;     /* small-viewport-aware */
+    padding: 0;
+    overflow: hidden;
+  }
+}

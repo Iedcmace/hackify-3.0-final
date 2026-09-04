@@ -36,14 +36,6 @@ export default function Gallery() {
 
   const images = [...baseImages, ...baseImages, ...baseImages];
 
-  useEffect(() => {
-    if (isResetting.current) return;
-    const timer = setInterval(() => {
-      handleNext();
-    }, 4000);
-    return () => clearInterval(timer);
-  }, [activeIndex]);
-
   const handleNext = () => {
     if (isResetting.current) return;
     setIsTransitioning(true);
@@ -55,6 +47,14 @@ export default function Gallery() {
     setIsTransitioning(true);
     setActiveIndex((prev) => prev - 1);
   };
+
+  useEffect(() => {
+    if (isResetting.current) return;
+    const timer = setInterval(() => {
+      handleNext();
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [activeIndex]);
 
   const handleTransitionEnd = () => {
     if (activeIndex >= totalOriginalImages * 2) {

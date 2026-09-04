@@ -4,6 +4,11 @@ import SiteFooter from '../components/SiteFooter';
 import SiteHeader from '../components/SiteHeader';
 import { motion, useScroll, useVelocity, useSpring, useTransform, useAnimationFrame, useMotionValue } from 'framer-motion';
 
+function wrap(min, max, value) {
+  const rangeSize = max - min;
+  return ((((value - min) % rangeSize) + rangeSize) % rangeSize) + min;
+}
+
 function ParallaxMarquee({ children, baseVelocity = 100 }) {
   const baseX = useMotionValue(0)
   const { scrollY } = useScroll()
@@ -33,12 +38,6 @@ function ParallaxMarquee({ children, baseVelocity = 100 }) {
     
     baseX.set(baseX.get() + moveBy)
   })
-
-  // Wrap utility function
-  function wrap(min, max, v) {
-    const rangeSize = max - min;
-    return ((((v - min) % rangeSize) + rangeSize) % rangeSize) + min;
-  }
 
   return (
     <div className="overflow-hidden m-0 whitespace-nowrap flex flex-nowrap w-full">
@@ -122,7 +121,10 @@ export default function SponsorsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#13140a] text-white font-mono relative overflow-x-hidden">
+    <div className="relative min-h-screen overflow-x-hidden bg-[#13140a] font-mono text-white">
+
+      <div className="fixed inset-0 z-0 bg-cover bg-center bg-fixed opacity-35" style={{ backgroundImage: "url('/landing.jpeg')" }} aria-hidden="true" />
+      <div className="fixed inset-0 z-0 bg-[#070a05]/75" aria-hidden="true" />
 
       <div className="fixed inset-0 pointer-events-none z-0 opacity-15 bg-[radial-gradient(circle,rgba(216,255,122,0.08)_1px,transparent_1px)] bg-[length:32px_32px]" />
       <div className="fixed inset-0 pointer-events-none opacity-[0.03] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%] z-[100]" />
@@ -182,7 +184,7 @@ export default function SponsorsPage() {
                   </div>
                   <h2 className="text-2xl sm:text-3xl font-bold text-[#a4c875] tracking-tighter uppercase">Devfolio</h2>
                   <p className="text-xs sm:text-sm text-[#cec6b4] leading-relaxed sm:leading-6 max-w-xl">
-                    <strong>Official registration partner powering HACKIFY '26.</strong>
+                    <strong>Official registration partner powering HACKIFY &apos;26.</strong>
                   </p>
                   <div className="flex flex-wrap justify-center sm:justify-start gap-3 pt-2 text-[9px] sm:text-[10px] text-[#a4c875]/80 font-mono">
                     <span>✦ Team Registration</span>
