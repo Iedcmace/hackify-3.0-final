@@ -63,7 +63,7 @@ export default function SiteHeader() {
                       const Icon = link.icon
                       return (
                         <li key={link.label} className="group relative">
-                          <a
+                          <Link
                             href={link.href}
                             className="relative z-10 flex items-center gap-2 rounded-md px-2.5 py-1.5 font-sans text-[11px] font-semibold tracking-[0.10em] text-white/75 transition-colors hover:text-[#a4c875] xl:text-xs"
                           >
@@ -71,7 +71,7 @@ export default function SiteHeader() {
                             <span className="opacity-0 group-hover:opacity-100 transition-opacity text-[#a4c875]"><Icon className="size-4" /></span>
                             <span className="sr-only">{link.label} icon</span>
                             <span className="ml-0">{link.label}</span>
-                          </a>
+                          </Link>
 
                           {/* Hover rectangle outline — only visible on hover */}
                           <span className="pointer-events-none absolute inset-0 m-0 rounded-md border-2 border-transparent transition-all duration-200 group-hover:border-[#a4c875]"></span>
@@ -102,14 +102,14 @@ export default function SiteHeader() {
                           const Icon = link.icon
                           return (
                             <li key={link.label} className="flex">
-                              <a 
-                                href={link.href} 
+                              <Link
+                                href={link.href}
                                 onClick={() => setOpen(false)} 
                                 className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 font-sans text-sm font-bold tracking-[0.12em] text-white/65 transition-colors hover:bg-[#a4c875]/10 hover:text-[#a4c875]"
                               >
                                 <span className="text-[#a4c875]"><Icon className="size-4" /></span>
                                 <span>{link.label}</span>
-                              </a>
+                              </Link>
                             </li>
                           )
                         })}
