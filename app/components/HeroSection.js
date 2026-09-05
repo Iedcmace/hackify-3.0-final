@@ -255,7 +255,7 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
           rotateY: isInteractive ? cameraRotateY : 0,
           transformPerspective: 1200,
         }}
-        className="relative z-[4] flex min-h-screen w-full flex-col items-center justify-center text-center transform-gpu px-4 pb-16 pt-12 sm:px-10 sm:pb-24 sm:pt-20 sm:items-start sm:text-left lg:ml-auto lg:max-w-[55%] lg:pl-6 lg:pr-10 lg:pt-20 xl:max-w-[52%] xl:pr-14 2xl:max-w-[50%] 2xl:pr-20"
+        className="relative z-[4] flex min-h-screen w-full flex-col items-center justify-start text-center transform-gpu px-4 pb-16 pt-16 sm:items-start sm:justify-center sm:px-10 sm:pb-24 sm:pt-20 sm:text-left lg:ml-auto lg:max-w-[55%] lg:pl-6 lg:pr-10 lg:pt-20 xl:max-w-[52%] xl:pr-14 2xl:max-w-[50%] 2xl:pr-20"
       >
         {/* Partner marks above the Hackify identity */}
         <motion.div
