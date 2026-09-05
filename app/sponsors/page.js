@@ -3,7 +3,6 @@ import React, { useEffect, useRef } from 'react';
 import SiteFooter from '../components/SiteFooter';
 import SiteHeader from '../components/SiteHeader';
 import { motion, useScroll, useVelocity, useSpring, useTransform, useAnimationFrame, useMotionValue } from 'framer-motion';
-import { Award, Star, Medal } from 'lucide-react';
 
 function wrap(min, max, value) {
   const rangeSize = max - min;
@@ -84,7 +83,6 @@ export default function SponsorsPage() {
     {
       tier: '01',
       title: 'GOLD',
-      icon: Award,
       cost: '₹1,00,000',
       benefits: [
         'Partnership title and premium event branding',
@@ -99,7 +97,6 @@ export default function SponsorsPage() {
     {
       tier: '02',
       title: 'SILVER',
-      icon: Star,
       cost: '₹50,000',
       benefits: [
         'Logo visibility on posters, website, and virtual backgrounds',
@@ -113,7 +110,6 @@ export default function SponsorsPage() {
     {
       tier: '03',
       title: 'BRONZE',
-      icon: Medal,
       cost: '₹25,000',
       benefits: [
         'Logo presence on website, banners, and social media',
@@ -239,7 +235,7 @@ export default function SponsorsPage() {
                       <div className="text-[9px] sm:text-[10px] text-[#a4c875] border border-[#a4c875]/30 px-2 py-0.5 inline-block mb-2 font-mono">
                         TIER {tier.tier}
                       </div>
-                      <h3 className="text-3xl sm:text-4xl font-bold text-[#a4c875] tracking-tight"><span className="inline-block mr-3 text-[#a4c875]"><tier.icon className="size-7" /></span>{tier.title}</h3>
+                      <h3 className="text-3xl sm:text-4xl font-bold text-[#a4c875] tracking-tight">{tier.title}</h3>
                     </div>
                     <div className="text-left md:text-right">
                       <p className="text-[9px] sm:text-[10px] text-[#a4c875]/60 uppercase tracking-widest mb-1 font-mono">Requisition Cost</p>

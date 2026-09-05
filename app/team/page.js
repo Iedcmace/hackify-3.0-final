@@ -26,12 +26,21 @@ const MemberCard = ({ member, index }) => {
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
       transition={{ duration: 0.6, delay: (index % 3) * 0.15 }}
     >
-      <div className="relative w-full aspect-square overflow-hidden mb-4 sm:mb-5 rounded-md">
+      <div
+        className="relative w-full aspect-square overflow-hidden mb-4 sm:mb-5 rounded-md cursor-pointer"
+        onClick={handleClick}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter' || event.key === ' ') handleClick()
+        }}
+        aria-label={`Show ${member.name} in colour`}
+      >
         <div className="w-full h-full">
           <img
             src={member.image}
             alt={member.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out filter grayscale group-hover:grayscale-0"
+            className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out filter ${isClicked ? 'grayscale-0' : 'grayscale group-hover:grayscale-0'}`}
             onError={(e) => {
               e.target.src = 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=200';
               e.target.className = 'w-full h-full object-cover opacity-30';
@@ -47,7 +56,6 @@ const MemberCard = ({ member, index }) => {
             className="absolute bottom-3 left-3 z-20 flex items-center justify-center p-2.5 bg-black/70 backdrop-blur-md rounded-full cursor-pointer hover:bg-[#a4c875]/20 transition-all border border-white/10 hover:border-[#a4c875]/50 group/phone"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            onClick={handleClick}
           >
             <Phone className="w-4 h-4 text-white group-hover/phone:text-[#a4c875] transition-colors" />
           </div>

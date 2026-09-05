@@ -65,6 +65,16 @@ export default function SiteFooter() {
             <a href="tel:+917558821825" className="hover:text-[#a4c875] transition-colors">+91 7558821825</a>
           </div>
           <div className="flex flex-col items-center gap-2">
+            <span className="text-[10px] text-[#a4c875]/70 uppercase tracking-widest border-b border-[#a4c875]/20 pb-1 mb-1">Lead_03</span>
+            <span className="text-white">ANIRUDH</span>
+            <a href="tel:+917907283190" className="hover:text-[#a4c875] transition-colors">+91 7907283190</a>
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-[10px] text-[#a4c875]/70 uppercase tracking-widest border-b border-[#a4c875]/20 pb-1 mb-1">Lead_04</span>
+            <span className="text-white">SAMUEL M DILEEP</span>
+            <a href="tel:+918075258045" className="hover:text-[#a4c875] transition-colors">+91 8075258045</a>
+          </div>
+          <div className="flex flex-col items-center gap-2">
             <span className="text-[10px] text-[#a4c875]/70 uppercase tracking-widest border-b border-[#a4c875]/20 pb-1 mb-1">Comms_Net</span>
             <span className="text-white">Official Mail</span>
             <a href="mailto:iedcmaceofficial@gmail.com" className="hover:text-[#a4c875] transition-colors">iedcmaceofficial@gmail.com</a>
