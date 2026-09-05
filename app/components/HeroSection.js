@@ -20,11 +20,14 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
   const smoothY = useSpring(mouseY, springConfig)
 
   useEffect(() => {
-    // Check if mouse/hover is supported and reduced motion is NOT preferred
+    // Check if reduced motion is NOT preferred
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const hasHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches
 
-    if (hasHover && !prefersReducedMotion) {
+    if (prefersReducedMotion) return
+
+    // Make the scene interactive on hover-capable devices
+    if (hasHover) {
       const interactiveTimeoutId = setTimeout(() => setIsInteractive(true), 0)
 
       const handleMouseMove = (e) => {
@@ -48,6 +51,33 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
         window.removeEventListener('mousemove', handleMouseMove)
         document.removeEventListener('mouseleave', handleMouseLeave)
       }
+    }
+
+    // Touch fallback: enable parallax by tracking first touch point
+    const touchInteractiveTimeout = setTimeout(() => setIsInteractive(true), 0)
+    const handleTouchMove = (e) => {
+      if (!e.touches || e.touches.length === 0) return
+      const t = e.touches[0]
+      const { innerWidth, innerHeight } = window
+      const normX = ((t.clientX / innerWidth) - 0.5) * 2
+      const normY = ((t.clientY / innerHeight) - 0.5) * 2
+      mouseX.set(normX)
+      mouseY.set(normY)
+    }
+
+    const handleTouchEnd = () => {
+      // gently return to center
+      mouseX.set(0)
+      mouseY.set(0)
+    }
+
+    window.addEventListener('touchmove', handleTouchMove, { passive: true })
+    window.addEventListener('touchend', handleTouchEnd)
+
+    return () => {
+      clearTimeout(touchInteractiveTimeout)
+      window.removeEventListener('touchmove', handleTouchMove)
+      window.removeEventListener('touchend', handleTouchEnd)
     }
   }, [mouseX, mouseY])
 
@@ -180,7 +210,7 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
       {/* Desktop: occupies the left ~45% of viewport                       */}
       {/* Mobile: translucent backdrop, sits behind content                 */}
       <motion.div
-        className="pointer-events-none absolute bottom-0 left-[-10%] sm:left-[-5%] md:left-[-3%] lg:left-[-1%] xl:left-[0%] 2xl:left-[1%] z-[3] flex items-end justify-start select-none overflow-visible"
+        className="pointer-events-none absolute bottom-0 left-[-4%] sm:left-[-5%] md:left-[-3%] lg:left-[-1%] xl:left-[0%] 2xl:left-[1%] z-[3] flex items-end justify-start select-none overflow-visible"
         style={{
           x: isInteractive ? soldierTranslateX : 0,
           y: isInteractive ? soldierTranslateY : 0,
@@ -225,7 +255,7 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
           rotateY: isInteractive ? cameraRotateY : 0,
           transformPerspective: 1200,
         }}
-        className="relative z-[4] flex min-h-screen w-full flex-col items-start justify-center text-left transform-gpu px-6 pb-20 pt-28 sm:px-10 sm:pb-24 sm:pt-32 lg:ml-auto lg:max-w-[55%] lg:pl-6 lg:pr-10 lg:pt-20 xl:max-w-[52%] xl:pr-14 2xl:max-w-[50%] 2xl:pr-20"
+        className="relative z-[4] flex min-h-screen w-full flex-col items-center justify-center text-center transform-gpu px-4 pb-16 pt-12 sm:px-10 sm:pb-24 sm:pt-20 sm:items-start sm:text-left lg:ml-auto lg:max-w-[55%] lg:pl-6 lg:pr-10 lg:pt-20 xl:max-w-[52%] xl:pr-14 2xl:max-w-[50%] 2xl:pr-20"
       >
         {/* Partner marks above the Hackify identity */}
         <motion.div
@@ -268,7 +298,7 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 1.25, ease: 'easeOut' }}
-          className="mt-7 sm:mt-9 flex w-full max-w-lg flex-col items-start gap-3 sm:gap-4 sm:flex-row relative z-20"
+          className="mt-7 sm:mt-9 flex w-full max-w-lg flex-col items-center gap-3 sm:gap-4 sm:flex-row sm:items-start relative z-20"
         >
           {DevfolioButton && <DevfolioButton />}
 
@@ -287,7 +317,7 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 1.45, ease: 'easeOut' }}
-          className="mt-8 sm:mt-10 flex w-full justify-start relative z-20 overflow-hidden"
+          className="mt-8 sm:mt-10 flex w-full justify-center sm:justify-start relative z-20 overflow-hidden"
         >
           {CountdownInline && <CountdownInline targetDate={launchDate} />}
         </motion.div>

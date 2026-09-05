@@ -1,19 +1,20 @@
 'use client'
 
 import { useState } from 'react'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, Home, Cpu, Clock, Image, HelpCircle, Users, Building2, Mail, FileText } from 'lucide-react'
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
 import Link from 'next/link'
 
 const NAV_LINKS = [
-  { label: 'HOME',       href: '/' },
-  { label: 'TRACKS',     href: '/#tracks' },
-  { label: 'TIMELINE',   href: '/#timeline' },
-  { label: 'GALLERY',    href: '/#gallery' },
-  { label: 'FAQ',        href: '/#faq' },
-  { label: 'TEAM',       href: '/team' },
-  { label: 'SPONSORS',   href: '/sponsors' },
-  { label: 'CONTACT',    href: '/#contact' },
+  { label: 'HOME',       href: '/', icon: Home },
+  { label: 'TRACKS',     href: '/#tracks', icon: Cpu },
+  { label: 'TIMELINE',   href: '/#timeline', icon: Clock },
+  { label: 'GALLERY',    href: '/#gallery', icon: Image },
+  { label: 'FAQ',        href: '/#faq', icon: HelpCircle },
+  { label: 'TEAM',       href: '/team', icon: Users },
+  { label: 'SPONSORS',   href: '/sponsors', icon: Building2 },
+  { label: 'NEWSLETTER', href: '/#newsletter', icon: FileText },
+  { label: 'CONTACT',    href: '/#contact', icon: Mail },
 ]
 
 export default function SiteHeader() {
@@ -51,23 +52,32 @@ export default function SiteHeader() {
       transition={{ duration: 0.35, ease: "easeInOut" }}
       className="fixed inset-x-0 top-0 z-50 bg-transparent transition-colors duration-300"
     >
-      <nav className="mx-auto flex max-w-fit items-center justify-center px-3 py-3 sm:px-5 sm:py-4">
+      <nav className="mx-auto flex max-w-[820px] w-full items-center justify-center px-2 py-3 sm:px-4 sm:py-4">
         
         {/* LEFT: Removed logos/text as requested. Keeping placeholder a tag to preserve layout structure. */}
         <Link href="/" className="sr-only" aria-label="Hackify home">Hackify home</Link>
 
         {/* CENTER: Desktop Navigation Links */}
-        <ul className={`hidden items-center gap-6 rounded-full border px-6 py-3 shadow-[0_10px_35px_rgba(0,0,0,0.45)] backdrop-blur-md transition-colors duration-300 lg:flex xl:gap-8 ${isScrolled ? 'border-[#a4c875]/45 bg-[#050805]/85' : 'border-white/25 bg-black/50'}`}>
-          {NAV_LINKS.map((link) => (
-            <li key={link.label}>
-              <a 
-                href={link.href} 
-                className="font-sans text-xs font-semibold tracking-[0.16em] text-white/60 transition-colors hover:text-[#d8ff7a] xl:text-sm"
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
+        <ul className={`hidden items-center gap-3 rounded-full border px-3 py-2 shadow-[0_10px_35px_rgba(0,0,0,0.45)] backdrop-blur-md transition-colors duration-300 lg:flex xl:gap-5 ${isScrolled ? 'border-[#a4c875]/45 bg-[#050805]/85' : 'border-white/25 bg-black/50'}`}>
+          {NAV_LINKS.map((link) => {
+                      const Icon = link.icon
+                      return (
+                        <li key={link.label} className="group relative">
+                          <a
+                            href={link.href}
+                            className="relative z-10 flex items-center gap-2 rounded-md px-2.5 py-1.5 font-sans text-[11px] font-semibold tracking-[0.10em] text-white/75 transition-colors hover:text-[#a4c875] xl:text-xs"
+                          >
+                            {/* Icon appears on hover — kept in DOM for layout but hidden until hover */}
+                            <span className="opacity-0 group-hover:opacity-100 transition-opacity text-[#a4c875]"><Icon className="size-4" /></span>
+                            <span className="sr-only">{link.label} icon</span>
+                            <span className="ml-0">{link.label}</span>
+                          </a>
+
+                          {/* Hover rectangle outline — only visible on hover */}
+                          <span className="pointer-events-none absolute inset-0 m-0 rounded-md border-2 border-transparent transition-all duration-200 group-hover:border-[#a4c875]"></span>
+                        </li>
+                      )
+                    })}
         </ul>
 
         {/* RIGHT: Mobile Menu Toggle (Logo removed) */}
@@ -88,17 +98,21 @@ export default function SiteHeader() {
       {open && (
         <div className="mx-4 mb-2 rounded-3xl border border-[#a4c875]/30 bg-[#0d140b]/95 p-3 shadow-[0_0_20px_rgba(164,200,117,0.1)] backdrop-blur-xl lg:hidden">
           <ul className="flex flex-col gap-1">
-            {NAV_LINKS.map((link) => (
-              <li key={link.label}>
-                <a 
-                  href={link.href} 
-                  onClick={() => setOpen(false)} 
-                  className="block rounded-md px-3 py-2.5 font-sans text-sm font-semibold tracking-[0.15em] text-white/55 transition-colors hover:bg-[#a4c875]/10 hover:text-[#a4c875]"
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
+            {NAV_LINKS.map((link) => {
+                          const Icon = link.icon
+                          return (
+                            <li key={link.label} className="flex">
+                              <a 
+                                href={link.href} 
+                                onClick={() => setOpen(false)} 
+                                className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 font-sans text-sm font-bold tracking-[0.12em] text-white/65 transition-colors hover:bg-[#a4c875]/10 hover:text-[#a4c875]"
+                              >
+                                <span className="text-[#a4c875]"><Icon className="size-4" /></span>
+                                <span>{link.label}</span>
+                              </a>
+                            </li>
+                          )
+                        })}
           </ul>
         </div>
       )}

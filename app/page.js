@@ -90,22 +90,22 @@ const TIMELINE_EVENTS = [
     id: 'registration',
     label: 'Registration Opens',
     detail: 'Applications open on Devfolio',
-    date: new Date('2026-08-17'), /* Aug 3rd week */
-    isoStr: 'Aug 2026 — 3rd week',
+    date: new Date('2026-09-10'), /* Sep 10 */
+    isoStr: 'Sept 10, 2026',
   },
   {
     id: 'deadline',
     label: 'Registration Deadline',
     detail: 'Last date to submit your application',
-    date: new Date('2026-09-08'), /* Sep 2nd week */
-    isoStr: 'Sep 2026 — 2nd week',
+    date: new Date('2026-09-20'), /* Sep 20 */
+    isoStr: 'Sept 20, 2026',
   },
   {
     id: 'shortlist',
     label: 'Shortlisted Teams',
     detail: 'Selected teams notified',
-    date: new Date('2026-09-22'), /* Sep 3rd week */
-    isoStr: 'Sep 2026 — 3rd week',
+    date: new Date('2026-09-27'), /* Sep 27 */
+    isoStr: 'Sept 27, 2026',
   },
   {
     id: 'hackathon',

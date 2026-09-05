@@ -94,7 +94,7 @@ export default function Gallery() {
           </div>
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 pt-4">
             <div className="px-3 py-1 bg-[#141a0e] border border-[#a4c875]/30 font-mono-tech text-[9px] sm:text-[10px] text-[#a4c875] uppercase tracking-widest inline-block text-center sm:text-left">
-              STREAM STATUS: LOOP_ACTIVE ({currentDisplayIndex}/{totalOriginalImages})
+              LIVE FEED: ({currentDisplayIndex}/{totalOriginalImages})
             </div>
             <div className="px-3 py-1 bg-[#141a0e] border border-[#a4c875]/30 font-mono-tech text-[9px] sm:text-[10px] text-[#a4c875] uppercase tracking-widest inline-block text-center sm:text-left">
               ARCHIVE: SECURE
@@ -194,11 +194,11 @@ export default function Gallery() {
         </div>
 
         <div className="pt-8 sm:pt-12 flex flex-col sm:flex-row justify-between items-center gap-4 border-t border-[#a4c875]/10 text-center sm:text-left">
-          <div className="font-mono-tech text-[8px] sm:text-[10px] text-[#c2ccb9]/30 uppercase tracking-[0.3em]">
-            System Status: Nominal // Fluid Full-Color Loop Stable
+        <div className="font-mono-tech text-[8px] sm:text-[10px] text-[#c2ccb9]/30 uppercase tracking-[0.3em] font-bold">
+          ALL SYSTEMS ONLINE
           </div>
-          <div className="font-mono-tech text-[8px] sm:text-[10px] text-[#c2ccb9]/30 uppercase tracking-[0.3em]">
-            Encrypted Tunnel: 09-AF-2026
+        <div className="font-mono-tech text-[8px] sm:text-[10px] text-[#c2ccb9]/30 uppercase tracking-[0.3em] font-bold">
+          LOOP: HACKIFY 2026
           </div>
         </div>
       </div>
