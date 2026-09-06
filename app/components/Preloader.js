@@ -77,17 +77,10 @@ export default function Preloader({ onLoaded }) {
         initial={{ opacity: 0, y: 10 }} 
         animate={{ opacity: 1, y: 0 }} 
         transition={{ delay: 1.2 }}
-        className="mt-8 flex w-full max-w-[520px] flex-col items-start gap-1.5 px-4 text-left z-10"
+        className="mt-8 flex w-full max-w-[520px] flex-col items-center gap-1.5 px-4 text-center z-10"
       >
-        {/* Keep the cyber blip for style, then display the requested lines */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          <span className="size-1.5 sm:size-2 bg-[#FF8C00] animate-pulse shadow-[0_0_8px_#FF8C00]" />
-        </div>
-
-        <span className="font-heading text-[10px] sm:text-xs font-bold tracking-[0.16em] sm:tracking-[0.22em] text-[#a4c875] uppercase">IEDC MACE — ONLINE</span>
-        <span className="font-heading text-[10px] sm:text-xs font-bold tracking-[0.16em] sm:tracking-[0.22em] text-[#a4c875] uppercase">OBJECTIVE: 36HR TAKEOVER</span>
-        <span className="font-heading text-[10px] sm:text-xs font-bold tracking-[0.16em] sm:tracking-[0.22em] text-[#a4c875] uppercase">TARGET: INNOVATION</span>
-        <span className="font-heading text-[10px] sm:text-xs font-bold tracking-[0.16em] sm:tracking-[0.22em] text-[#a4c875] uppercase">CLEARED FOR TAKEOFF — GOOD LUCK</span>
+        <span className="font-heading text-[13px] font-bold tracking-[0.12em] text-[#a4c875] uppercase sm:text-sm">INITIALISING WARTECH SYSTEMS...</span>
+        <span className="font-heading text-[8px] tracking-[0.14em] text-gray-400 uppercase sm:text-[9px]">LOADING ASSETS//SECURING CONNECTION</span>
       </motion.div>
     </motion.div>
   )

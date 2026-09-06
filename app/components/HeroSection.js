@@ -317,7 +317,7 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 1.45, ease: 'easeOut' }}
-          className="mt-8 sm:mt-10 flex w-full justify-center sm:justify-start relative z-20 overflow-hidden"
+          className="relative z-20 mt-8 flex w-full justify-center overflow-hidden sm:mt-10"
         >
           {CountdownInline && <CountdownInline targetDate={launchDate} />}
         </motion.div>

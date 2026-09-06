@@ -329,8 +329,8 @@ function CountdownInline({ targetDate }) {
   ]
 
   return (
-    <div className="flex flex-col items-start gap-2">
-      <div className="flex items-center gap-1.5">
+    <div className="flex flex-col items-center gap-2">
+      <div className="flex items-center justify-center gap-1.5 text-center">
         <span className="size-1.5 animate-pulse rounded-full bg-[#FF8C00]" />
         <span className="font-mono text-[8px] sm:text-[9px] tracking-[0.16em] sm:tracking-[0.28em] text-gray-400 uppercase">[ TGT DEPLOYMENT: OCT 09, 2026 // 0900 HRS ]</span>
       </div>
@@ -338,7 +338,7 @@ function CountdownInline({ targetDate }) {
       <div className="flex items-end gap-2 sm:gap-6">
         {units.map((unit, i) => (
           <div key={unit.label} className="flex items-end gap-2 sm:gap-6">
-            <div className="flex flex-col items-start">
+            <div className="flex flex-col items-center">
               <div className="relative overflow-hidden h-[36px] sm:h-[48px] flex items-center justify-center">
                 <AnimatePresence mode="popLayout">
                   <motion.span
@@ -770,28 +770,8 @@ function NewsletterSection() {
 function FAQSection() {
   const [activeIndex, setActiveIndex] = useState(0)
   const faqRef = useRef(null)
-  const questionRefs = useRef([])
   const isInView = useInView(faqRef, { once: true, amount: 0.1 })
   const reduceMotion = useReducedMotion()
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visibleQuestion = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((first, second) => second.intersectionRatio - first.intersectionRatio)[0]
-
-        if (visibleQuestion) {
-          const nextIndex = Number(visibleQuestion.target.dataset.index)
-          setActiveIndex(nextIndex)
-        }
-      },
-      { rootMargin: '-35% 0px -45% 0px', threshold: [0.2, 0.6, 1] }
-    )
-
-    questionRefs.current.forEach((question) => question && observer.observe(question))
-    return () => observer.disconnect()
-  }, [])
 
   const revealVariants = {
     hidden: { opacity: 0, y: reduceMotion ? 0 : 18 },
@@ -832,8 +812,6 @@ function FAQSection() {
               return (
                 <motion.button
                   key={item.question}
-                  ref={(element) => { questionRefs.current[index] = element }}
-                  data-index={index}
                   type="button"
                   variants={revealVariants}
                   custom={index + 1}
@@ -930,6 +908,20 @@ function ScrollToTop() {
 /* ─────────────────────────────────────────────────────────────────────────── */
 export default function LandingPage() {
   const [isLoaded, setIsLoaded] = useState(false)
+
+  useEffect(() => {
+    if (!isLoaded || !window.location.hash) return
+
+    const scrollToHash = () => {
+      document.getElementById(window.location.hash.slice(1))?.scrollIntoView({ block: 'start' })
+    }
+
+    const frameId = window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(scrollToHash)
+    })
+
+    return () => window.cancelAnimationFrame(frameId)
+  }, [isLoaded])
 
   // ... your existing audio hover effect useEffect goes here ...
 

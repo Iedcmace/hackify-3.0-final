@@ -56,12 +56,12 @@ export default function SiteFooter() {
         <div className="mb-10 flex flex-col sm:flex-row gap-8 sm:gap-16 font-mono text-xs text-[#B8B8B8]">
           <div className="flex flex-col items-center gap-2">
             <span className="text-[10px] text-[#a4c875]/70 uppercase tracking-widest border-b border-[#a4c875]/20 pb-1 mb-1">Lead_01</span>
-            <span className="text-white">Amal Narayan</span>
+            <span className="text-white">AMAL NARAYAN</span>
             <a href="tel:+919048372356" className="hover:text-[#a4c875] transition-colors">+91 9048372356</a>
           </div>
           <div className="flex flex-col items-center gap-2">
             <span className="text-[10px] text-[#a4c875]/70 uppercase tracking-widest border-b border-[#a4c875]/20 pb-1 mb-1">Lead_02</span>
-            <span className="text-white">Gopika</span>
+            <span className="text-white">GOPIKA</span>
             <a href="tel:+917558821825" className="hover:text-[#a4c875] transition-colors">+91 7558821825</a>
           </div>
           <div className="flex flex-col items-center gap-2">
