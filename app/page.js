@@ -15,6 +15,7 @@ import Preloader from './components/Preloader'
 import Gallery from './components/gallery'
 import Newsletter from './components/Newsletter'
 import HeroSection from './components/HeroSection'
+import VenueSection from './components/VenueSection'
 /* ─────────────────────────────────────────────────────────────────────────── */
 /*  DATA                                                                       */
 /* ─────────────────────────────────────────────────────────────────────────── */
@@ -22,6 +23,7 @@ import HeroSection from './components/HeroSection'
 const NAV_LINKS = [
   { label: 'TRACKS', href: '#tracks' },
   { label: 'TIMELINE', href: '#timeline' },
+  { label: 'REACH US', href: '#venue' },
   { label: 'GALLERY', href: '/gallery' },
   { label: 'FAQ', href: '#faq' },
   { label: 'SPONSORS', href: '#sponsors' },
@@ -35,7 +37,7 @@ const STATS = [
   { icon: Crosshair, title: 'WAR-TECH', subtitle: 'PREDICT. PROTECT. REBUILD.' },
 ]
 
-const LAUNCH_DATE = '2026-10-03T09:00:00.000Z'
+const LAUNCH_DATE = '2026-10-09T09:00:00.000+05:30'
 
 /* New tracks — 7 sectors */
 const tracks = [
@@ -174,6 +176,9 @@ const FAQ_ITEMS = [
 /* ─────────────────────────────────────────────────────────────────────────── */
 
 function getTimeLeft(target) {
+  if (!target || isNaN(target)) {
+    return { days: 0, hours: 0, minutes: 0, seconds: 0 }
+  }
   const diff = Math.max(0, target - Date.now())
   const seconds = Math.floor(diff / 1000)
   return {
@@ -184,7 +189,7 @@ function getTimeLeft(target) {
   }
 }
 
-const pad = (n) => n.toString().padStart(2, '0')
+const pad = (n) => (typeof n === 'number' && !isNaN(n) ? n.toString().padStart(2, '0') : '00')
 
 /* Given the sorted event dates, return a 0-1 fill fraction
    representing how far through the overall timeline we are today */
@@ -303,29 +308,26 @@ function DevfolioButton() {
 /* COUNTDOWN                                                                 */
 /* ─────────────────────────────────────────────────────────────────────────── */
 function CountdownInline({ targetDate }) {
-  const target = new Date(targetDate).getTime()
+  const target = targetDate ? new Date(targetDate).getTime() : 0
   const [time, setTime] = useState(null)
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    const mountedTimeoutId = setTimeout(() => setMounted(true), 0)
-    const updateCountdown = () => setTime(getTimeLeft(target))
-    const timeoutId = setTimeout(updateCountdown, 0)
-    const intervalId = setInterval(updateCountdown, 1000)
-    return () => {
-      clearTimeout(mountedTimeoutId)
-      clearTimeout(timeoutId)
-      clearInterval(intervalId)
-    }
+    setTime(getTimeLeft(target))
+    setMounted(true)
+    const intervalId = setInterval(() => {
+      setTime(getTimeLeft(target))
+    }, 1000)
+    return () => clearInterval(intervalId)
   }, [target])
 
-  if (!mounted) return null
+  if (!mounted || !time) return null
 
   const units = [
-    { label: 'DAYS', value: time?.days },
-    { label: 'HOURS', value: time?.hours },
-    { label: 'MINUTES', value: time?.minutes },
-    { label: 'SECONDS', value: time?.seconds },
+    { label: 'DAYS', value: time.days },
+    { label: 'HOURS', value: time.hours },
+    { label: 'MINUTES', value: time.minutes },
+    { label: 'SECONDS', value: time.seconds },
   ]
 
   return (
@@ -339,10 +341,10 @@ function CountdownInline({ targetDate }) {
         {units.map((unit, i) => (
           <div key={unit.label} className="flex items-end gap-2 sm:gap-6">
             <div className="flex flex-col items-center">
-              <div className="relative overflow-hidden h-[36px] sm:h-[48px] flex items-center justify-center">
+              <div className="relative overflow-hidden h-[36px] sm:h-[48px] min-w-[44px] sm:min-w-[64px] flex items-center justify-center">
                 <AnimatePresence mode="popLayout">
                   <motion.span
-                    key={unit.value}
+                    key={`${unit.label}-${unit.value}`}
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     exit={{ y: -20, opacity: 0 }}
@@ -350,7 +352,7 @@ function CountdownInline({ targetDate }) {
                     className="font-heading text-3xl font-black tabular-nums text-[#E4E3D1] sm:text-5xl block"
                     style={{ textShadow: '0 0 20px rgba(164,200,117,0.4)', lineHeight: 1 }}
                   >
-                    {unit.value == null ? '--' : pad(unit.value)}
+                    {pad(unit.value)}
                   </motion.span>
                 </AnimatePresence>
               </div>
@@ -942,6 +944,7 @@ export default function LandingPage() {
         />
         <TracksSection />
         <TimelineSection />
+        <VenueSection />
         <Gallery />
         <FAQSection />
         <Newsletter />

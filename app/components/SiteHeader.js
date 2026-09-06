@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Menu, X, Home, Cpu, Clock, Image, HelpCircle, Users, Building2, Mail, FileText } from 'lucide-react'
+import { Menu, X, Home, Cpu, Clock, Image, HelpCircle, Users, Building2, Mail, FileText, MapPin } from 'lucide-react'
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
 import Link from 'next/link'
 
@@ -9,6 +9,7 @@ const NAV_LINKS = [
   { label: 'HOME',       href: '/', icon: Home },
   { label: 'TRACKS',     href: '/#tracks', icon: Cpu },
   { label: 'TIMELINE',   href: '/#timeline', icon: Clock },
+  { label: 'REACH US',   href: '/#venue', icon: MapPin },
   { label: 'GALLERY',    href: '/#gallery', icon: Image },
   { label: 'FAQ',        href: '/#faq', icon: HelpCircle },
   { label: 'TEAM',       href: '/team', icon: Users },

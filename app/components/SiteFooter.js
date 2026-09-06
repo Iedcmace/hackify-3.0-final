@@ -53,7 +53,7 @@ export default function SiteFooter() {
         </div>
 
         {/* Comms Grid (Leads & Mail) */}
-        <div className="mb-10 flex flex-col sm:flex-row gap-8 sm:gap-16 font-mono text-xs text-[#B8B8B8]">
+        <div className="mb-10 flex flex-wrap justify-center gap-8 sm:gap-12 md:gap-14 font-mono text-xs text-[#B8B8B8] max-w-5xl">
           <div className="flex flex-col items-center gap-2">
             <span className="text-[10px] text-[#a4c875]/70 uppercase tracking-widest border-b border-[#a4c875]/20 pb-1 mb-1">Lead_01</span>
             <span className="text-white">AMAL NARAYAN</span>
@@ -73,6 +73,11 @@ export default function SiteFooter() {
             <span className="text-[10px] text-[#a4c875]/70 uppercase tracking-widest border-b border-[#a4c875]/20 pb-1 mb-1">Lead_04</span>
             <span className="text-white">SAMUEL M DILEEP</span>
             <a href="tel:+918075258045" className="hover:text-[#a4c875] transition-colors">+91 8075258045</a>
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-[10px] text-[#a4c875]/70 uppercase tracking-widest border-b border-[#a4c875]/20 pb-1 mb-1">Lead_05</span>
+            <span className="text-white">CHRISTY CHRISTOPHER</span>
+            <a href="tel:+917994376774" className="hover:text-[#a4c875] transition-colors">+91 79943 76774</a>
           </div>
           <div className="flex flex-col items-center gap-2">
             <span className="text-[10px] text-[#a4c875]/70 uppercase tracking-widest border-b border-[#a4c875]/20 pb-1 mb-1">Comms_Net</span>
@@ -102,11 +107,8 @@ export default function SiteFooter() {
 
         {/* System Status Footnote */}
         <div className="flex flex-col items-center gap-2">
-          <p className="font-mono text-[9px] text-white/30 tracking-widest uppercase">
-            Operated by IEDC MACE & KSUM
-          </p>
-          <p className="font-mono text-[8px] text-[#a4c875]/20 tracking-widest uppercase">
-            SYS.STATUS: NOMINAL // RESEARCH MODE: ACTIVE
+          <p className="font-mono text-[10px] text-white/40 tracking-widest uppercase">
+            Organized by IEDC MACE
           </p>
         </div>
       </motion.div>

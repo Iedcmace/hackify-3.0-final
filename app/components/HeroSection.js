@@ -5,6 +5,12 @@ import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'fram
 import { FileText, X, Crosshair } from 'lucide-react'
 import SiteHeader from './SiteHeader'
 
+const WhatsAppIcon = ({ className = 'size-4' }) => (
+  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+)
+
 export default function HeroSection({ DevfolioButton, CountdownInline, launchDate }) {
   const [showBrief, setShowBrief] = useState(false)
   const heroRef = useRef(null)
@@ -187,15 +193,7 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
         animate={{ opacity: 1 }}
         transition={{ duration: 1.2, delay: 0.35 }}
       >
-        {/* Left-side military coordinate HUD watermark (near soldier) */}
-        <div className="absolute left-8 top-32 hidden flex-col items-start gap-1 font-mono text-[9px] tracking-[0.25em] text-[#a4c875]/40 xl:flex">
-          <div className="flex items-center gap-2">
-            <span className="size-1.5 rounded-full bg-[#a4c875]/70 animate-pulse" />
-            <span>OPERATIONAL // GRID 36-H</span>
-          </div>
-          <span className="text-white/25">LAT 10.054° N // LNG 76.620° E</span>
-          <div className="mt-1 h-px w-24 bg-gradient-to-r from-[#a4c875]/40 to-transparent" />
-        </div>
+
 
         {/* Diagonal signal slash lines — left side now */}
         <div className="absolute left-[36%] top-20 hidden h-64 w-px -rotate-45 bg-gradient-to-b from-transparent via-[#a4c875]/18 to-transparent lg:block" />
@@ -293,23 +291,39 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
           <span className="text-[#ef4444]">Rebuild</span>
         </motion.div>
 
-        {/* CTA Buttons (Devfolio + Mission Brief) */}
+        {/* CTA Buttons (Devfolio + Mission Brief, with Join Community centered beneath both) */}
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 1.25, ease: 'easeOut' }}
-          className="mt-7 sm:mt-9 flex w-full max-w-lg flex-col items-center gap-3 sm:gap-4 sm:flex-row sm:items-start relative z-20"
+          className="mt-7 sm:mt-9 flex w-full max-w-[530px] flex-col items-center gap-3 sm:gap-3.5 relative z-20"
         >
-          {DevfolioButton && <DevfolioButton />}
+          {/* Top Row: Devfolio & Mission Brief */}
+          <div className="flex w-full flex-col sm:flex-row items-center justify-center gap-3 sm:gap-3.5">
+            {DevfolioButton && <DevfolioButton />}
 
-          <button
-            type="button"
-            onClick={() => setShowBrief(true)}
-            className="inline-flex h-[44px] w-full max-w-[312px] sm:w-[200px] cursor-pointer items-center justify-center gap-2 bg-black/60 border border-[#a4c875] font-sans text-xs sm:text-sm font-bold tracking-[0.22em] text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_24px_rgba(164,200,117,0.6)] hover:bg-[#a4c875]/15 rounded-sm backdrop-blur-sm"
-          >
-            <FileText className="size-4 shrink-0 text-[#a4c875]" strokeWidth={1.8} />
-            MISSION BRIEF
-          </button>
+            <button
+              type="button"
+              onClick={() => setShowBrief(true)}
+              className="inline-flex h-[44px] w-full max-w-[312px] sm:w-[200px] cursor-pointer items-center justify-center gap-2 bg-black/60 border border-[#a4c875] font-sans text-xs sm:text-sm font-bold tracking-[0.22em] text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_24px_rgba(164,200,117,0.6)] hover:bg-[#a4c875]/15 rounded-sm backdrop-blur-sm shrink-0"
+            >
+              <FileText className="size-4 shrink-0 text-[#a4c875]" strokeWidth={1.8} />
+              MISSION BRIEF
+            </button>
+          </div>
+
+          {/* Centered Community Button */}
+          <div className="flex w-full justify-center">
+            <a
+              href="https://chat.whatsapp.com/D56kFH0cq0k1ZawfH2Owy1?s=cl&p=a&ilr=1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-[44px] w-full max-w-[312px] sm:max-w-none sm:w-auto sm:px-8 cursor-pointer items-center justify-center gap-2.5 bg-[#25D366]/15 border border-[#25D366]/70 font-sans text-xs sm:text-sm font-bold tracking-[0.18em] text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_24px_rgba(37,211,102,0.6)] hover:bg-[#25D366]/25 rounded-sm backdrop-blur-sm"
+            >
+              <WhatsAppIcon className="size-4 shrink-0 text-[#25D366]" />
+              JOIN OUR COMMUNITY
+            </a>
+          </div>
         </motion.div>
 
         {/* Tactical Countdown Timer */}
@@ -391,8 +405,8 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
                 <Crosshair className="size-5 sm:size-6 text-[#a4c875] animate-[spin_4s_linear_infinite]" strokeWidth={1.5} />
               </div>
               <div className="flex flex-col text-left">
-                <h3 className="font-heading text-xl sm:text-2xl font-bold tracking-widest text-[#a4c875] uppercase">Directive Details</h3>
-                <p className="font-mono text-[9px] sm:text-[10px] tracking-widest text-[#FF8C00] uppercase">Classified Info // Clearance 3</p>
+                <h3 className="font-heading text-xl sm:text-2xl font-bold tracking-widest text-[#a4c875] uppercase">Mission Brief</h3>
+                <p className="font-mono text-[9px] sm:text-[10px] tracking-widest text-[#FF8C00] uppercase">Hackify 3.0 // 36-Hour Hackathon</p>
               </div>
             </div>
 

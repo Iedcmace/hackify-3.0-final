@@ -127,6 +127,57 @@
     opacity: 0 !important;
     display: none !important;
   }
+
+  /* ── Kit/ConvertKit external form: force full-width on mobile ─────────── */
+  .formkit-form[data-uid="6fa16b58f5"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+  .formkit-form[data-uid="6fa16b58f5"] [data-style="minimal"] {
+    padding: 20px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .formkit-form[data-uid="6fa16b58f5"] .formkit-fields {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .formkit-form[data-uid="6fa16b58f5"] .formkit-field,
+  .formkit-form[data-uid="6fa16b58f5"] .formkit-submit {
+    box-sizing: border-box !important;
+  }
+  .formkit-form[data-uid="6fa16b58f5"] .formkit-input {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  @media (max-width: 540px) {
+    .formkit-form[data-uid="6fa16b58f5"] [data-style="minimal"] {
+      padding: 16px 14px !important;
+    }
+    .formkit-form[data-uid="6fa16b58f5"] .formkit-header h2 {
+      font-size: 18px !important;
+      word-break: break-word !important;
+    }
+    .formkit-form[data-uid="6fa16b58f5"] .formkit-subheader p {
+      font-size: 11px !important;
+    }
+    .formkit-form[data-uid="6fa16b58f5"] .formkit-fields {
+      flex-direction: column !important;
+      margin: 16px 0 0 !important;
+    }
+    .formkit-form[data-uid="6fa16b58f5"] .formkit-field,
+    .formkit-form[data-uid="6fa16b58f5"] .formkit-submit {
+      flex: 1 0 100% !important;
+      min-width: 0 !important;
+      margin: 0 0 10px 0 !important;
+    }
+    .formkit-form[data-uid="6fa16b58f5"] .formkit-submit button,
+    .formkit-form[data-uid="6fa16b58f5"] input[type="submit"] {
+      width: 100% !important;
+    }
+  }
 }
 
 /* ─── Legacy utility classes (tracks / timeline / footer) ───────────────── */
