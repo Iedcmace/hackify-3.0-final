@@ -944,9 +944,9 @@ export default function LandingPage() {
         />
         <TracksSection />
         <TimelineSection />
-        <VenueSection />
         <Gallery />
         <FAQSection />
+        <VenueSection />
         <Newsletter />
         <SiteFooter />
         <ScrollToTop />
