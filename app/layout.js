@@ -18,6 +18,9 @@ export const metadata = {
   title: 'Hackify 3.O — Hack To Defy',
   description:
     'A 36-hour national level war-tech hackathon to predict, protect & rebuild. Presented by IEDC MACE.',
+  verification: {
+    google: "oGTqaQ4HJfB947VUVQHkK1ZHs3vIN3URwB6j3zurljU", 
+  },
 }
 
 export const viewport = {
