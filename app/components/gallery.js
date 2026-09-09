@@ -139,12 +139,16 @@ export default function Gallery() {
                     <img
                       src={img.src}
                       alt=""
+                      loading="lazy"
+                      decoding="async"
                       className="absolute inset-0 w-full h-full object-cover blur-xl scale-110 opacity-30 pointer-events-none transition-all duration-500 ease-out"
                     />
 
                     <img
                       src={img.src}
                       alt={`Gallery image ${img.id}`}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-contain relative z-10 transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-105"
                       onError={(e) => {
                         e.currentTarget.src = 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800';
@@ -193,14 +197,6 @@ export default function Gallery() {
           </div>
         </div>
 
-        <div className="pt-8 sm:pt-12 flex flex-col sm:flex-row justify-between items-center gap-4 border-t border-[#a4c875]/10 text-center sm:text-left">
-        <div className="font-mono-tech text-[8px] sm:text-[10px] text-[#c2ccb9]/30 uppercase tracking-[0.3em] font-bold">
-          ALL SYSTEMS ONLINE
-          </div>
-        <div className="font-mono-tech text-[8px] sm:text-[10px] text-[#c2ccb9]/30 uppercase tracking-[0.3em] font-bold">
-          LOOP: HACKIFY 2026
-          </div>
-        </div>
       </div>
     </section>
   );

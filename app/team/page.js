@@ -40,6 +40,7 @@ const MemberCard = ({ member, index }) => {
           <img
             src={member.image}
             alt={member.name}
+            loading="lazy"
             className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out filter ${isClicked ? 'grayscale-0' : 'grayscale group-hover:grayscale-0'}`}
             onError={(e) => {
               e.target.src = 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=200';
@@ -123,8 +124,8 @@ export default function TeamPage() {
             <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold text-[#a4c875] tracking-tighter uppercase drop-shadow-[0_0_15px_rgba(164,200,117,0.3)]">
               Meet The Team
             </h2>
-            <p className="text-[#cec6b4] text-xs sm:text-sm md:text-base uppercase tracking-widest max-w-2xl leading-relaxed">
-              Got questions before deploying to the hackathon? Establish a direct connection with our command operatives right here.
+            <p className="whitespace-nowrap text-[#cec6b4] text-[10px] sm:text-sm md:text-base uppercase tracking-[0.08em] sm:tracking-widest max-w-2xl leading-relaxed">
+              Connect with our team for any HACKIFY-related queries.
             </p>
           </div>
 
@@ -157,7 +158,7 @@ export default function TeamPage() {
                 Web Team
               </h3>
               <p className="text-[#cec6b4] text-xs sm:text-sm uppercase tracking-widest max-w-xl leading-relaxed">
-                they created this website
+                Designed &amp; developed by our web team.
               </p>
             </div>
 

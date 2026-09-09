@@ -59,31 +59,7 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
       }
     }
 
-    // Touch fallback: enable parallax by tracking first touch point
-    const touchInteractiveTimeout = setTimeout(() => setIsInteractive(true), 0)
-    const handleTouchMove = (e) => {
-      if (!e.touches || e.touches.length === 0) return
-      const t = e.touches[0]
-      const { innerWidth, innerHeight } = window
-      const normX = ((t.clientX / innerWidth) - 0.5) * 2
-      const normY = ((t.clientY / innerHeight) - 0.5) * 2
-      mouseX.set(normX)
-      mouseY.set(normY)
-    }
-
-    const handleTouchEnd = () => {
-      // gently return to center
-      mouseX.set(0)
-      mouseY.set(0)
-    }
-
-    window.addEventListener('touchmove', handleTouchMove, { passive: true })
-    window.addEventListener('touchend', handleTouchEnd)
-
     return () => {
-      clearTimeout(touchInteractiveTimeout)
-      window.removeEventListener('touchmove', handleTouchMove)
-      window.removeEventListener('touchend', handleTouchEnd)
     }
   }, [mouseX, mouseY])
 
@@ -291,6 +267,10 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
           <span className="text-[#ef4444]">Rebuild</span>
         </motion.div>
 
+        <p className="mt-3 w-full whitespace-nowrap text-center font-heading text-[8px] font-semibold uppercase tracking-[0.16em] text-white/75 sm:mt-4 sm:text-[10px] sm:tracking-[0.2em]">
+          In Collaboration with the Indian Navy
+        </p>
+
         {/* CTA Buttons (Devfolio + Mission Brief, with Join Community centered beneath both) */}
         <motion.div
           initial={{ opacity: 0, y: 25 }}
@@ -318,9 +298,9 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
               href="https://chat.whatsapp.com/D56kFH0cq0k1ZawfH2Owy1?s=cl&p=a&ilr=1"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-[44px] w-full max-w-[312px] sm:max-w-none sm:w-auto sm:px-8 cursor-pointer items-center justify-center gap-2.5 bg-[#25D366]/15 border border-[#25D366]/70 font-sans text-xs sm:text-sm font-bold tracking-[0.18em] text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_24px_rgba(37,211,102,0.6)] hover:bg-[#25D366]/25 rounded-sm backdrop-blur-sm"
+              className="inline-flex h-[44px] w-full max-w-[312px] sm:max-w-none sm:w-auto sm:px-8 cursor-pointer items-center justify-center gap-2.5 rounded-sm border border-[#d8ff7a] bg-gradient-to-r from-[#718e45] via-[#a4c875] to-[#718e45] font-sans text-xs font-bold tracking-[0.18em] text-[#0a0c08] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_24px_rgba(164,200,117,0.6)] sm:text-sm"
             >
-              <WhatsAppIcon className="size-4 shrink-0 text-[#25D366]" />
+              <WhatsAppIcon className="size-4 shrink-0 text-[#0a0c08]" />
               JOIN OUR COMMUNITY
             </a>
           </div>
@@ -389,7 +369,7 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 backdrop-blur-md p-4 transition-all">
           <div className="absolute inset-0 cursor-pointer" onClick={() => setShowBrief(false)} />
           <div
-            className="relative z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-[#0a0a0a] border border-[#a4c875]/40 p-6 sm:p-10 shadow-[0_0_50px_rgba(164,200,117,0.15)] scrollbar-hide"
+            className="relative z-10 w-full max-w-2xl max-h-[calc(100dvh-2rem)] overflow-y-auto overscroll-contain bg-[#0a0a0a] border border-[#a4c875]/40 p-6 pb-8 sm:p-10 shadow-[0_0_50px_rgba(164,200,117,0.15)] scrollbar-hide"
             style={{ clipPath: 'polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px)' }}
           >
             <button
@@ -414,13 +394,15 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
               <h4 className="text-[#E4E3D1] text-base sm:text-xl font-bold tracking-[0.2em] uppercase mb-4 sm:mb-6 border-l-2 border-[#a4c875] pl-3">
                 Hackify... Hack to Defy.
               </h4>
-              <p><span className="text-[#FF8C00] font-bold mr-2 block sm:inline">[ INCOMING TRANSMISSION ]</span> It is back with another edition this year where creators, innovators, and any one of you can come to the front lane and pitch the idea which is worth for the battlefield.</p>
-              <p><span className="text-[#FF8C00] font-bold mr-2 block sm:inline">[ THE SPRINT ]</span> The grueling 36 hours of battle, in and out, ending with a reign of your own creative territory—which is worth the struggle.</p>
-              <p><span className="text-[#FF8C00] font-bold mr-2 block sm:inline">[ ELIGIBILITY ]</span> You being a fresh recruit or seasoned armed force doesn&apos;t matter, cause its your field to win.</p>
+              <p><span className="text-[#FF8C00] font-bold mr-2 block sm:inline">[ INCOMING TRANSMISSION ]</span> Hackify returns for another edition — a call to every builder, strategist, and first-time coder to step onto the front lines and turn an idea into a weapon against real-world threats.</p>
+              <p><span className="text-[#FF8C00] font-bold mr-2 block sm:inline">[ THE MISSION ]</span> 36 hours. Three fronts — Defence, Aid, Rebuild. You&apos;ll build systems that guard the front lines, deliver relief when it matters most, and reconstruct what&apos;s been lost. No safe zones, no shortcuts — just your team and the clock.</p>
+              <p><span className="text-[#FF8C00] font-bold mr-2 block sm:inline">[ ELIGIBILITY ]</span> Whether you&apos;re a first-year recruit or a battle-tested coder, the field doesn&apos;t check your rank — only your readiness to fight for your idea.</p>
               <div className="my-6 bg-[#a4c875]/5 border border-[#a4c875]/20 p-4 rounded-sm">
-                <p className="text-white text-xs sm:text-base font-bold tracking-widest uppercase">
-                  <span className="text-[#FF8C00] mr-2">&gt;</span>Your objective is clear: <br className="sm:hidden mt-2" />
-                  <span className="text-[#a4c875] sm:mt-1 inline-block">BUILD. OPTIMIZE. SURVIVE.</span>
+                <p className="text-white text-[clamp(0.68rem,2.5vw,1rem)] font-bold leading-relaxed tracking-[0.1em] uppercase">
+                  <span className="mr-2">&gt;</span>YOUR OBJECTIVE IS CLEAR: DEFENCE AID REBUILD.
+                  <span className="mt-2 block text-[clamp(0.62rem,2.2vw,0.9rem)] leading-relaxed tracking-[0.08em] text-[#a4c875]">
+                    THEME: BLUEPRINT FOR PEACE: POWERING DEFENCE, PROTECTING LIVES, REBUILDING NATIONS.
+                  </span>
                 </p>
               </div>
               <p className="text-white/80 italic tracking-wide">Are you ready to defend your idea??? The field is waiting.</p>

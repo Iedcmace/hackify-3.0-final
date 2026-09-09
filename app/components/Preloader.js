@@ -8,22 +8,9 @@ import { useEffect } from 'react'
 /* ─────────────────────────────────────────────────────────────────────────── */
 export default function Preloader({ onLoaded }) {
   useEffect(() => {
-    // 1. Force a minimum animation time (2.5 seconds) to show off the boot sequence
-    const minTime = new Promise(resolve => setTimeout(resolve, 2500))
-    
-    // 2. Wait for the browser to finish loading all images and assets
-    const windowLoad = new Promise(resolve => {
-      if (document.readyState === 'complete') {
-        resolve()
-      } else {
-        window.addEventListener('load', resolve)
-      }
-    })
+    const briefDisplay = new Promise(resolve => setTimeout(resolve, 1400))
 
-    // 3. When BOTH the timer and the browser loading are done, trigger the exit!
-    Promise.all([minTime, windowLoad]).then(() => {
-      onLoaded()
-    })
+    briefDisplay.then(() => requestAnimationFrame(onLoaded))
   }, [onLoaded])
 
   return (
@@ -79,8 +66,7 @@ export default function Preloader({ onLoaded }) {
         transition={{ delay: 1.2 }}
         className="mt-8 flex w-full max-w-[520px] flex-col items-center gap-1.5 px-4 text-center z-10"
       >
-        <span className="font-heading text-[13px] font-bold tracking-[0.12em] text-[#a4c875] uppercase sm:text-sm">INITIALISING WARTECH SYSTEMS...</span>
-        <span className="font-heading text-[8px] tracking-[0.14em] text-gray-400 uppercase sm:text-[9px]">LOADING ASSETS//SECURING CONNECTION</span>
+        <span className="font-heading text-[10px] font-bold tracking-[0.12em] text-[#a4c875] uppercase sm:text-xs">INITIALISING WARTECH SYSTEMS...</span>
       </motion.div>
     </motion.div>
   )

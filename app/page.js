@@ -157,7 +157,7 @@ const FAQ_ITEMS = [
   {
     question: 'What is the team size limit?',
     answer:
-      'Teams can consist of 2–4 members.',
+      'Teams can consist of 1–4 members.',
   },
   {
     question: 'What should we bring to the venue?',
@@ -235,23 +235,14 @@ function DevfolioButton() {
 
     const timeoutId = setTimeout(() => {
 
-      const oldScript = document.getElementById('devfolio-script');
-
-      if (oldScript) oldScript.remove();
-
-
-
-      const script = document.createElement('script');
-
-      script.id = 'devfolio-script';
-
-      script.src = 'https://apply.devfolio.co/v2/sdk.js';
-
-      script.async = true;
-
-      script.defer = true;
-
-      document.body.appendChild(script);
+      if (!document.getElementById('devfolio-script')) {
+        const script = document.createElement('script');
+        script.id = 'devfolio-script';
+        script.src = 'https://apply.devfolio.co/v2/sdk.js';
+        script.async = true;
+        script.defer = true;
+        document.body.appendChild(script);
+      }
 
     }, 0)
 
@@ -260,10 +251,6 @@ function DevfolioButton() {
     return () => {
 
       clearTimeout(timeoutId)
-
-      const currentScript = document.getElementById('devfolio-script');
-
-      if (currentScript) currentScript.remove();
 
     }
 
@@ -313,12 +300,17 @@ function CountdownInline({ targetDate }) {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    setTime(getTimeLeft(target))
-    setMounted(true)
+    const frameId = requestAnimationFrame(() => {
+      setTime(getTimeLeft(target))
+      setMounted(true)
+    })
     const intervalId = setInterval(() => {
       setTime(getTimeLeft(target))
     }, 1000)
-    return () => clearInterval(intervalId)
+    return () => {
+      cancelAnimationFrame(frameId)
+      clearInterval(intervalId)
+    }
   }, [target])
 
   if (!mounted || !time) return null
@@ -798,7 +790,6 @@ function FAQSection() {
           animate={isInView ? 'visible' : 'hidden'}
           className="mb-12 border-l-2 border-[#a4c875] pl-5 sm:mb-16 sm:pl-7"
         >
-          <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-[#a4c875]/70 sm:text-xs">FAQ // FIELD INTELLIGENCE</p>
           <h2 className="mt-3 font-heading text-3xl font-black uppercase tracking-[0.12em] text-[#a4c875] sm:text-5xl">
             Mission Briefing
           </h2>
@@ -847,7 +838,7 @@ function FAQSection() {
             <span aria-hidden="true" className="absolute left-0 top-0 h-12 w-12 border-l-2 border-t-2 border-[#a4c875]/70" />
             <span aria-hidden="true" className="absolute bottom-0 right-0 h-12 w-12 border-b-2 border-r-2 border-[#a4c875]/35" />
             <div className="mb-8 flex items-center justify-between border-b border-[#a4c875]/15 pb-4 font-mono text-[10px] uppercase tracking-[0.25em] text-[#a4c875]/65 sm:text-xs">
-              <span>Active intelligence</span>
+              <span>Answer</span>
               <span>Node {String(activeIndex + 1).padStart(2, '0')}</span>
             </div>
 

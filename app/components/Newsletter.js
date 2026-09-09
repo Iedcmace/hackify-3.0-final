@@ -80,17 +80,53 @@ export default function Newsletter() {
     script.setAttribute('data-uid', '6fa16b58f5')
     script.async = true
 
-    // Once kit injects the real form, remove fallback
+    const removeUnwantedCopy = (root = containerRef.current) => {
+      if (!root) return
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT)
+      const textNodes = []
+      let node
+      while ((node = walker.nextNode())) textNodes.push(node)
+      textNodes.forEach((textNode) => {
+        const providerDescription = /Register your terminal for Hackify deployment updates and classified drops\.\.\./i
+        const encryptionNotice = /Encryption locked\.\s*No spam\.*\s*/i
+        if (providerDescription.test(textNode.nodeValue)) {
+          textNode.nodeValue = "Drop your email — we'll send you what you need to know, when it matters..."
+        } else if (encryptionNotice.test(textNode.nodeValue)) {
+          textNode.nodeValue = textNode.nodeValue.replace(encryptionNotice, '')
+        } else {
+          textNode.nodeValue = textNode.nodeValue.replace(
+            'SCROLL HORIZONTALLY IF THE FORM OVERFLOWS ON SMALL SCREENS',
+            ''
+          )
+        }
+      })
+    }
+
+    // Once kit injects the real form, remove fallback and unwanted default copy
     const observer = new MutationObserver(() => {
       if (containerRef.current && containerRef.current.children.length > 1) {
         const fw = containerRef.current.querySelector('.newsletter-fallback-wrap')
         if (fw) fw.remove()
-        observer.disconnect()
       }
+      removeUnwantedCopy()
     })
-    observer.observe(containerRef.current, { childList: true })
+    observer.observe(containerRef.current, { childList: true, subtree: true })
+
+    const bodyObserver = new MutationObserver(() => removeUnwantedCopy(document.body))
+    bodyObserver.observe(document.body, { childList: true, subtree: true })
+    removeUnwantedCopy(document.body)
+
+    const retryIds = [250, 750, 1500, 3000].map((delay) => (
+      window.setTimeout(() => removeUnwantedCopy(document.body), delay)
+    ))
 
     containerRef.current.appendChild(script)
+
+    return () => {
+      observer.disconnect()
+      bodyObserver.disconnect()
+      retryIds.forEach((id) => window.clearTimeout(id))
+    }
   }, [])
 
   return (
@@ -112,7 +148,7 @@ export default function Newsletter() {
                 Request Intel
               </h3>
               <p className="mt-1.5 font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.3em] text-[#a4c875]/60">
-                Hackify 3.O // Field Updates
+                Get the latest HACKIFY intel, event updates, and mission alerts.
               </p>
             </div>
 
@@ -142,10 +178,6 @@ export default function Newsletter() {
               </div>
             </div>
 
-            {/* Mobile note */}
-            <p className="mt-3 text-center lg:text-left font-mono text-[9px] sm:text-[10px] text-[#a4c875]/40 uppercase tracking-widest">
-              Scroll horizontally if the form overflows on small screens
-            </p>
           </div>
         </div>
       </div>

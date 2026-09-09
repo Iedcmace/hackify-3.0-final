@@ -178,10 +178,6 @@ export default function SponsorsPage() {
                 </a>
 
                 <div className="space-y-3 flex-1 text-center sm:text-left">
-                  <div className="flex items-center justify-center sm:justify-start gap-3">
-                    <div className="w-2 h-2 bg-[#a4c875] animate-pulse rounded-full" />
-                    <span className="text-[10px] sm:text-[12px] text-[#a4c875] font-bold">Devfolio</span>
-                  </div>
                   <h2 className="text-2xl sm:text-3xl font-bold text-[#a4c875] tracking-tighter uppercase">Devfolio</h2>
                   <p className="text-xs sm:text-sm text-[#cec6b4] leading-relaxed sm:leading-6 max-w-xl">
                     <strong>Official registration partner powering HACKIFY &apos;26.</strong>
@@ -208,7 +204,7 @@ export default function SponsorsPage() {
                   <div className="flex flex-col items-center gap-3">
                     <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden bg-[#1b1c11] border border-[#a4c875]/20 flex items-center justify-center p-2 shadow-[0_8px_20px_rgba(0,0,0,0.5)] transition-transform duration-500 hover:scale-110 hover:border-[#a4c875]/60 hover:shadow-[0_0_25px_rgba(164,200,117,0.3)] cursor-pointer">
                       {spon.logo ? (
-                        <img src={spon.logo} alt={spon.name} className="w-full h-full object-contain filter grayscale hover:grayscale-0 transition-all duration-300" onError={(e) => { e.target.style.display = 'none'; }} />
+                        <img loading="lazy" src={spon.logo} alt={spon.name} className="w-full h-full object-contain filter grayscale hover:grayscale-0 transition-all duration-300" onError={(e) => { e.target.style.display = 'none'; }} />
                       ) : (
                         <div className="text-[#a69146] font-bold">{spon.name.substring(0,3)}</div>
                       )}
