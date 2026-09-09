@@ -253,12 +253,13 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
           className="w-full max-w-[240px] xs:max-w-[280px] sm:max-w-[420px] lg:max-w-[560px] h-auto object-contain drop-shadow-2xl"
         />
 
+        <div className="flex w-full max-w-[560px] flex-col items-center">
         {/* Tactical Tagline */}
         <motion.div
           initial={{ clipPath: 'inset(0 100% 0 0)', opacity: 0 }}
           animate={{ clipPath: 'inset(0 0 0 0)', opacity: 1 }}
           transition={{ duration: 0.85, delay: 0.95, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-4 inline-flex max-w-full flex-wrap items-center gap-x-2 gap-y-1 font-heading text-[clamp(0.72rem,2.5vw,1.875rem)] font-black uppercase leading-tight tracking-[0.08em] drop-shadow-lg sm:mt-6 sm:gap-x-3 sm:tracking-widest"
+          className="mt-4 flex w-full max-w-full flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center font-heading text-[clamp(0.72rem,2.5vw,1.875rem)] font-black uppercase leading-tight tracking-[0.08em] drop-shadow-lg sm:mt-6 sm:gap-x-3 sm:tracking-widest"
         >
           <span className="text-[#FF8C00]">Defence</span>
           <span className="text-white/35">|</span>
@@ -315,6 +316,7 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
         >
           {CountdownInline && <CountdownInline targetDate={launchDate} />}
         </motion.div>
+        </div>
       </motion.div>
 
       {/* ─────────────────────────────────────────────────────────────────── */}
