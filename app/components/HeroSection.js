@@ -268,7 +268,7 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
           <span className="text-[#ef4444]">Rebuild</span>
         </motion.div>
 
-        <p className="mt-3 w-full whitespace-nowrap text-center font-heading text-[8px] font-semibold uppercase tracking-[0.16em] text-white/75 sm:mt-4 sm:text-[10px] sm:tracking-[0.2em]">
+        <p className="mt-3 w-full text-center font-heading text-[13px] font-extrabold uppercase tracking-[0.16em] text-white sm:mt-4 sm:text-[13px] sm:tracking-[0.2em]">
           In Collaboration with the Indian Navy
         </p>
 
@@ -296,7 +296,7 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
           {/* Centered Community Button */}
           <div className="flex w-full justify-center">
             <a
-              href="https://chat.whatsapp.com/D56kFH0cq0k1ZawfH2Owy1?s=cl&p=a&ilr=1"
+              href="https://chat.whatsapp.com/ItJsjZ6Qg0tEgGaLxRGkfU"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex h-[44px] w-full max-w-[312px] sm:max-w-none sm:w-auto sm:px-8 cursor-pointer items-center justify-center gap-2.5 rounded-sm border border-[#d8ff7a] bg-gradient-to-r from-[#718e45] via-[#a4c875] to-[#718e45] font-sans text-xs font-bold tracking-[0.18em] text-[#0a0c08] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_24px_rgba(164,200,117,0.6)] sm:text-sm"
