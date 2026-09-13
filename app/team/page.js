@@ -96,7 +96,7 @@ export default function TeamPage() {
     { id: 'ID-3301', name: 'CHRISTY CHRISTOPHER', role: 'LEAD', contact: '+91 79943 76774', image: '/ChristyC.jpeg' },
     { id: 'ID-8822', name: 'SAMUEL M DILEEP', role: 'LEAD', contact: '+91 80752 58045', image: '/SamuelC.jpeg' },
     { id: 'ID-7731', name: 'GOPIKA M', role: 'LEAD', contact: '+91 75588 21825', image: '/GopikaC.jpeg' },
-    { id: 'ID-8924', name: 'AMAL NARAYAN', role: 'LEAD', contact: '+91 90483 72356', image: '/AmalC.jpeg' },
+    { id: 'ID-8924', name: 'AMAL NARAYAN', role: 'LEAD', contact: '+91 90483 72356', image: '/amalnewpicc.jpg' },
     { id: 'ID-4411', name: 'ANIRUDH', role: 'LEAD', contact: '+91 79072 83190', image: '/AnirudhC.jpeg' },
   ];
 
