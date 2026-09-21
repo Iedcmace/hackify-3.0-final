@@ -100,7 +100,7 @@ const TIMELINE_EVENTS = [
     label: 'Registration Deadline',
     detail: 'Last date to submit your application',
     date: new Date('2026-09-20'), /* Sep 20 */
-    isoStr: 'Sept 20, 2026',
+    isoStr: 'Sept 21, 2026',
   },
   {
     id: 'shortlist',
