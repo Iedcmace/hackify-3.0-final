@@ -192,6 +192,7 @@ export default function SponsorsPage() {
             </div>
           </div>
 
+          {/* Eventopia Card */}
           <div className="mt-10">
             <div className="text-[9px] sm:text-[10px] text-[#a4c875] uppercase tracking-[0.12em] mb-4 flex items-center gap-3">
               <span className="w-8 h-px bg-[#a4c875]" />
@@ -208,7 +209,13 @@ export default function SponsorsPage() {
               <div className="absolute bottom-0 right-0 w-12 sm:w-16 h-12 sm:h-16 border-b-4 border-r-4 border-[#a4c875] opacity-60" />
 
               <div className="flex flex-col lg:flex-row gap-6 sm:gap-10 items-center sm:items-start lg:items-center relative z-10">
-                <div className="flex-shrink-0 w-44 lg:w-56 h-28 sm:h-32 border border-transparent bg-gradient-to-tr from-[#0b0c05] to-[#222418] flex items-center justify-center overflow-hidden rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.6)] transform transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.7)]" style={{ clipPath: 'polygon(6px 0%, 100% 0%, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0% 100%, 0% 6px)' }}>
+                <a
+                  href="https://eventopia.in/"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="flex-shrink-0 w-44 lg:w-56 h-28 sm:h-32 border border-transparent bg-gradient-to-tr from-[#0b0c05] to-[#222418] flex items-center justify-center overflow-hidden rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.6)] transform transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.7)]"
+                  style={{ clipPath: 'polygon(6px 0%, 100% 0%, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0% 100%, 0% 6px)' }}
+                >
                   <img 
                     src="/Eventopia.png" 
                     alt="Eventopia" 
@@ -216,7 +223,7 @@ export default function SponsorsPage() {
                     onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }} 
                   />
                   <div className="hidden w-full h-full items-center justify-center text-[#a4c875] font-bold text-xl">EVENTOPIA</div>
-                </div>
+                </a>
 
                 <div className="space-y-3 flex-1 text-center sm:text-left">
                   <h2 className="text-2xl sm:text-3xl font-bold text-[#a4c875] tracking-tighter uppercase">Eventopia</h2>
@@ -257,7 +264,6 @@ export default function SponsorsPage() {
             </ParallaxMarquee>
           </div>
 
-
           {/* Tiers Grid */}
           <div className="space-y-8">
             <div className="text-[9px] sm:text-[10px] text-[#a4c875] uppercase tracking-[0.4em] border-b border-[#a4c875]/10 pb-4 flex items-center gap-3">
@@ -295,8 +301,6 @@ export default function SponsorsPage() {
               ))}
             </div>
           </div>
-
-          {/* Stacked mobile footer meta */}
           
         </div>
       </section>
