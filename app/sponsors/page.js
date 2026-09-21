@@ -192,6 +192,47 @@ export default function SponsorsPage() {
             </div>
           </div>
 
+          <div className="mt-10">
+            <div className="text-[9px] sm:text-[10px] text-[#a4c875] uppercase tracking-[0.12em] mb-4 flex items-center gap-3">
+              <span className="w-8 h-px bg-[#a4c875]" />
+              Eventopia
+              <span className="w-8 h-px bg-[#a4c875]" />
+            </div>
+
+            <div
+              className="tactical-card-container relative border border-[#a4c875]/20 bg-[#12130d] p-4 sm:p-6 group overflow-hidden transition-transform duration-300 hover:-translate-y-0.5 hover:border-[#a4c875]/40 hover:shadow-[0_20px_60px_rgba(164,200,117,0.16)]"
+              style={{ clipPath: 'polygon(28px 0%, 100% 0%, 100% calc(100% - 28px), calc(100% - 28px) 100%, 0% 100%, 0% 28px)' }}
+            >
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(164,200,117,0.08),transparent_70%)] pointer-events-none" />
+              <div className="absolute top-0 left-0 w-12 sm:w-16 h-12 sm:h-16 border-t-4 border-l-4 border-[#a4c875] opacity-60" />
+              <div className="absolute bottom-0 right-0 w-12 sm:w-16 h-12 sm:h-16 border-b-4 border-r-4 border-[#a4c875] opacity-60" />
+
+              <div className="flex flex-col lg:flex-row gap-6 sm:gap-10 items-center sm:items-start lg:items-center relative z-10">
+                <div className="flex-shrink-0 w-44 lg:w-56 h-28 sm:h-32 border border-transparent bg-gradient-to-tr from-[#0b0c05] to-[#222418] flex items-center justify-center overflow-hidden rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.6)] transform transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.7)]" style={{ clipPath: 'polygon(6px 0%, 100% 0%, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0% 100%, 0% 6px)' }}>
+                  <img 
+                    src="/Eventopia.png" 
+                    alt="Eventopia" 
+                    className="max-h-full max-w-full object-contain p-3" 
+                    onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }} 
+                  />
+                  <div className="hidden w-full h-full items-center justify-center text-[#a4c875] font-bold text-xl">EVENTOPIA</div>
+                </div>
+
+                <div className="space-y-3 flex-1 text-center sm:text-left">
+                  <h2 className="text-2xl sm:text-3xl font-bold text-[#a4c875] tracking-tighter uppercase">Eventopia</h2>
+                  <p className="text-xs sm:text-sm text-[#cec6b4] leading-relaxed sm:leading-6 max-w-xl">
+                    <strong>Outreach partner connecting HACKIFY with wider student communities and innovation networks.</strong>
+                  </p>
+                  <div className="flex flex-wrap justify-center sm:justify-start gap-3 pt-2 text-[9px] sm:text-[10px] text-[#a4c875]/80 font-mono">
+                    <span>✦ Community Outreach</span>
+                    <span>✦ Campus Reach</span>
+                    <span>✦ Student Engagement</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Sponsors Infinite Marquee */}
           <div className="-mx-4 sm:-mx-8">
             <div className="text-[9px] sm:text-[10px] text-[#a4c875] uppercase tracking-[0.4em] border-b border-[#a4c875]/10 pb-4 flex items-center gap-3 px-4 sm:px-8 mb-8">
