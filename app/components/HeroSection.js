@@ -378,7 +378,7 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
               MISSION BRIEF
             </button>
 
-            <div className="flex w-full items-center justify-center gap-2 sm:gap-3">
+            <div className="flex w-full items-center justify-center">
               <a
                 href="https://chat.whatsapp.com/KBMZS0UZAX1H5i9kbMJiCW"
                 target="_blank"
@@ -388,7 +388,6 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
                 <WhatsAppIcon className="size-4 shrink-0 text-[#0a0c08]" />
                 JOIN OUR COMMUNITY
               </a>
-              <PrizePoolSticker />
             </div>
           </motion.div>
 
