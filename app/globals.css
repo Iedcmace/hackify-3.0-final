@@ -80,6 +80,24 @@
   to { transform: rotate(360deg); }
 }
 
+@keyframes prize-pulse-glow {
+  0%, 100% {
+    text-shadow: 0 0 0 rgba(164, 200, 117, 0), 0 0 12px rgba(164, 200, 117, 0.08);
+  }
+  50% {
+    text-shadow: 0 0 18px rgba(164, 200, 117, 0.3), 0 0 34px rgba(164, 200, 117, 0.18);
+  }
+}
+
+.prize-number {
+  transition: text-shadow 0.25s ease;
+}
+
+.prize-number--complete {
+  animation: prize-pulse-glow 1.2s ease-out 1;
+  text-shadow: 0 0 18px rgba(164, 200, 117, 0.32), 0 0 34px rgba(164, 200, 117, 0.2);
+}
+
 .radar-sweep-effect {
   background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, transparent 300deg, rgba(255, 51, 51, 0.4) 340deg, #FF3333 360deg);
   animation: rotate-radar 6s linear infinite;
@@ -234,4 +252,4 @@
     padding: 0;
     overflow: hidden;
   }
-}
+}

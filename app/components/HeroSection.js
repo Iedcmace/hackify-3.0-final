@@ -11,6 +11,55 @@ const WhatsAppIcon = ({ className = 'size-4' }) => (
   </svg>
 )
 
+function PrizePoolSticker() {
+  const [displayAmount, setDisplayAmount] = useState(0)
+  const [isComplete, setIsComplete] = useState(false)
+  const [hasAnimated, setHasAnimated] = useState(false)
+
+  useEffect(() => {
+    if (hasAnimated) return
+
+    setHasAnimated(true)
+    const duration = 3000
+    const start = performance.now()
+
+    const tick = (now) => {
+      const progress = Math.min((now - start) / duration, 1)
+      const eased = 1 - Math.pow(1 - progress, 3)
+      const nextValue = Math.round(eased * 100000)
+      setDisplayAmount(nextValue)
+
+      if (progress < 1) {
+        requestAnimationFrame(tick)
+      } else {
+        setDisplayAmount(100000)
+        setIsComplete(true)
+      }
+    }
+
+    requestAnimationFrame(tick)
+  }, [hasAnimated])
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, translateY: 12, scale: 0.96 }}
+      animate={{ opacity: 1, translateY: 0, scale: 1 }}
+      transition={{ duration: 0.65, delay: 1.1, ease: [0.16, 1, 0.3, 1] }}
+      className="group relative flex items-center justify-center rounded-full bg-[#0b120b]/60 px-3 py-2.5 backdrop-blur-md shadow-[0_0_18px_rgba(164,200,117,0.12)] transition-transform duration-300 hover:-translate-y-0.5 sm:px-4"
+    >
+      <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(164,200,117,0.18),transparent_65%)] blur-md" />
+      <div className="relative flex items-baseline gap-2 sm:gap-3">
+        <span className="font-mono-tech text-[8px] tracking-[0.22em] text-[#dfeec9]/90 uppercase sm:text-[9px]">
+          Prize Pool
+        </span>
+        <span className={`prize-number ${isComplete ? 'prize-number--complete' : ''} font-heading text-lg leading-none tracking-[-0.06em] text-[#f3f8eb] sm:text-[1.55rem]`}>
+          ₹{displayAmount.toLocaleString('en-IN')}
+        </span>
+      </div>
+    </motion.div>
+  )
+}
+
 export default function HeroSection({ DevfolioButton, CountdownInline, launchDate }) {
   const [showBrief, setShowBrief] = useState(false)
   const heroRef = useRef(null)
@@ -293,8 +342,8 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
             </button>
           </div>
 
-          {/* Centered Community Button */}
-          <div className="flex w-full justify-center">
+          {/* Centered Community Button with floating prize sticker */}
+          <div className="flex w-full items-center justify-center gap-2 sm:gap-3">
             <a
               href="https://chat.whatsapp.com/KBMZS0UZAX1H5i9kbMJiCW"
               target="_blank"
@@ -304,6 +353,7 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
               <WhatsAppIcon className="size-4 shrink-0 text-[#0a0c08]" />
               JOIN OUR COMMUNITY
             </a>
+            <PrizePoolSticker />
           </div>
         </motion.div>
 
