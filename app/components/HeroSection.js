@@ -60,8 +60,57 @@ function PrizePoolSticker() {
   )
 }
 
+// Animated Counter with Strict Final Value Completion Signal
+const AnimatedCounter = ({ from = 0, to = 100000, duration = 2.5, onComplete }) => {
+  const [count, setCount] = useState(from)
+  const onCompleteRef = useRef(onComplete)
+  const isCompletedRef = useRef(false)
+
+  // Keep callback reference updated without restarting the animation effect
+  useEffect(() => {
+    onCompleteRef.current = onComplete
+  }, [onComplete])
+
+  useEffect(() => {
+    let start = null
+    let animationFrame
+
+    const step = (timestamp) => {
+      if (!start) start = timestamp
+      const elapsed = (timestamp - start) / 1000
+      const progress = Math.min(elapsed / duration, 1)
+
+      // Cubic ease-out for smooth deceleration into target value
+      const easeOut = 1 - Math.pow(1 - progress, 3)
+      const current = Math.round(from + (to - from) * easeOut)
+
+      setCount(current)
+
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(step)
+      } else {
+        setCount(to)
+        if (!isCompletedRef.current) {
+          isCompletedRef.current = true
+          if (onCompleteRef.current) {
+            onCompleteRef.current()
+          }
+        }
+      }
+    }
+
+    animationFrame = requestAnimationFrame(step)
+    return () => {
+      if (animationFrame) cancelAnimationFrame(animationFrame)
+    }
+  }, [from, to, duration])
+
+  return <>{count.toLocaleString('en-IN')}</>
+}
+
 export default function HeroSection({ DevfolioButton, CountdownInline, launchDate }) {
   const [showBrief, setShowBrief] = useState(false)
+  const [isCounterFinished, setIsCounterFinished] = useState(false)
   const heroRef = useRef(null)
   const [isInteractive, setIsInteractive] = useState(false)
 
@@ -75,13 +124,11 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
   const smoothY = useSpring(mouseY, springConfig)
 
   useEffect(() => {
-    // Check if reduced motion is NOT preferred
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const hasHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches
 
     if (prefersReducedMotion) return
 
-    // Make the scene interactive on hover-capable devices
     if (hasHover) {
       const interactiveTimeoutId = setTimeout(() => setIsInteractive(true), 0)
 
@@ -107,41 +154,24 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
         document.removeEventListener('mouseleave', handleMouseLeave)
       }
     }
-
-    return () => {
-    }
   }, [mouseX, mouseY])
 
-  // Virtual Camera Depth Multipliers for each 2.5D plane
-  // Layer 0: Background (±3.5px)
+  // Parallax translation curves
   const bgTranslateX = useTransform(smoothX, [-1, 1], [-3.5, 3.5])
   const bgTranslateY = useTransform(smoothY, [-1, 1], [-2.5, 2.5])
-
-  // Layer 1: Atmosphere & Light (±6px)
   const atmoTranslateX = useTransform(smoothX, [-1, 1], [-6, 6])
   const atmoTranslateY = useTransform(smoothY, [-1, 1], [-4.5, 4.5])
-
-  // Layer 2: Cyber Decor / Technical HUD (±9px)
   const decorTranslateX = useTransform(smoothX, [-1, 1], [-9, 9])
   const decorTranslateY = useTransform(smoothY, [-1, 1], [-7, 7])
-
-  // Layer 3: Tactical Soldier (±16px) - Most responsive foreground character
   const soldierTranslateX = useTransform(smoothX, [-1, 1], [-16, 16])
   const soldierTranslateY = useTransform(smoothY, [-1, 1], [-12, 12])
-
-  // Layer 4: Content plane (±10px) - Gentle parallax keeping text legible
   const contentTranslateX = useTransform(smoothX, [-1, 1], [-10, 10])
   const contentTranslateY = useTransform(smoothY, [-1, 1], [-7, 7])
-
-  // Layer 5: Foreground micro FX (±22px)
   const fgTranslateX = useTransform(smoothX, [-1, 1], [-22, 22])
   const fgTranslateY = useTransform(smoothY, [-1, 1], [-16, 16])
-
-  // Subtle 3D virtual camera perspective tilt (±2.2 degrees)
   const cameraRotateX = useTransform(smoothY, [-1, 1], [2, -2])
   const cameraRotateY = useTransform(smoothX, [-1, 1], [-2.2, 2.2])
 
-  // Scroll Parallax: Virtual camera moves through the scene
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ['start start', 'end start'],
@@ -153,7 +183,6 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
   const scrollContentOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0])
   const scrollSoldierOpacity = useTransform(scrollYProgress, [0, 0.85], [1, 0.05])
   const scrollSoldierScale = useTransform(scrollYProgress, [0, 1], [1, 0.95])
-  // Scroll indicator fades out immediately on scroll
   const scrollHintOpacity = useTransform(scrollYProgress, [0, 0.12], [1, 0])
 
   return (
@@ -163,9 +192,7 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
     >
       <SiteHeader />
 
-      {/* ─────────────────────────────────────────────────────────────────── */}
-      {/* LAYER 0: ACTUAL BACKGROUND LAYER (01-background.jpeg)              */}
-      {/* ─────────────────────────────────────────────────────────────────── */}
+      {/* LAYER 0: BACKGROUND */}
       <motion.div
         className="pointer-events-none absolute inset-[-3%] z-0 h-[106%] w-[106%] select-none overflow-hidden"
         style={{
@@ -181,14 +208,11 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
           className="size-full object-cover object-center scale-105"
           style={{ filter: 'brightness(0.75) contrast(1.04)' }}
         />
-        {/* Very subtle edge transitions only at the very top/bottom boundaries to seamlessly meet navbar & tracks */}
         <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#0a0c08]/50 to-transparent" />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#050505]/90 via-[#050505]/40 to-transparent" />
       </motion.div>
 
-      {/* ─────────────────────────────────────────────────────────────────── */}
-      {/* LAYER 1: ATMOSPHERIC LIGHTING & AMBIENT DEPTH                      */}
-      {/* ─────────────────────────────────────────────────────────────────── */}
+      {/* LAYER 1: ATMOSPHERE */}
       <motion.div
         className="pointer-events-none absolute inset-0 z-[1] select-none"
         style={{
@@ -199,15 +223,11 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
         animate={{ opacity: 1 }}
         transition={{ duration: 1.4, delay: 0.2 }}
       >
-        {/* Tactical green halo on LEFT behind soldier */}
         <div className="absolute left-[-5%] top-1/3 h-[700px] w-[600px] -translate-y-1/3 rounded-full bg-[radial-gradient(circle,rgba(164,200,117,0.18)_0%,rgba(164,200,117,0.06)_45%,transparent_70%)] blur-3xl lg:left-[0%]" />
-        {/* Secondary subtle ambient fill on bottom right */}
         <div className="absolute bottom-8 right-8 h-[320px] w-[320px] rounded-full bg-[radial-gradient(circle,rgba(164,200,117,0.05)_0%,transparent_70%)] blur-2xl" />
       </motion.div>
 
-      {/* ─────────────────────────────────────────────────────────────────── */}
-      {/* LAYER 2: DECORATIVE CYBER ELEMENTS & TACTICAL HUD                  */}
-      {/* ─────────────────────────────────────────────────────────────────── */}
+      {/* LAYER 2: DECOR */}
       <motion.div
         className="pointer-events-none absolute inset-0 z-[2] select-none"
         style={{
@@ -218,20 +238,11 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
         animate={{ opacity: 1 }}
         transition={{ duration: 1.2, delay: 0.35 }}
       >
-
-
-        {/* Diagonal signal slash lines — left side now */}
         <div className="absolute left-[36%] top-20 hidden h-64 w-px -rotate-45 bg-gradient-to-b from-transparent via-[#a4c875]/18 to-transparent lg:block" />
         <div className="absolute left-[40%] top-36 hidden h-48 w-px -rotate-45 bg-gradient-to-b from-transparent via-[#a4c875]/12 to-transparent lg:block" />
       </motion.div>
 
-      {/* ─────────────────────────────────────────────────────────────────── */}
-      {/* LAYER 3: ACTUAL FOREGROUND SOLDIER LAYER (02-soldier.png)          */}
-      {/* Positioned on the right matching 03-composite-reference.png        */}
-      {/* ─────────────────────────────────────────────────────────────────── */}
-      {/* ── SOLDIER — LEFT side ─────────────────────────────────────────── */}
-      {/* Desktop: occupies the left ~45% of viewport                       */}
-      {/* Mobile: translucent backdrop, sits behind content                 */}
+      {/* LAYER 3: FOREGROUND SOLDIER */}
       <motion.div
         className="pointer-events-none absolute bottom-0 left-[-4%] sm:left-[-5%] md:left-[-3%] lg:left-[-1%] xl:left-[0%] 2xl:left-[1%] z-[3] flex items-end justify-start select-none overflow-visible"
         style={{
@@ -262,12 +273,7 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
         </motion.div>
       </motion.div>
 
-      {/* ─────────────────────────────────────────────────────────────────── */}
-      {/* LAYER 4: EXISTING HACKIFY CONTENT (Logo, Tagline, CTAs, Timer)     */}
-      {/* Responsive layout with guaranteed readability on all devices       */}
-      {/* ─────────────────────────────────────────────────────────────────── */}
-      {/* ── CONTENT — RIGHT side ─────────────────────────────────────────── */}
-      {/* Desktop: ml-auto pushes block to right half, matching soldier left  */}
+      {/* LAYER 4: CONTENT */}
       <motion.div
         style={{
           x: isInteractive ? contentTranslateX : 0,
@@ -280,7 +286,7 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
         }}
         className="relative z-[4] flex min-h-screen w-full flex-col items-center justify-start text-center transform-gpu px-4 pb-16 pt-20 sm:items-start sm:justify-center sm:px-10 sm:pb-24 sm:pt-20 sm:text-left lg:ml-auto lg:max-w-[55%] lg:pl-6 lg:pr-10 lg:pt-20 xl:max-w-[52%] xl:pr-14 2xl:max-w-[50%] 2xl:pr-20"
       >
-        {/* Partner marks above the Hackify identity */}
+        {/* Partner Logos */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -303,76 +309,102 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
         />
 
         <div className="flex w-full max-w-[560px] flex-col items-center">
-        {/* Tactical Tagline */}
-        <motion.div
-          initial={{ clipPath: 'inset(0 100% 0 0)', opacity: 0 }}
-          animate={{ clipPath: 'inset(0 0 0 0)', opacity: 1 }}
-          transition={{ duration: 0.85, delay: 0.95, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-4 flex w-full max-w-full flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center font-heading text-[clamp(0.72rem,2.5vw,1.875rem)] font-black uppercase leading-tight tracking-[0.08em] drop-shadow-lg sm:mt-6 sm:gap-x-3 sm:tracking-widest"
-        >
-          <span className="text-[#FF8C00]">Defence</span>
-          <span className="text-white/35">|</span>
-          <span className="text-white">Aid</span>
-          <span className="text-white/35">|</span>
-          <span className="text-[#ef4444]">Rebuild</span>
-        </motion.div>
+          {/* Tactical Tagline */}
+          <motion.div
+            initial={{ clipPath: 'inset(0 100% 0 0)', opacity: 0 }}
+            animate={{ clipPath: 'inset(0 0 0 0)', opacity: 1 }}
+            transition={{ duration: 0.85, delay: 0.95, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-4 flex w-full max-w-full flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center font-heading text-[clamp(0.72rem,2.5vw,1.875rem)] font-black uppercase leading-tight tracking-[0.08em] drop-shadow-lg sm:mt-6 sm:gap-x-3 sm:tracking-widest"
+          >
+            <span className="text-[#FF8C00]">Defence</span>
+            <span className="text-white/35">|</span>
+            <span className="text-white">Aid</span>
+            <span className="text-white/35">|</span>
+            <span className="text-[#ef4444]">Rebuild</span>
+          </motion.div>
 
-        <p className="mt-3 w-full text-center font-heading text-[13px] font-extrabold uppercase tracking-[0.16em] text-white sm:mt-4 sm:text-[13px] sm:tracking-[0.2em]">
-          In Collaboration with the Indian Navy
-        </p>
+          <p className="mt-3 w-full text-center font-heading text-[13px] font-extrabold uppercase tracking-[0.16em] text-white sm:mt-4 sm:text-[13px] sm:tracking-[0.2em]">
+            In Collaboration with the Indian Navy
+          </p>
 
-        {/* CTA Buttons (Devfolio + Mission Brief, with Join Community centered beneath both) */}
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 1.25, ease: 'easeOut' }}
-          className="mt-7 sm:mt-9 flex w-full max-w-[530px] flex-col items-center gap-3 sm:gap-3.5 relative z-20"
-        >
-          {/* Top Row: Devfolio & Mission Brief */}
-          <div className="flex w-full flex-col sm:flex-row items-center justify-center gap-3 sm:gap-3.5">
+          {/* ELEGANT PRIZE COUNTER */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
+            className="relative mt-4 sm:mt-6 flex flex-col items-center justify-center w-full"
+          >
+            {/* Header Tag */}
+            <div className="flex items-center justify-center gap-2 mb-1 sm:mb-2">
+              <span className="font-mono text-xs sm:text-sm font-black uppercase tracking-[0.32em] text-[#a4c875]">
+                // TOTAL PRIZE POOL
+              </span>
+              <span className="relative flex size-2">
+                <span className="relative inline-flex size-2 rounded-full bg-[#a4c875]" />
+              </span>
+            </div>
+
+            {/* SUBTLE PRIZE COUNTER TEXT */}
+            <motion.div
+              animate={{
+                filter: isCounterFinished
+                  ? 'drop-shadow(0 0 16px rgba(164,200,117,0.45))'
+                  : 'drop-shadow(0 0 0px transparent)',
+              }}
+              transition={{ duration: 0.8, ease: 'easeOut' }}
+              className="flex items-center justify-center font-heading text-2xl xs:text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight"
+            >
+              <span className="bg-gradient-to-r from-[#a4c875] via-[#ffffff] to-[#a4c875] bg-clip-text text-transparent">
+                ₹<AnimatedCounter from={0} to={100000} duration={2.5} onComplete={() => setIsCounterFinished(true)} />
+              </span>
+            </motion.div>
+          </motion.div>
+
+          {/* CTA BUTTONS */}
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 1.25, ease: 'easeOut' }}
+            className="mt-7 sm:mt-9 flex w-full max-w-[620px] flex-wrap items-center justify-center gap-3 sm:gap-3.5 relative z-20"
+          >
             {DevfolioButton && <DevfolioButton />}
 
             <button
               type="button"
               onClick={() => setShowBrief(true)}
-              className="inline-flex h-[44px] w-full max-w-[312px] sm:w-[200px] cursor-pointer items-center justify-center gap-2 bg-black/60 border border-[#a4c875] font-sans text-xs sm:text-sm font-bold tracking-[0.22em] text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_24px_rgba(164,200,117,0.6)] hover:bg-[#a4c875]/15 rounded-sm backdrop-blur-sm shrink-0"
+              className="inline-flex h-[44px] px-5 sm:px-6 cursor-pointer items-center justify-center gap-2 bg-black/60 border border-[#a4c875] font-sans text-xs sm:text-sm font-bold tracking-[0.18em] sm:tracking-[0.2em] text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_24px_rgba(164,200,117,0.6)] hover:bg-[#a4c875]/15 rounded-sm backdrop-blur-sm shrink-0"
             >
               <FileText className="size-4 shrink-0 text-[#a4c875]" strokeWidth={1.8} />
               MISSION BRIEF
             </button>
-          </div>
 
-          {/* Centered Community Button with floating prize sticker */}
-          <div className="flex w-full items-center justify-center gap-2 sm:gap-3">
-            <a
-              href="https://chat.whatsapp.com/KBMZS0UZAX1H5i9kbMJiCW"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex h-[44px] w-full max-w-[312px] sm:max-w-none sm:w-auto sm:px-8 cursor-pointer items-center justify-center gap-2.5 rounded-sm border border-[#d8ff7a] bg-gradient-to-r from-[#718e45] via-[#a4c875] to-[#718e45] font-sans text-xs font-bold tracking-[0.18em] text-[#0a0c08] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_24px_rgba(164,200,117,0.6)] sm:text-sm"
-            >
-              <WhatsAppIcon className="size-4 shrink-0 text-[#0a0c08]" />
-              JOIN OUR COMMUNITY
-            </a>
-            <PrizePoolSticker />
-          </div>
-        </motion.div>
+            <div className="flex w-full items-center justify-center gap-2 sm:gap-3">
+              <a
+                href="https://chat.whatsapp.com/KBMZS0UZAX1H5i9kbMJiCW"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-[44px] px-5 sm:px-6 cursor-pointer items-center justify-center gap-2.5 rounded-sm border border-[#d8ff7a] bg-gradient-to-r from-[#718e45] via-[#a4c875] to-[#718e45] font-sans text-xs sm:text-sm font-bold tracking-[0.18em] text-[#0a0c08] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_24px_rgba(164,200,117,0.6)] shrink-0"
+              >
+                <WhatsAppIcon className="size-4 shrink-0 text-[#0a0c08]" />
+                JOIN OUR COMMUNITY
+              </a>
+              <PrizePoolSticker />
+            </div>
+          </motion.div>
 
-        {/* Tactical Countdown Timer */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 1.45, ease: 'easeOut' }}
-          className="relative z-20 mt-8 flex w-full justify-center overflow-hidden sm:mt-10"
-        >
-          {CountdownInline && <CountdownInline targetDate={launchDate} />}
-        </motion.div>
+          {/* Countdown Timer */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 1.45, ease: 'easeOut' }}
+            className="relative z-20 mt-8 flex w-full justify-center overflow-hidden sm:mt-10"
+          >
+            {CountdownInline && <CountdownInline targetDate={launchDate} />}
+          </motion.div>
         </div>
       </motion.div>
 
-      {/* ─────────────────────────────────────────────────────────────────── */}
-      {/* LAYER 5: FOREGROUND FX (HUD Bottom Prompt & Micro Depth Parallax)  */}
-      {/* ─────────────────────────────────────────────────────────────────── */}
-      {/* ── SCROLL-DOWN INDICATOR — fades on scroll ──────────────────────── */}
+      {/* LAYER 5: FOREGROUND SCROLL HINT */}
       <motion.div
         className="pointer-events-none absolute inset-x-0 bottom-6 z-[5] flex flex-col items-center gap-2 select-none"
         style={{
@@ -385,7 +417,6 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
         transition={{ delay: 1.8, duration: 0.7 }}
       >
         <span className="font-mono text-[9px] tracking-[0.36em] text-gray-400 uppercase">Scroll to Explore</span>
-        {/* Pulsing ring + bouncing chevron */}
         <div className="relative flex items-center justify-center">
           <motion.span
             className="absolute size-8 rounded-full border border-[#a4c875]/30"
@@ -414,9 +445,7 @@ export default function HeroSection({ DevfolioButton, CountdownInline, launchDat
         </div>
       </motion.div>
 
-      {/* ─────────────────────────────────────────────────────────────────── */}
-      {/* TACTICAL MISSION BRIEF MODAL                                        */}
-      {/* ─────────────────────────────────────────────────────────────────── */}
+      {/* TACTICAL MISSION BRIEF MODAL */}
       {showBrief && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 backdrop-blur-md p-4 transition-all">
           <div className="absolute inset-0 cursor-pointer" onClick={() => setShowBrief(false)} />
