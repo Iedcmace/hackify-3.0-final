@@ -99,15 +99,15 @@ const TIMELINE_EVENTS = [
     id: 'deadline',
     label: 'Registration Deadline',
     detail: 'Last date to submit your application',
-    date: new Date('2026-09-20'), /* Sep 20 */
+    date: new Date('2026-10-02'), /* Oct 2 */
     isoStr: 'Oct 2, 2026',
   },
   {
     id: 'shortlist',
     label: 'Shortlisted Teams',
     detail: 'Selected teams notified',
-    date: new Date('2026-09-27'), /* Sep 27 */
-    isoStr: 'Sept 27, 2026',
+    date: new Date('2026-10-03'), /* Oct 3 */
+    isoStr: 'Oct 3, 2026',
   },
   {
     id: 'hackathon',
@@ -195,11 +195,22 @@ const pad = (n) => (typeof n === 'number' && !isNaN(n) ? n.toString().padStart(2
    representing how far through the overall timeline we are today */
 function getTimelineProgress() {
   const now = Date.now()
+  const lastIndex = TIMELINE_EVENTS.length - 1
   const start = TIMELINE_EVENTS[0].date.getTime()
-  const end = TIMELINE_EVENTS[TIMELINE_EVENTS.length - 1].date.getTime()
+  const end = TIMELINE_EVENTS[lastIndex].date.getTime()
   if (now <= start) return 0
   if (now >= end) return 1
-  return (now - start) / (end - start)
+
+  for (let index = 1; index < TIMELINE_EVENTS.length; index += 1) {
+    const segmentEnd = TIMELINE_EVENTS[index].date.getTime()
+    if (now <= segmentEnd) {
+      const segmentStart = TIMELINE_EVENTS[index - 1].date.getTime()
+      const segmentProgress = (now - segmentStart) / (segmentEnd - segmentStart)
+      return (index - 1 + segmentProgress) / lastIndex
+    }
+  }
+
+  return 1
 }
 
 function getEventStatus(event) {
